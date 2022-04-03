@@ -294,3 +294,95 @@ class ScannerTest{
 }
 ```
 
+# 流程控制
+
+- **顺序结构**
+  - 程序从上到下逐行地执行，中间没有任何判断和跳转。
+
+- **分支结构**
+  - 根据条件，选择性地执行某段代码。
+  - 有if…else和switch-case两种分支语句。
+
+- **循环结构**
+  - 根据循环条件，重复性的执行某段代码。
+  - 有while、do…while、for三种循环语句。
+  - 注：JDK1.5提供了foreach循环，方便的遍历集合、数组元素。
+
+## 分支结构
+
+### If
+
+- 不写花括号，只管一句
+- 就近原则
+
+```java
+if (x > 2) 
+   if (y > 2) 
+              System.out.println(x + y);
+      //System.out.println("atguigu");
+   else //就近原则
+      System.out.println("x is " + x);
+```
+
+### switch-case
+
+```java
+switch(表达式){
+case 常量1:
+语句1;
+// break;
+case 常量2:
+语句2;
+// break; … …
+case 常量N:
+语句N;
+// break;
+default:
+语句;
+// break;
+}
+```
+
+- switch结构中的表达式，只能是如下的6种数据类型之一：
+     byte 、short、char、int、枚举类型(JDK5.0新增)、String类型(JDK7.0新增)
+
+**除了浮点数，布尔**
+
+- case 之后只能声明常量。不能声明范围。
+- default位置灵活，如果case没有匹配，进入default，default不在最后的时候，最好加break
+- 省略
+
+```java
+int score = 78;
+		switch(score / 10){
+		case 0:
+		case 1:
+		case 2:
+		case 3:
+		case 4:
+		case 5:
+			System.out.println("������");
+			break;
+		case 6:
+		case 7:
+		case 8:
+		case 9:
+		case 10:
+			System.out.println("����");
+			break;
+		}
+```
+
+## 循环结构
+
+
+
+# 随机数
+
+```java
+//课后练习4：如何获取一个随机数：10 - 99
+		int value = (int)(Math.random() * 90 + 10);// [0.0,1.0) --> [0.0,90.0) --->[10.0, 100.0) -->[10,99]
+
+//公式：[a,b]  :  (int)(Math.random() * (b - a + 1) )+ a
+```
+
