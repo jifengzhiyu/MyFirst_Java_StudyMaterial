@@ -375,6 +375,73 @@ int score = 78;
 
 ## 循环结构
 
+-m不在循环条件部分限制次数的结构：for(;;) 或 while(true)
+
+- 结束循环有几种方式？
+  - 方式一：循环条件部分返回false
+  - 方式二：在循环体中，执行break
+
+### for
+
+>循环结构的4个要素
+>① 初始化条件
+>② 循环条件  --->**是boolean类型**
+>③ 循环体
+>④ 迭代条件
+
+```java
+for(int i = 1;i <= 5;i++){//i:1,2,3,4,5
+			System.out.println("Hello World!");
+		}
+		//i:在for循环内有效。出了for循环就失效了。
+```
+
+```java
+for(int i = min;i >= 1 ;i--){
+			if(m % i == 0 && n % i == 0){
+				System.out.println("最大公约数为：" + i);
+				break;//一旦在循环中执行到break，就跳出循环(不再进入）
+			}
+		}
+```
+
+### while
+
+- for循环和while循环是可以相互转换的！ 
+    区别：for循环和while循环的初始化条件部分的作用范围不同。
+
+```java
+//遍历100以内的所有偶数
+		int i = 1;
+		while(i <= 100){
+			
+			if(i % 2 == 0){
+				System.out.println(i);
+			}
+			
+			i++;
+		}
+```
+
+### do-while
+
+```java
+		int num = 1;
+		int sum = 0;//记录总和
+		int count = 0;//记录个数
+		do{
+			
+			if(num % 2 == 0){
+				System.out.println(num);
+				sum += num;
+				count++;
+			}
+
+			num++;
+
+		}while(num <= 100);
+```
+
 
 
 # 随机数
