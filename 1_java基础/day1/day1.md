@@ -630,7 +630,7 @@ for(int i = 0;i < arr4.length;i++){
 
 ### 数组中涉及的常见算法
 
-#### 数组cccccccc的赋值是地址传递
+#### 数组的赋值是地址传递
 
 #### 数组复制要遍历手动赋值
 
@@ -701,7 +701,78 @@ for(int i = 0,j = arr.length - 1;i < j;i++,j--){
 
 - 冒泡排序，快速排序：手写‼️
 
+```java
+int[] arr = new int[]{43,32,76,-98,0,64,33,-21,32,99};
+//冒泡排序
+for(int i = 0;i < arr.length - 1;i++){
+   for(int j = 0;j < arr.length - 1 - i;j++){
+      if(arr[j] > arr[j + 1]){
+         int temp = arr[j];
+         arr[j] = arr[j + 1];
+         arr[j + 1] = temp;
+      }
+   }
+}
 
+for(int i = 0;i < arr.length;i++){
+   System.out.print(arr[i] + "\t");
+}
+```
+
+![image-20220409113225449](Pic/image-20220409113225449.png)
+
+![image-20220409113241626](Pic/image-20220409113241626.png)
+
+```java
+/**
+ * 快速排序
+ * 通过一趟排序将待排序记录分割成独立的两部分，其中一部分记录的关键字均比另一部分关键字小，
+ * 则分别对这两部分继续进行排序，直到整个序列有序。
+ * @author shkstart
+ * 2018-12-17
+ */
+public class QuickSort {
+   private static void swap(int[] data, int i, int j) {
+      int temp = data[i];
+      data[i] = data[j];
+      data[j] = temp;
+   }
+
+   private static void subSort(int[] data, int start, int end) {
+      if (start < end) {
+         int base = data[start];
+         int low = start;
+         int high = end + 1;
+         while (true) {
+            while (low < end && data[++low] - base <= 0)
+               ;
+            while (high > start && data[--high] - base >= 0)
+               ;
+            if (low < high) {
+               swap(data, low, high);
+            } else {
+               break;
+            }
+         }
+         swap(data, start, high);
+         
+         subSort(data, start, high - 1);//递归调用
+         subSort(data, high + 1, end);
+      }
+   }
+   public static void quickSort(int[] data){
+      subSort(data,0,data.length-1);
+   }
+   
+   
+   public static void main(String[] args) {
+      int[] data = { 9, -16, 30, 23, -30, -49, 25, 21, 30 };
+      System.out.println("排序之前：\n" + java.util.Arrays.toString(data));
+      quickSort(data);
+      System.out.println("排序之后：\n" + java.util.Arrays.toString(data));
+   }
+}
+```
 
 - 堆排序，归并排序：会说
 
@@ -727,3 +798,52 @@ for(int i = 0,j = arr.length - 1;i < j;i++,j--){
 
 ![image-20220408165715703](Pic/image-20220408165715703.png)
 
+### Arrays工具类的使用
+
+![image-20220409113532293](Pic/image-20220409113532293.png)
+
+```java
+//1.boolean equals(int[] a,int[] b):判断两个数组是否相等。
+int[] arr1 = new int[]{1,2,3,4};
+int[] arr2 = new int[]{1,3,2,4};
+boolean isEquals = Arrays.equals(arr1, arr2);
+
+//2.String toString(int[] a):输出数组信息。
+System.out.println(Arrays.toString(arr1));
+   
+//3.void fill(int[] a,int val):将指定值全部填充到数组之中。
+Arrays.fill(arr1,10);
+
+//4.void sort(int[] a):对数组由小到大进行排序。
+Arrays.sort(arr2);
+
+//5.int binarySearch(int[] a,int key)
+int[] arr3 = new int[]{-98,-34,2,34,54,66,79,105,210,333};
+int index = Arrays.binarySearch(arr3, 210);
+if(index >= 0){
+   System.out.println(index);
+}else{
+   System.out.println("未找到");
+}
+```
+
+### 数组常见异常
+
+1. 数组角标越界的异常：ArrayIndexOutOfBoundsExcetion
+2. 空指针异常：NullPointerException
+
+```java
+//情况一：访问元素，元素所在的数组是null
+int[] arr1 = new int[]{1,2,3};
+arr1 = null;
+System.out.println(arr1[0]);
+      
+//情况二：访问元素，元素所在的数组是null
+int[][] arr2 = new int[4][];
+System.out.println(arr2[0][0]);
+      
+//情况三：访问元素，元素是null
+String[] arr3 = new String[]{"AA","BB","CC"};
+arr3[0] = null;
+System.out.println(arr3[0].toString());
+```
