@@ -24,6 +24,8 @@
 
 # 对象的内存解析
 
+我们使用JVM中的类的加载器和解释器对生成的字节码文件进行解释运行。意味着，需要将字节码文件对应的类加载到内存中，涉及到内存解析。
+
 ![image-20220409164223713](Pic/image-20220409164223713.png)
 
 栈：先进后出
@@ -95,8 +97,8 @@ public static void main(String[] args) {
  * 方法：描述类应该具有的功能。
  * 
  * 1.举例：
- * public void eat(){}
- * public void sleep(int hour){}
+ * public void eat(){}		cust1.eat();
+ * public void sleep(int hour){}		cust1.sleep(8);
  * public String getName(){}
  * public String getNation(String nation){}
  * 
@@ -140,4 +142,16 @@ public static void main(String[] args) {
  *        特殊的：方法A中又调用了方法A:递归方法。
  *     方法中，不可以定义方法。
  */
+
+class Circle{
+	
+	//属性,方法中可直接用
+	double radius;
+	
+	//方式二：
+	public void findArea(){
+		double area = Math.PI * radius * radius;
+		System.out.println("面积为：" + area);
+	}
+}
 ```
