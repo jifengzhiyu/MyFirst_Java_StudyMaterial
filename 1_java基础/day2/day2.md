@@ -167,3 +167,52 @@ class Circle{
 
 # 方法的重载（overload）
 
+```java
+/*
+* 1.定义：在同一个类中，允许存在一个以上的同名方法，只要它们的参数个数或者参数类型不同即可。
+*  
+* 2. "两同一不同":同一个类、相同方法名
+*            参数列表不同：参数个数不同，参数类型不同(参数顺序不同，参数类型一样也算重载）
+* 
+* 3.判断是否是重载：
+*    跟方法的权限修饰符、返回值类型、形参变量名、方法体都没有关系！
+*    
+* 4. 在通过对象调用方法时，如何确定某一个指定的方法：
+*      方法名 ---> 参数列表
+*/
+//下面两个方法构成重载关系
+	public void show(String s){
+		System.out.println("show(String)");
+	}
+	
+	public void show(String ... strs){
+		System.out.println("show(String ... strs)");
+		for(int i = 0;i < strs.length;i++){
+			System.out.println(strs[i]);
+		}
+	}
+```
+
+# 可变个数形参
+
+```Java
+具体使用：
+2.1 可变个数形参的格式：数据类型 ... 变量名
+2.2 当调用可变个数形参的方法时，传入的参数个数可以是：0个，1个,2个，。。。
+2.3 可变个数形参的方法与本类中方法名相同，形参不同的方法之间构成重载
+2.4 可变个数形参的方法与本类中方法名相同，形参类型也相同的数组之间不构成重载。换句话说，二者不能共存。
+2.5 可变个数形参在方法的形参中，必须声明在末尾
+2.6  可变个数形参在方法的形参中,最多只能声明一个可变形参。
+  
+  public void show(String ... strs){
+		System.out.println("show(String ... strs)");
+		
+		for(int i = 0;i < strs.length;i++){
+			System.out.println(strs[i]);
+		}
+	}
+	//不能与上一个方法同时存在
+//	public void show(String[] strs){
+//
+//	}
+```
