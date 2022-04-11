@@ -34,6 +34,11 @@ System.out.println("m1 % n1 = " + m1 % n1);
 int a1 = 10;
 int b1 = ++a1;
 System.out.println("a1 = " + a1 + ",b1 = " + b1);
+//   \t制表符等等
+System.out.println("Radius\t\tArea");
+System.out.println(c.radius + "\t\t" + area);
+
+
 ```
 
 # 标识符(Identifier)
@@ -696,6 +701,10 @@ for(int i = 0,j = arr.length - 1;i < j;i++,j--){
 4. 数组元素的排序算法🌟🌟🌟
 
 #### 排序算法
+
+选择、递归、快速、冒泡、插入 (会考的算法)
+
+数据结构课程，清华出版社的
 
 ![image-20220407224705578](Pic/image-20220407224705578.png)
 
