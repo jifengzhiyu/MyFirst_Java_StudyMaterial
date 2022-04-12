@@ -341,4 +341,186 @@ class Animal{
 - 不同包，不知道protected,三个中只有public能用
 - 权限修饰符在最前面
 
-构造器和方法是两个（构造器是特殊的方法❌）--->官方文档是并列的结构
+# 构造器
+
+```java
+*类的结构之三：构造器（或构造方法、constructor）的使用 
+* 一、构造器的作用：
+* 1.创建对象
+* 2.初始化对象的信息
+* 
+* 二、说明：
+* 1.如果没有显式的定义类的构造器的话，则系统默认提供一个空参的构造器（权限和类的权限一样）
+* 2.定义构造器的格式：权限修饰符  类名(形参列表){}
+* 3.一个类中定义的多个构造器，彼此构成重载
+* 4.一旦我们显式的定义了类的构造器（无论有没有参数）之后，系统就不再提供默认的空参构造器
+* 5.一个类中，至少会有一个构造器。
+```
+
+```java
+public class PersonTest {
+   public static void main(String[] args) {
+      //创建类的对象:new + 构造器
+      Person p = new Person();
+      Person p1 = new Person("Tom");
+   }
+}
+
+class Person{
+   //属性
+   String name;
+   int age;
+   
+   //构造器，一个类的构造器构成重载关系
+   public Person(){
+      System.out.println("Person().....");
+   }
+   
+   public Person(String n){
+      name = n;
+   }
+
+   public Person(String n,int a){
+      name = n;
+      age = a;
+   }
+}
+```
+
+- 构造器和方法是两个（构造器是特殊的方法❌）--->官方文档是并列的结构
+
+
+
+
+
+# 属性赋值的先后顺序
+
+```java
+* ① 默认初始化
+* ② 显式初始化
+* ③ 构造器中初始化
+* ④ 通过"对象.方法" 或 "对象.属性"的方式，赋值
+* 
+* 以上操作的先后顺序：① - ② - ③ - ④  
+```
+
+
+
+# JavaBean
+
+JavaBean是一种Java语言写成的可重用组件。  经常用
+
+所谓JavaBean，是指符合如下标准的Java类：
+   >类是公共的
+   >有一个无参的公共的构造器
+   >有属性，且有对应的get、set方法
+
+```java
+public class Customer {
+   
+   private int id;
+   private String name;
+   public Customer(){
+   }
+   
+   public void setId(int i){
+      id = i;
+   }
+   public int getId(){
+      return id;
+   }
+   public void setName(String n){
+      name = n;
+   }
+   public String getName(){
+      return name;
+   }
+   
+}
+```
+
+# UML类图
+
+![image-20220412201642151](Pic/image-20220412201642151.png)
+
+- Banking：包名
+
+# 关键字：this的使用
+
+```java
+this关键字的使用：
+* 1.this可以用来修饰、调用：属性、方法、构造器
+* 
+* 2.this修饰属性和方法：
+*   this理解为：当前对象  或 当前正在创建的对象
+* 
+*  2.1  在类的方法中，我们可以使用"this.属性"或"this.方法"的方式，调用当前对象属性或方法。但是，
+*   通常情况下，我们都选择省略"this."。特殊情况下，如果方法的形参和类的属性同名时，我们必须显式
+*   的使用"this.变量"的方式，表明此变量是属性，而非形参。
+* 
+*  2.2 在类的构造器中，我们可以使用"this.属性"或"this.方法"的方式，调用当前正在创建的对象属性或方法。
+*  但是，通常情况下，我们都选择省略"this."。特殊情况下，如果构造器的形参和类的属性同名时，我们必须显式
+*   的使用"this.变量"的方式，表明此变量是属性，而非形参。
+* 
+* 3. this调用构造器
+*    ① 我们在类的构造器中，可以显式的使用"this(形参列表)"方式，调用本类中指定的其他构造器
+*    ② 构造器中不能通过"this(形参列表)"方式调用自己 否则就无限了
+*    ③ 如果一个类中有n个构造器，则最多有 n - 1构造器中使用了"this(形参列表)"
+*    ④ 规定："this(形参列表)"必须声明在当前构造器的首行
+*    ⑤ 构造器内部，最多只能声明一个"this(形参列表)"，用来调用其他的构造器 依据第四条
+```
+
+```java
+public class PersonTest {
+   public static void main(String[] args) {
+      Person p2 = new Person("Jerry",20);
+   }
+}
+
+class Person{
+   private String name;
+   private int age;
+   
+   public Person(){
+   }
+   
+   public Person(int age){
+      this();
+      //这里this必须
+      this.age = age;
+   }
+
+   public Person(String name, int age){
+      this(age);
+      //这里this必须
+      this.name = name;
+   }
+
+   public void eat(){
+      System.out.println("人吃饭");
+      this.study();
+      //省去this study(); 也行，原来的写法
+   }
+   public void study(){
+      System.out.println("人学习");
+   }
+
+   public String getName() {
+      return name;
+   }
+
+   public void setName(String name) {
+      //这里this必须
+      this.name = name;
+   }
+
+   public int getAge() {
+      return age;
+   }
+
+   public void setAge(int age) {
+      //这里this必须
+      this.age = age;
+   }
+}
+```
