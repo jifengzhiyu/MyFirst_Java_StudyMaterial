@@ -555,10 +555,19 @@ package com.atguigu.java2;
 * 2. 声明在包的声明和类的声明之间
 * 3. 如果需要导入多个结构，则并列写出即可
 * 4. 可以使用"xxx.*"的方式，表示可以导入xxx包下的所有结构
-* 5. 如果使用的类或接口是java.lang包下定义的，则可以省略import结构
+  	import java.util.*;
+* 5. 如果使用的类或接口是java.lang包下定义的，则可以省略import结构(是其子包，不能省略）
 * 6. 如果使用的类或接口是本包下定义的，则可以省略import结构
 * 7. 如果在源文件中，使用了不同包下的同名的类，则必须至少有一个类需要以全类名的方式显示。
+  	com.atguigu.exer3.Account acct1 = new com.atguigu.exer3.Account(1000,2000,0.0123);
 * 8. 使用"xxx.*"方式表明可以调用xxx包下的所有结构。但是如果使用的是xxx子包下的结构，则仍需要显式导入
-* 
+	  import java.lang.reflect.Field;
 * 9. import static:导入指定类或接口中的静态结构:属性或方法。 
+    import static java.lang.System.*;
+
+package com.atguigu.java2;
+
+import java.util.*;
+import com.atguigu.exer.Person;
+import com.atguigu.java2.java3.Dog;
 ```
