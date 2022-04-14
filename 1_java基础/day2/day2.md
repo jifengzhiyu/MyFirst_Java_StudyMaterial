@@ -409,8 +409,6 @@ class Person{
 * 以上操作的先后顺序：① - ② - ③ - ④  
 ```
 
-
-
 # JavaBean
 
 JavaBean是一种Java语言写成的可重用组件。  经常用
@@ -556,7 +554,7 @@ package com.atguigu.java2;
 * 3. 如果需要导入多个结构，则并列写出即可
 * 4. 可以使用"xxx.*"的方式，表示可以导入xxx包下的所有结构
   	import java.util.*;
-* 5. 如果使用的类或接口是java.lang包下定义的，则可以省略import结构(是其子包，不能省略）
+* 5. 如果使用的类或接口是java.lang包下定义的，则可以省略import结构(其子包也可以省略）
 * 6. 如果使用的类或接口是本包下定义的，则可以省略import结构
 * 7. 如果在源文件中，使用了不同包下的同名的类，则必须至少有一个类需要以全类名的方式显示。
   	com.atguigu.exer3.Account acct1 = new com.atguigu.exer3.Account(1000,2000,0.0123);
@@ -581,3 +579,11 @@ import com.atguigu.java2.java3.Dog;
 ![image-20220413221710732](Pic/image-20220413221710732.png)
 
 - 构造器之中初始化作为属性的数组
+
+![image-20220414172206616](Pic/image-20220414172206616.png)
+
+
+
+
+
+继承，无构造器
