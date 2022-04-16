@@ -712,8 +712,63 @@ super关键字的使用
 
 ![image-20220416101055777](Pic/image-20220416101055777.png)
 
- 
+##  强制类型转换
 
+```java
+//如何才能调用子类特有的属性和方法？
+//向下转型：使用强制类型转换符。
+Man m1 = (Man)p2;
+m1.earnMoney();
+```
 
+### instancetype
 
-# 
+```java
+/*
+ * instanceof关键字的使用
+ * 
+ * a instanceof A:判断对象a是否是类A的实例。如果是，返回true；如果不是，返回false。
+ * 
+ *  使用情境：为了避免在向下转型时出现ClassCastException的异常，我们在向下转型之前，先
+ *  进行instanceof的判断，一旦返回true，就进行向下转型。如果返回false，不进行向下转型。
+ *  
+ *  如果 a instanceof A返回true,则 a instanceof B也返回true.
+ *  其中，类B是类A的父类。
+ */
+if(p2 instanceof Woman){
+   Woman w1 = (Woman)p2;
+   w1.goShopping();
+}
+```
+
+![image-20220416204727442](Pic/image-20220416204727442.png)
+
+- 父类转化子类：需要强制类型转化（Java没有 *）
+- 子类转化父类：可以直接转化
+
+```java
+class Base {
+   int count = 10;
+   public void display() {
+      System.out.println(this.count);
+   }
+}
+
+class Sub extends Base {
+   int count = 20;
+   public void display() {
+      System.out.println(this.count);
+   }
+}
+
+public class FieldMethodTest {
+   public static void main(String[] args) {
+      Sub s = new Sub();
+      Base b = s;//多态性
+      //==：对于引用数据类型来讲，比较的是两个引用数据类型变量的地址值是否相同
+      System.out.println(b == s);//true
+      System.out.println(b.count);//10
+      b.display();//20
+   }
+}
+```
