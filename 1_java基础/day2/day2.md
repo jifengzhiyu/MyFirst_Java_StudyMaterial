@@ -647,7 +647,7 @@ import com.atguigu.java2.java3.Dog;
 * 面试题：区分方法的重载与重写
 ```
 
-![image-20220416101412882](Pic/image-20220416101412882.png)
+![image-20220416201330761](Pic/image-20220416201330761.png)
 
 # super关键字
 
