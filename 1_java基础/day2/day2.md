@@ -816,7 +816,9 @@ public class FieldMethodTest {
 *    就需要对Object类中的equals()进行重写.
 *    重写的原则：比较两个对象的实体内容是否相同.
   //重写自定义对象的equlls()，也可以使用编译器生成的equalls()
-  if (this == obj) {
+  @Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
             return true;
         }
 		if(obj instanceof Customer){
@@ -826,6 +828,7 @@ public class FieldMethodTest {
 		}else{
 			return false;
 		}
+	}
 ```
 
 ![image-20220417165247651](Pic/image-20220417165247651.png)
@@ -833,3 +836,26 @@ public class FieldMethodTest {
 ![image-20220417165440095](Pic/image-20220417165440095.png)
 
 - 先判断是不是null，再比较
+
+## toString()
+
+```java
+* Object类中toString()的使用：
+* 
+* 1. 当我们输出一个对象的引用时（System.out.println(circle1);），实际上就是调用当前对象的toString()
+* 
+* 2. Object类中toString()的定义：
+*   public String toString() {
+       return getClass().getName() + "@" + Integer.toHexString(hashCode());
+    }
+* 
+* 3. 像String、Date、File、包装类等都重写了Object类中的toString()方法。
+*    使得在调用对象的toString()时，返回"实体内容"信息
+*    
+* 4. 自定义类也可以重写toString()方法，当调用此方法时，返回对象的"实体内容"
+  
+  @Override
+	public String toString() {
+		return "Customer [name=" + name + ", age=" + age + "]";
+	}
+```
