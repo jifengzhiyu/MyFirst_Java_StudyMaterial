@@ -859,3 +859,91 @@ public class FieldMethodTest {
 		return "Customer [name=" + name + ", age=" + age + "]";
 	}
 ```
+
+# 单元测试 JUnit
+
+```java
+* Java中的JUnit单元测试
+* 
+* 步骤：
+* 1.导入JUnit 4
+* 2.创建Java类，进行单元测试。
+*   此时的Java类要求：① 此类是public的  ②此类提供公共的无参的构造器
+* 3.此类中声明单元测试方法。
+*   此时的单元测试方法：方法的权限是public,没有返回值，没有形参
+* 
+* 4.此单元测试方法上需要声明注解：@Test,并在单元测试类中导入：import org.junit.Test;
+* 
+* 5.声明好单元测试方法以后，就可以在方法体内测试相关的代码。
+
+  一个@Test对应一个测试，每个测试单独执行
+  public class JUnitTest {
+	int num = 10;
+
+	@Test
+	public void testEquals() {
+		System.out.println(num);
+		show();
+	}
+
+	public void show() {
+		num = 20;
+		System.out.println("show()....");
+	}
+}
+  
+```
+
+# 包装类
+
+![image-20220418095224528](Pic/image-20220418095224528.png)
+
+**Boolean 不看大小写 true 为真 其他都为false**
+
+![image-20220418095841568](Pic/image-20220418095841568.png)
+
+- 基本数据类型 ---〉包装类（有的传递参数要）
+
+  ```java
+  //以前
+  Float f1 = new Float(12.3f);
+  //现在
+  //自动装箱：基本数据类型 --->包装类
+  int num2 = 10;
+  Integer in1 = num2;//自动装箱
+  ```
+
+  包装类 --〉基本数据类型（进行算数运算）
+
+  ```int i1 = in1.intValue();```
+
+  ```java
+  //以前
+  int i1 = in1.intValue();
+  //现在
+  Integer in1 = num2;//自动装箱
+  int num3 = in1;//自动拆箱
+  ```
+
+ 	基本数据类型、包装类--->String类型：调用String重载的valueOf(Xxx xxx)
+
+```java
+int num1 = 10;
+//方式1：连接运算
+String str1 = num1 + "";
+//方式2：调用String的valueOf(Xxx xxx)
+float f1 = 12.3f;
+String str2 = String.valueOf(f1);//"12.3"
+
+Double d1 = new Double(12.4);//Object
+String str3 = String.valueOf(d1);
+```
+
+​	String类型 --->基本数据类型、包装类：调用包装类的parseXxx(String s)
+
+```java
+String str1 = "123";
+//可能会报NumberFormatException
+int num2 = Integer.parseInt(str1);
+```
+
