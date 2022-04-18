@@ -73,6 +73,8 @@ System.out.println(c.radius + "\t\t" + area);
 
 ![image-20220331111509732](Pic/image-20220331111509732.png)
 
+- 数组是特殊的类
+
 # 基本数据类型
 
 ## 整形
