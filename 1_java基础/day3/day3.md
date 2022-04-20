@@ -222,3 +222,94 @@ final int WIDTH = 0;
  * 2.abstract不能用来修饰私有方法（要子类重写;private修饰方法不能被重写）、静态方法(static修饰的不算重写）
  * final的方（本来就不让重写）、final的类（不能被子类继承）
 ```
+
+## 抽象类的匿名子类
+
+```java
+Worker worker = new Worker();
+method1(worker);//非匿名的类非匿名的对象
+
+method1(new Worker());//非匿名的类匿名的对象
+
+//创建了一匿名子类的对象：p
+		//创建了Person匿名子类的一个对象p
+		Person p = new Person(){
+			@Override
+			public void eat() {
+				System.out.println("吃东西");
+			}
+
+			@Override
+			public void breath() {
+				System.out.println("好好呼吸");
+			}
+		};
+	method1(p);
+
+//创建匿名子类的匿名对象
+		method1(new Person(){
+			@Override
+			public void eat() {
+				System.out.println("吃好吃东西");
+			}
+
+			@Override
+			public void breath() {
+				System.out.println("好好呼吸新鲜空气");
+			}
+		});
+```
+
+## 模版方法设计模式
+
+![image-20220420215646512](Pic/image-20220420215646512.png)
+
+```java
+/*
+ * 抽象类的应用：模板方法的设计模式
+ */
+public class TemplateTest {
+   public static void main(String[] args) {
+      Template t = new SubTemplate();
+      t.spendTime();
+   }
+}
+
+abstract class Template{
+   //计算某段代码执行所需要花费的时间
+   public void spendTime(){
+      long start = System.currentTimeMillis();
+      this.code();//不确定的部分、易变的部分
+      long end = System.currentTimeMillis();
+      System.out.println("花费的时间为：" + (end - start));
+   }
+   
+   public abstract void code();
+}
+
+class SubTemplate extends Template{
+   @Override
+   public void code() {
+      for(int i = 2;i <= 1000;i++){
+         boolean isFlag = true;
+         for(int j = 2;j <= Math.sqrt(i);j++){
+            if(i % j == 0){
+               isFlag = false;
+               break;
+            }
+         }
+         if(isFlag){
+            System.out.println(i);
+         }
+      }
+   }
+}
+```
+
+```java
+Employee[] emps = new Employee[2];
+//装对象的数组
+
+emps[0] = new SalariedEmployee("马森", 1002,new MyDate(1992, 2, 28),10000);
+emps[1] = new HourlyEmployee("潘雨生", 2001, new MyDate(1991, 1, 6),60,240);
+```
