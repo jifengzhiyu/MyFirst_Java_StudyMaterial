@@ -221,6 +221,11 @@ final int WIDTH = 0;
  * 
  * 2.abstract不能用来修饰私有方法（要子类重写;private修饰方法不能被重写）、静态方法(static修饰的不算重写）
  * final的方（本来就不让重写）、final的类（不能被子类继承）
+                                                     
+ * 接口的使用
+ * 1.接口使用上也满足多态性
+ * 2.接口，实际上就是定义了一种规范
+ * 3.开发中，体会面向接口编程！
 ```
 
 ## 抽象类的匿名子类
@@ -312,4 +317,231 @@ Employee[] emps = new Employee[2];
 
 emps[0] = new SalariedEmployee("马森", 1002,new MyDate(1992, 2, 28),10000);
 emps[1] = new HourlyEmployee("潘雨生", 2001, new MyDate(1991, 1, 6),60,240);
+```
+
+# 接口
+
+![image-20220421152032900](Pic/image-20220421152032900.png)
+
+```java
+* 接口的使用
+* 1.接口使用interface来定义
+* 2.Java中，接口和类是并列的两个结构
+* 3.如何定义接口：定义接口中的成员
+*     
+*     3.1 JDK7及以前：只能定义全局常量和抽象方法
+*        >全局常量：public static final的.但是书写时，可以省略不写
+*        >抽象方法：public abstract的（不能修饰构造器）
+  interface Flyable{
+	//全局常量
+	public static final int MAX_SPEED = 7900;//第一宇宙速度
+	int MIN_SPEED = 1;//省略了public static final
+	
+	//抽象方法
+	public abstract void fly();
+	//省略了public abstract
+	void stop();
+}
+*        
+* 3.2 JDK8：除了定义全局常量和抽象方法之外，还可以定义静态方法、默认方法（略）
+* 
+* 4. 接口中不能定义构造器的！意味着接口不可以实例化
+* 
+* 5. Java开发中，接口通过让类去实现(implements)的方式来使用.
+*    如果实现类覆盖了接口中的所有抽象方法，则此实现类就可以实例化
+*    如果实现类没有覆盖接口中所有的抽象方法，则此实现类仍为一个抽象类
+  class Plane implements Flyable{
+	@Override
+	public void fly() {
+		System.out.println("通过引擎起飞");
+	}
+
+	@Override
+	public void stop() {
+		System.out.println("驾驶员减速停止");
+	}
+}
+//直接用（体现静态）
+public static void main(String[] args) {
+		System.out.println(Flyable.MAX_SPEED);
+}
+*    
+* 6. Java类可以实现多个接口   --->弥补了Java单继承性的局限性
+*   格式：class AA extends BB implements CC,DD,EE
+*   
+* 7. 接口与接口之间可以继承，而且可以多继承
+  
+  关键词修饰class顺序
+  class Bullet extends Object implements Flyable,Attackable,CC{}
+* 
+* *******************************
+* 8. 接口的具体使用，体现多态性
+* 9. 接口，实际上可以看做是一种规范
+* 
+* 面试题：抽象类与接口有哪些异同？
+```
+
+## 面向接口编程
+
+![image-20220421160227708](Pic/image-20220421160227708.png)
+
+## 接口的匿名实现类
+
+- 借口作为参数
+- 接口的匿名实现类
+
+```java
+public class USBTest {
+   public static void main(String[] args) {
+      Computer com = new Computer();
+      //1.创建了接口的非匿名实现类的非匿名对象
+      Flash flash = new Flash();
+      com.transferData(flash);
+      
+      //2. 创建了接口的非匿名实现类的匿名对象
+      com.transferData(new Printer());
+      
+      //3. 创建了接口的匿名实现类的非匿名对象
+      USB phone = new USB(){
+
+         @Override
+         public void start() {
+            System.out.println("手机开始工作");
+         }
+
+         @Override
+         public void stop() {
+            System.out.println("手机结束工作");
+         }
+         
+      };
+      com.transferData(phone);
+      
+      //4. 创建了接口的匿名实现类的匿名对象
+      com.transferData(new USB(){
+         @Override
+         public void start() {
+            System.out.println("mp3开始工作");
+         }
+
+         @Override
+         public void stop() {
+            System.out.println("mp3结束工作");
+         }
+      });
+   }
+}
+
+class Computer{
+   public void transferData(USB usb){//USB usb = new Flash();
+      usb.start();
+      System.out.println("具体传输数据的细节");
+      usb.stop();
+   }
+}
+
+interface USB{
+   //常量：定义了长、宽、最大最小的传输速度等
+   void start();
+   void stop();
+}
+
+class Flash implements USB{
+   @Override
+   public void start() {
+      System.out.println("U盘开启工作");
+   }
+
+   @Override
+   public void stop() {
+      System.out.println("U盘结束工作");
+   }
+}
+
+class Printer implements USB{
+   @Override
+   public void start() {
+      System.out.println("打印机开启工作");
+   }
+
+   @Override
+   public void stop() {
+      System.out.println("打印机结束工作");
+   }
+}
+```
+
+## 代理模式
+
+![image-20220421165310446](Pic/image-20220421165310446.png)
+
+```java
+/*
+ * 接口的应用：代理模式
+ */
+public class NetWorkTest {
+   public static void main(String[] args) {
+      Server server = new Server();
+      ProxyServer proxyServer = new ProxyServer(server);
+      proxyServer.browse();
+      //联网之前的检查工作
+      //真实的服务器访问网络
+   }
+}
+
+interface NetWork{
+    void browse();
+}
+
+//被代理类
+class Server implements NetWork{
+   @Override
+   public void browse() {
+      System.out.println("真实的服务器访问网络");
+   }
+}
+//代理类
+class ProxyServer implements NetWork{
+   private NetWork work;
+   public ProxyServer(NetWork work){
+      this.work = work;
+   }
+   public void check(){
+      System.out.println("联网之前的检查工作");
+   }
+   @Override
+   public void browse() {
+      check();
+      work.browse();
+   }
+}
+```
+
+## 工厂模式
+
+- 看附带文档
+
+## 一个面试题
+
+```Java
+interface A {
+   int x = 0;
+}
+
+class B {
+   int x = 1;
+}
+
+class C extends B implements A {
+   public void pX() {
+      //编译不通过。因为x是不明确的
+      // System.out.println(x);
+      System.out.println(super.x);//1
+      System.out.println(A.x);//0
+   }//接口和最近的父类是同一个级别
+
+   public static void main(String[] args) {
+      new C().pX();
+   }
+}
 ```
