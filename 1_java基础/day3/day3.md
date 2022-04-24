@@ -633,6 +633,9 @@ public interface CompareB {
 
 # 内部类
 
+- 笔试有
+- 面试少
+
 ```java
 * 类的内部成员之五：内部类
 * 1. Java中允许将一个类A声明在另一个类B中，则类A就是内部类，类B称为外部类
@@ -754,5 +757,143 @@ public class InnerClassTest1 {
          }
       };
    }
+}
+```
+
+- 总结：
+  成员内部类和局部内部类，在编译以后，都会生成字节码文件。
+  格式：成员内部类：外部类$内部类名.class
+  局部内部类：外部类$数字内部类名.class
+
+## 一个面试题
+
+![image-20220423224814844](Pic/image-20220423224814844.png)
+
+## 注意点
+
+```Java
+/*
+    * 在局部内部类的方法中（比如：show）如果调用局部内部类所声明的方法(比如：method)中的局部变量(比如：num)的话,
+    * 要求此局部变量声明为final的。(一个类编辑形成一个文件，考虑到变量的生命周期，需要内部类使用外部类方法内的变量副本)
+    * 
+    * jdk 7及之前版本：要求此局部变量显式的声明为final的
+    * jdk 8及之后的版本：可以省略final的声明
+    * 
+    */
+   public void method(){
+      //局部变量
+      int num = 10;
+      class AA{
+         public void show(){
+//          num = 20;
+            System.out.println(num);
+         }
+      }
+   }
+```
+
+# 异常处理
+
+![image-20220424151048312](Pic/image-20220424151048312.png)
+
+![image-20220424151106559](Pic/image-20220424151106559.png)
+
+![image-20220424151119467](Pic/image-20220424151119467.png)
+
+## 常见异常
+
+```Java
+* 一、异常体系结构
+* 
+* java.lang.Throwable
+*     |-----java.lang.Error:一般不编写针对性的代码进行处理。
+*     |-----java.lang.Exception:可以进行异常的处理
+*        |------编译时异常(checked)
+*              |-----IOException
+*                 |-----FileNotFoundException
+*              |-----ClassNotFoundException
+*        |------运行时异常(unchecked,RuntimeException)
+*              |-----NullPointerException
+*              |-----ArrayIndexOutOfBoundsException
+*              |-----ClassCastException
+*              |-----NumberFormatException
+*              |-----InputMismatchException
+*              |-----ArithmeticException
+* 
+* 
+* 
+* 面试题：常见的异常都有哪些？举例说明
+  
+  public class ExceptionTest {
+	
+	//******************以下是编译时异常***************************
+	@Test
+	public void test7(){
+//		File file = new File("hello.txt");
+//		FileInputStream fis = new FileInputStream(file);
+//		
+//		int data = fis.read();
+//		while(data != -1){
+//			System.out.print((char)data);
+//			data = fis.read();
+//		}
+//		
+//		fis.close();
+		
+	}
+	
+	//******************以下是运行时异常***************************
+	//ArithmeticException 数学异常
+	@Test
+	public void test6(){
+		int a = 10;
+		int b = 0;
+		System.out.println(a / b);
+	}
+	
+	//InputMismatchException 输入格式异常
+	@Test
+	public void test5(){
+		Scanner scanner = new Scanner(System.in);
+		int score = scanner.nextInt();
+		System.out.println(score);
+		scanner.close();
+	}
+	
+	//NumberFormatException 数字类型异常
+	@Test
+	public void test4(){
+		String str = "123";
+		str = "abc";
+		int num = Integer.parseInt(str);
+	}
+	
+	//ClassCastException 类型转换异常
+	@Test
+	public void test3(){
+		Object obj = new Date();
+		String str = (String)obj;
+	}
+	
+	//IndexOutOfBoundsException 数组越界异常
+	@Test
+	public void test2(){
+		//ArrayIndexOutOfBoundsException
+//		int[] arr = new int[10];
+//		System.out.println(arr[10]);
+		//StringIndexOutOfBoundsException
+		String str = "abc";
+		System.out.println(str.charAt(3));
+	}
+	
+	//NullPointerException 空指针异常
+	@Test
+	public void test1(){
+//		int[] arr = null;
+//		System.out.println(arr[3]);
+		String str = "abc";
+		str = null;
+		System.out.println(str.charAt(0));
+	}
 }
 ```
