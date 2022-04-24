@@ -1061,7 +1061,7 @@ class SubClass extends SuperClass{
 }
 ```
 
-## 手动抛出异常
+## 手动抛出异常&自定义异常类
 
 ```java
 /*
@@ -1073,9 +1073,7 @@ class SubClass extends SuperClass{
  */
 public class MyException extends Exception{
    static final long serialVersionUID = -7034897193246939L;
-   
    public MyException(){}
-   
    public MyException(String msg){
       super(msg);
    }
@@ -1096,6 +1094,7 @@ public class StudentTest {
 
 class Student{
 	private int id;
+  //throws往上层抛出异常，与下面throw是两回事儿
 	public void regist(int id) throws Exception {
 		if(id > 0){
 			this.id = id;
@@ -1113,3 +1112,14 @@ class Student{
 	}
 }
 ```
+
+![image-20220424214603866](Pic/image-20220424214603866.png)
+
+![image-20220424222602694](Pic/image-20220424222602694.png)
+
+# 项目3
+
+![image-20220424224927614](Pic/image-20220424224927614.png)
+
+![image-20220424224946958](Pic/image-20220424224946958.png)
+
