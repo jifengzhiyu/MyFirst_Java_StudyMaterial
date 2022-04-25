@@ -563,7 +563,7 @@ package com.atguigu.java2;
   	com.atguigu.exer3.Account acct1 = new com.atguigu.exer3.Account(1000,2000,0.0123);
 * 8. 使用"xxx.*"方式表明可以调用xxx包下的所有结构。但是如果使用的是xxx子包下的结构，则仍需要显式导入
 	  import java.lang.reflect.Field;
-* 9. import static:导入指定类或接口中的静态结构:属性或方法。 
+* 9. import static:导入指定类或接口中的静态结构:属性或方法。 使用时就可以不加类名
     import static java.lang.System.*;
 
 package com.atguigu.java2;
