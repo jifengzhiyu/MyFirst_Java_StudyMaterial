@@ -1123,4 +1123,10 @@ class Student{
 
 ![image-20220424224946958](Pic/image-20220424224946958.png)
 
-?
+- toString
+- 将两个字符串数组转化成一个有不同的类的对象的二元数组
+
+```
+createEquipment NameListService
+```
+
