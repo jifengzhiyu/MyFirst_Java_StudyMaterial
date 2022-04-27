@@ -14,7 +14,6 @@ IntelliJ中一个 Project 可以包括多个 Module ；
 
 Eclipse中一个 Workspace 可以包括多个 Project；
 
-
 # 进线程
 
 ![image-20220426193616635](Pic/image-20220426193616635.png)
@@ -28,6 +27,11 @@ Eclipse中一个 Workspace 可以包括多个 Project；
 ![image-20220426200444315](Pic/image-20220426200444315.png)
 
 ![image-20220426200458995](Pic/image-20220426200458995.png)
+
+![image-20220427214457376](Pic/image-20220427214457376.png)
+
+- 用户线程：主线程
+- 守护线程：垃圾回收线程，异常处理线程
 
 ## 创建thread(继承法)
 
@@ -254,3 +258,15 @@ public class WindowTest1 {
     }
 }
 ```
+
+## 线程的生命周期
+
+![image-20220427214734981](Pic/image-20220427214734981.png)
+
+![image-20220427220230729](Pic/image-20220427220230729.png)
+
+
+
+
+
+Window1
