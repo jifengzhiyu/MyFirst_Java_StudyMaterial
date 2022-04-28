@@ -76,6 +76,15 @@ public class ThreadTest {
 }
 ```
 
+```java
+//匿名Thread对象法
+new Thread(){
+            @Override
+            public void run() {
+                }
+        }.start();
+```
+
 ## thread相关方法
 
 ![image-20220427150251350](Pic/image-20220427150251350.png)
@@ -265,8 +274,415 @@ public class WindowTest1 {
 
 ![image-20220427220230729](Pic/image-20220427220230729.png)
 
+## 同步机制(同步锁)
 
+```java
+/**
+ * 例子：创建三个窗口卖票，总票数为100张.使用实现Runnable接口的方式
+ *
+ * 1.问题：卖票过程中，出现了重票、错票 -->出现了线程的安全问题
+ * 2.问题出现的原因：当某个线程操作车票的过程中，尚未操作完成时，其他线程参与进来，也操作车票。
+ * 3.如何解决：当一个线程a在操作ticket的时候，其他线程不能参与进来。直到线程a操作完ticket时，其他
+ *            线程才可以开始操作ticket。这种情况即使线程a出现了阻塞，也不能被改变。
+ *
+ *
+ * 4.在Java中，我们通过同步机制，来解决线程的安全问题。
+ *
+ *  方式一：同步代码块
+ *
+ *   synchronized(同步监视器){
+ *      //需要被同步的代码
+ *   }
+ *  说明：1.操作共享数据的代码，即为需要被同步的代码。  -->不能包含代码多了，也不能包含代码少了。
+ *       2.共享数据：多个线程共同操作的变量。比如：ticket就是共享数据。(包括对共享数据的比较）
+ *       3.同步监视器，俗称：锁。任何一个类的对象，都可以充当锁。
+ *          要求：多个线程必须要共用同一把锁。
+ *
+ *       补充：在实现Runnable接口创建多线程的方式中，我们可以考虑使用this充当同步监视器。
+ *  方式二：同步方法。
+ *     如果操作共享数据的代码完整的声明在一个方法中，我们不妨将此方法声明同步的。
+ *
+ *
+ *  5.同步的方式，解决了线程的安全问题。---好处
+ *    操作同步代码时，只能有一个线程参与，其他线程等待。相当于是一个单线程的过程，效率低。 ---局限性
+ */
+```
 
+### 同步代码块
 
+```java
+//同步代码块
+//接口法
 
-Window1
+class Window1 implements Runnable{
+    private int ticket = 100;
+//    Object obj = new Object();
+//    Dog dog = new Dog();
+    @Override
+    public void run() {
+        //每个线程都有一把锁（❌）
+//        Object obj = new Object();
+        while(true){
+            synchronized (this){//此时的this:唯一的Window1的对象
+                // 方式二：synchronized (dog)
+                if (ticket > 0) {
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    System.out.println(Thread.currentThread().getName() + ":卖票，票号为：" + ticket);
+                    ticket--;
+                } else {
+                    break;
+                }
+            }
+        }
+    }
+}
+
+public class WindowTest1 {
+    public static void main(String[] args) {
+        Window1 w = new Window1();
+
+        Thread t1 = new Thread(w);
+        Thread t2 = new Thread(w);
+        Thread t3 = new Thread(w);
+
+        t1.setName("窗口1");
+        t2.setName("窗口2");
+        t3.setName("窗口3");
+
+        t1.start();
+        t2.start();
+        t3.start();
+    }
+}
+
+class Dog{
+}
+```
+
+```java
+//同步代码块
+//继承法
+/** 使用同步代码块解决继承Thread类的方式的线程安全问题
+ *
+ * 例子：创建三个窗口卖票，总票数为100张.使用继承Thread类的方式
+ *
+ * 说明：在继承Thread类创建多线程的方式中，慎用this充当同步监视器，考虑使用当前类充当同步监视器。
+ */
+  class Window2 extends Thread{
+    private static int ticket = 100;
+    private static Object obj = new Object();
+
+    @Override
+    public void run() {
+        while(true){
+            //正确的
+//            synchronized (obj){
+            synchronized (Window2.class){
+                //Class clazz = Window2.class,Window2.class只会加载一次（类也是对象）
+                //错误的方式：this代表着t1,t2,t3三个对象
+//              synchronized (this){
+                if(ticket > 0){
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    System.out.println(getName() + "：卖票，票号为：" + ticket);
+                    ticket--;
+                }else{
+                    break;
+                }
+            }
+        }
+    }
+}
+
+public class WindowTest2 {
+    public static void main(String[] args) {
+        Window2 t1 = new Window2();
+        Window2 t2 = new Window2();
+        Window2 t3 = new Window2();
+
+        t1.setName("窗口1");
+        t2.setName("窗口2");
+        t3.setName("窗口3");
+
+        t1.start();
+        t2.start();
+        t3.start();
+    }
+}
+```
+
+### 同步方法
+
+```java
+/**
+ * 使用同步方法解决实现Runnable接口的线程安全问题
+ *
+ *  关于同步方法的总结：
+ *  1. 同步方法仍然涉及到同步监视器，只是不需要我们显式的声明。
+ *  2. 非静态的同步方法，同步监视器是：this
+ *     静态的同步方法，同步监视器是：当前类本身
+ */
+```
+
+```java
+//同步方法
+//接口法
+class Window3 implements Runnable {
+    private int ticket = 100;
+    @Override
+    public void run() {
+        while (true) {
+            show();
+        }
+    }
+
+    private synchronized void show(){//同步监视器：this
+        //synchronized (this){
+            if (ticket > 0) {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.out.println(Thread.currentThread().getName() + ":卖票，票号为：" + ticket);
+                ticket--;
+            }
+        //}
+    }
+}
+
+public class WindowTest3 {
+    public static void main(String[] args) {
+        Window3 w = new Window3();
+
+        Thread t1 = new Thread(w);
+        Thread t2 = new Thread(w);
+        Thread t3 = new Thread(w);
+
+        t1.setName("窗口1");
+        t2.setName("窗口2");
+        t3.setName("窗口3");
+
+        t1.start();
+        t2.start();
+        t3.start();
+    }
+}
+```
+
+```java
+//同步方法
+//继承法
+class Window4 extends Thread {
+    private static int ticket = 100;
+    @Override
+    public void run() {
+        while (true) {
+            show();
+        }
+    }
+
+    private static synchronized void show(){//同步监视器：Window4.class
+        //private synchronized void show(){ //同步监视器：t1,t2,t3。此种解决方式是错误的
+        //同步方法是静态的，监视器是当前类本身（也是对象可以作为监视器）
+        if (ticket > 0) {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println(Thread.currentThread().getName() + "：卖票，票号为：" + ticket);
+            ticket--;
+        }
+    }
+}
+
+public class WindowTest4 {
+    public static void main(String[] args) {
+        Window4 t1 = new Window4();
+        Window4 t2 = new Window4();
+        Window4 t3 = new Window4();
+
+        t1.setName("窗口1");
+        t2.setName("窗口2");
+        t3.setName("窗口3");
+
+        t1.start();
+        t2.start();
+        t3.start();
+    }
+}
+```
+
+## 改进懒汉式单例模式
+
+```java
+/**
+ * 使用同步机制将单例模式中的懒汉式改写为线程安全的
+ */
+class Bank{
+    private Bank(){}
+    private static Bank instance = null;
+    public static Bank getInstance(){
+        if(instance == null){
+            synchronized (Bank.class) {
+                if(instance == null){
+                    instance = new Bank();
+                }
+            }
+        }
+        return instance;
+    }
+}
+```
+
+## 线程的死锁
+
+- 线程是否安全问题：取决于是否有共享数据
+
+![image-20220428171318857](Pic/image-20220428171318857.png)
+
+```java
+/**
+ * 演示线程的死锁问题
+ *
+ * 1.死锁的理解：不同的线程分别占用对方需要的同步资源不放弃，
+ * 都在等待对方放弃自己需要的同步资源，就形成了线程的死锁
+ *
+ * 2.说明：
+ * 1）出现死锁后，不会出现异常，不会出现提示，只是所有的线程都处于阻塞状态，无法继续
+ * 2）我们使用同步时，要避免出现死锁。
+ */
+public class ThreadTest {
+    public static void main(String[] args) {
+        StringBuffer s1 = new StringBuffer();
+        StringBuffer s2 = new StringBuffer();
+
+        new Thread(){
+            @Override
+            public void run() {
+                synchronized (s1){
+                    s1.append("a");
+                    s2.append("1");
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    synchronized (s2){
+                        //等待下面对象的s2锁解开
+                        s1.append("b");
+                        s2.append("2");
+                        System.out.println(s1);
+                        System.out.println(s2);
+                    }
+                }
+            }
+        }.start();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                synchronized (s2){
+                    s1.append("c");
+                    s2.append("3");
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    synchronized (s1){
+                        //等待上面对象的s1锁解开
+                        s1.append("d");
+                        s2.append("4");
+                        System.out.println(s1);
+                        System.out.println(s2);
+                    }
+                }
+            }
+        }).start();
+    }
+}
+```
+
+## Lock
+
+![image-20220428193619001](Pic/image-20220428193619001.png)
+
+![image-20220428201048617](Pic/image-20220428201048617.png)
+
+```java
+/**
+ * 解决线程安全问题的方式三：Lock锁  --- JDK5.0新增
+ *
+ * 1. 面试题：synchronized 与 Lock的异同？
+ *   相同：二者都可以解决线程安全问题
+ *   不同：synchronized机制在执行完相应的同步代码以后，自动的释放同步监视器
+ *        Lock需要手动的启动同步（lock()），同时结束同步也需要手动的实现（unlock()）
+ *
+ * 2.优先使用顺序：
+ * Lock > 同步代码块（已经进入了方法体，分配了相应资源） > 同步方法（在方法体之外）
+ *
+ *
+ *  面试题：如何解决线程安全问题？有几种方式
+ */
+class Window implements Runnable{
+    private int ticket = 100;
+    //1.实例化ReentrantLock
+    //如果是继承 private static ReentrantLock lock
+    private ReentrantLock lock = new ReentrantLock();
+    //带参数的构造器：参数如果是true：锁解开一次后，按照顺序进入；
+    // false，之前进入的线程可以再抢进去
+    //private ReentrantLock lock1 = new ReentrantLock(true);
+    
+    @Override
+    public void run() {
+        while(true){
+            try{
+                //2.调用锁定方法lock()
+                lock.lock();
+                if(ticket > 0){
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    System.out.println(Thread.currentThread().getName() + "：售票，票号为：" + ticket);
+                    ticket--;
+                }else{
+                    break;
+                }
+            }finally {
+                //3.调用解锁方法：unlock()
+                lock.unlock();
+            }
+        }
+    }
+}
+
+public class LockTest {
+    public static void main(String[] args) {
+        Window w = new Window();
+
+        Thread t1 = new Thread(w);
+        Thread t2 = new Thread(w);
+        Thread t3 = new Thread(w);
+
+        t1.setName("窗口1");
+        t2.setName("窗口2");
+        t3.setName("窗口3");
+
+        t1.start();
+        t2.start();
+        t3.start();
+    }
+}
+```
