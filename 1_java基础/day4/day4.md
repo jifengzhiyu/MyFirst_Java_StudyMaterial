@@ -1762,7 +1762,9 @@ public void testSimpleDateFormat() throws ParseException {
     }
 ```
 
-## Java8 LocalDateTime:重要
+## Java8 java.timeAPI
+
+### LocalDateTime:重要
 
 ![image-20220505155256549](Pic/image-20220505155256549.png)
 
@@ -1820,17 +1822,58 @@ public void test1(){
 }
 ```
 
-
-
-
+### Instant
 
 ![image-20220505162101430](Pic/image-20220505162101430.png)
 
 ![image-20220505162241452](Pic/image-20220505162241452.png)
 
+```java
+/*
+Instant的使用
+类似于 java.util.Date类
+ */
+@Test
+public void test2(){
+    //now():获取本初子午线对应的标准时间
+    Instant instant = Instant.now();
+    System.out.println(instant);//2019-02-18T07:29:41.719Z
 
+    //添加时间的偏移量
+    OffsetDateTime offsetDateTime = instant.atOffset(ZoneOffset.ofHours(8));
+    System.out.println(offsetDateTime);//2019-02-18T15:32:50.611+08:00
+
+    //toEpochMilli():获取自1970年1月1日0时0分0秒（UTC）开始的毫秒数  ---> Date类的getTime()
+    long milli = instant.toEpochMilli();
+    System.out.println(milli);
+
+    //ofEpochMilli():通过给定的毫秒数，获取Instant实例  -->Date(long millis)
+    Instant instant1 = Instant.ofEpochMilli(1550475314878L);
+    System.out.println(instant1);
+    //2019-02-18T07:35:14.878Z
+}
+```
+
+### DateTimeFormatter
 
 ![image-20220505163958108](Pic/image-20220505163958108.png)
+
+- 最常用自定义方法
+
+```java
+//       重点： 方式三：自定义的格式。如：ofPattern(“yyyy-MM-dd hh:mm:ss”)
+        DateTimeFormatter formatter3 = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss");
+        //格式化:日期-->字符串
+        String str4 = formatter3.format(LocalDateTime.now());
+        System.out.println(str4);//2019-02-18 03:52:09
+
+        //解析：字符串 -->日期
+//			interface TemporalAccessor LocalDateTime系列实现了该接口
+        TemporalAccessor accessor = formatter3.parse("2019-02-18 03:52:09");
+        System.out.println(accessor);
+```
+
+
 
 
 
