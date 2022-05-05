@@ -794,6 +794,8 @@ public class InnerClassTest1 {
 
 # 异常处理
 
+- 处理编译时异常，不处理运行时异常
+
 ![image-20220424151048312](Pic/image-20220424151048312.png)
 
 ![image-20220424151106559](Pic/image-20220424151106559.png)
