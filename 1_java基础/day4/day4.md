@@ -1586,6 +1586,31 @@ public class StringDemo2 {
 # 日期时间
 
 ```java
+/**
+ * jdk 8之前的日期时间的API测试
+ * 1. System类中currentTimeMillis();
+ * 2. java.util.Date和子类java.sql.Date
+ * 3. SimpleDateFormat
+ * 4. Calendar
+```
+
+## System.currentTimeMillis()
+
+```java
+//1.System类中的currentTimeMillis()
+@Test
+public void test1(){
+    long time = System.currentTimeMillis();
+    //返回当前时间与1970年1月1日0时0分0秒之间以毫秒为单位的时间差。
+    //称为时间戳
+    System.out.println(time);
+    //1651676423467
+}
+```
+
+## java.util.Date
+
+```java
 /*
 java.util.Date类
        |---java.sql.Date类（是上面的子类)
@@ -1630,21 +1655,114 @@ java.util.Date类
     }
 ```
 
+## SimpleDateFormat
+
 ```java
-//1.System类中的currentTimeMillis()
+/*
+SimpleDateFormat的使用：SimpleDateFormat对日期Date类的格式化和解析
+
+1.两个操作：
+1.1 格式化：日期 --->字符串
+1.2 解析：格式化的逆过程，字符串 ---> 日期
+
+2.SimpleDateFormat的实例化
+ */
+```
+
+```java
 @Test
-public void test1(){
-    long time = System.currentTimeMillis();
-    //返回当前时间与1970年1月1日0时0分0秒之间以毫秒为单位的时间差。
-    //称为时间戳
-    System.out.println(time);
-    //1651676423467
+public void testSimpleDateFormat() throws ParseException {
+    //实例化SimpleDateFormat:使用默认的构造器
+    SimpleDateFormat sdf = new SimpleDateFormat();
+
+    //格式化：日期 --->字符串
+    Date date = new Date();
+    System.out.println(date);
+    //Thu May 05 17:24:19 CST 2022
+
+    String format = sdf.format(date);
+    System.out.println(format);
+    //5/5/22, 5:24 PM
+
+    //解析：格式化的逆过程，字符串 ---> 日期
+    String str = "5/5/22, 5:23 PM";
+    Date date1 = sdf.parse(str);
+    System.out.println(date1);
+    //Thu May 05 17:23:00 CST 2022
+
+    //*************按照指定的方式格式化和解析：调用带参的构造器*****************
+    SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+    //格式化
+    String format1 = sdf1.format(date);
+    System.out.println(format1);//2022-05-05 05:24:19
+    //解析:要求字符串必须是符合SimpleDateFormat识别的格式(通过构造器参数体现),
+    //否则，抛异常
+    Date date2 = sdf1.parse("2020-02-18 11:48:27");
+    System.out.println(date2);
+    //Tue Feb 18 11:48:27 CST 2020
 }
 ```
+
+## Calendar
 
 ![image-20220505154408973](Pic/image-20220505154408973.png)
 
 ![image-20220505154657765](Pic/image-20220505154657765.png)
+
+```java
+/*
+    Calendar日历类(抽象类）的使用
+     */
+    @Test
+    public void testCalendar(){
+        //1.实例化
+        //方式一：创建其子类（GregorianCalendar）的对象
+        //方式二：调用其静态方法getInstance()
+        Calendar calendar = Calendar.getInstance();
+//        System.out.println(calendar.getClass());
+
+        //2.常用方法
+        //get()
+        //public static final int DAY_OF_MONTH = 5;
+        int days = calendar.get(Calendar.DAY_OF_MONTH);
+        System.out.println(days);//5
+        System.out.println(calendar.get(Calendar.DAY_OF_YEAR));//125
+
+        //set()
+        //calendar可变性
+        calendar.set(Calendar.DAY_OF_MONTH,22);
+        days = calendar.get(Calendar.DAY_OF_MONTH);
+        System.out.println(days);//22
+
+        //add()
+        calendar.add(Calendar.DAY_OF_MONTH,-3);
+        days = calendar.get(Calendar.DAY_OF_MONTH);
+        System.out.println(days);//19
+
+        //getTime():日历类---> Date
+        Date date = calendar.getTime();
+        System.out.println(date);//Thu May 19 19:27:37 CST 2022
+
+        //setTime():Date ---> 日历类
+        Date date1 = new Date();
+        calendar.setTime(date1);
+        days = calendar.get(Calendar.DAY_OF_MONTH);
+        System.out.println(days);//5
+    }
+```
+
+- Date偏移性
+
+```java
+@Test
+    public void testDate(){
+        //偏移量
+        Date date1 = new Date(2020 - 1900,9 - 1,8);
+        System.out.println(date1);//Tue Sep 08 00:00:00 GMT+08:00 2020
+    }
+```
+
+## Java8 LocalDateTime:重要
 
 ![image-20220505155256549](Pic/image-20220505155256549.png)
 
@@ -1652,8 +1770,65 @@ public void test1(){
 
 ![image-20220505160123174](Pic/image-20220505160123174.png)
 
+```java
+/*
+LocalDate、LocalTime、LocalDateTime 的使用
+说明：
+    1.LocalDateTime相较于LocalDate、LocalTime，使用频率要高
+    2.类似于Calendar
+ */
+@Test
+public void test1(){
+    //now():获取当前的日期、时间、日期+时间
+    LocalDate localDate = LocalDate.now();
+    LocalTime localTime = LocalTime.now();
+    LocalDateTime localDateTime = LocalDateTime.now();
+
+    System.out.println(localDate);//2022-05-05
+    System.out.println(localTime);//20:02:05.463478
+    System.out.println(localDateTime);//2022-05-05T20:02:05.463492
+
+    //of():设置指定的年、月、日、时、分、秒。没有偏移量
+    LocalDateTime localDateTime1 = LocalDateTime.of(2020, 10, 6, 13, 23, 43);
+    System.out.println(localDateTime1);//2020-10-06T13:23:43
+    
+    //getXxx()：获取相关的属性
+    System.out.println(localDateTime.getDayOfMonth());//5
+    System.out.println(localDateTime.getDayOfWeek());//THURSDAY
+    System.out.println(localDateTime.getMonth());//MAY
+    System.out.println(localDateTime.getMonthValue());//5
+    System.out.println(localDateTime.getMinute());//2
+
+    //体现不可变性
+    //withXxx():设置相关的属性
+    LocalDate localDate1 = localDate.withDayOfMonth(22);
+    System.out.println(localDate);//2022-05-05
+    System.out.println(localDate1);//2022-05-22
+
+    LocalDateTime localDateTime2 = localDateTime.withHour(4);
+    System.out.println(localDateTime);//2022-05-05T20:02:05.463492
+    System.out.println(localDateTime2);//2022-05-05T04:02:05.463492
+
+    //不可变性
+    LocalDateTime localDateTime3 = localDateTime.plusMonths(3);
+    System.out.println(localDateTime);//2022-05-05T20:02:05.463492
+    System.out.println(localDateTime3);//2022-08-05T20:02:05.463492
+
+    LocalDateTime localDateTime4 = localDateTime.minusDays(6);
+    System.out.println(localDateTime);//2022-05-05T20:02:05.463492
+    System.out.println(localDateTime4);//2022-04-29T20:02:05.463492
+}
+```
+
 
 
 
 
 ![image-20220505162101430](Pic/image-20220505162101430.png)
+
+![image-20220505162241452](Pic/image-20220505162241452.png)
+
+
+
+![image-20220505163958108](Pic/image-20220505163958108.png)
+
