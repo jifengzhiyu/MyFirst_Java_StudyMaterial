@@ -310,7 +310,8 @@ public @interface MyAnnotation {
 ## 利用反射获取注解信息
 
 ```
-5.通过反射获取注解信息 ---到反射内容时系统讲解
+5,如何获取注解信息：通过发射来进行获取、调用。
+前提：要求此注解的元注解Retention中声明的生命周期状态为：RUNTIME.
 ```
 
 ## JDK8新特性
@@ -370,6 +371,10 @@ class Generic<@MyAnnotation T>{
 
 # 集合框架
 
+**能用集合就不用数组**
+
+一个集合里面可以放各种类型的数据（对象）
+
 ```java
 /**
  * 一、集合框架的概述
@@ -410,17 +415,21 @@ class Generic<@MyAnnotation T>{
 
 ![image-20220507165258046](Pic/image-20220507165258046.png)
 
+![image-20220508095516665](Pic/image-20220508095516665.png)
+
+![image-20220508095532909](Pic/image-20220508095532909.png)
+
 ```java
 public class CollectionTest {
     @Test
     public void test1(){
-        //Collection多为抽象方法
+        //Collection常用抽象方法
         Collection coll = new ArrayList();
 
         //add(Object e):将元素e添加到集合coll中
         coll.add("AA");
         coll.add("BB");
-        coll.add(123);//自动装箱
+        coll.add(123);//自动装箱Integer
         coll.add(new Date());
 
         //size():获取添加的元素的个数
@@ -445,10 +454,6 @@ public class CollectionTest {
     }
 }
 ```
-
-
-
-
 
 ## Iterator迭代器接口
 
