@@ -676,7 +676,7 @@ public void test3(){
 }
 ```
 
-### foreach
+### foreach增强for循环
 
 ![image-202205081107 22125](Pic/image-20220508110722125.png)
 
@@ -948,6 +948,11 @@ public class ListExer {
 
 ## Collection-子接口二：Set
 
+- Set下面这些实现类的底层就是Map实现类
+  - HashSet --- HashMap
+  - LinkedHashSet --- LinkedHashMap
+  - TreeSet ---- TreeMap
+
 ```java
 /**
  * 1. Set接口的框架：
@@ -1093,6 +1098,8 @@ public void test2(){
 ### TreeSet
 
 ![image-20220509160411535](Pic/image-20220509160411535.png)
+
+- 把大的小的数据分开
 
 ```java
 /*
