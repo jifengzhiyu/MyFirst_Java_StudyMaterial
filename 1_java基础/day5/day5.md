@@ -419,6 +419,10 @@ class Generic<@MyAnnotation T>{
 
 ![image-20220508095532909](Pic/image-20220508095532909.png)
 
+**向Collection接口的实现类的对象中添加数据obj时，要求obj所在类要重写equals().**
+
+- 基本方法
+
 ```java
 public class CollectionTest {
     @Test
@@ -455,19 +459,462 @@ public class CollectionTest {
 }
 ```
 
+- 是否包含obj
+
+```java
+@Test
+public void test1(){
+    Collection coll = new ArrayList();
+    coll.add(123);
+    coll.add(456);
+    coll.add(new Person("Jerry",20));
+    coll.add(new String("Tom"));
+    coll.add(false);
+    //1.contains(Object obj):判断当前集合中是否包含obj
+    //我们在判断时会调用obj对象所在类的equals()。
+    System.out.println(coll.contains(123));
+    System.out.println(coll.contains(new String("Tom")));//true 比较内容
+    ////false -->true 重写自定义类的equals()
+    System.out.println(coll.contains(new Person("Jerry",20)));
+
+    //2.containsAll(Collection coll1):判断形参coll1中的所有元素是否都存在于当前集合中。
+    Collection coll1 = Arrays.asList(123,4567);
+    System.out.println(coll.containsAll(coll1));
+}
+```
+
+- 移除obj元素
+
+```java
+@Test
+public void test2(){
+    //3.remove(Object obj):从当前集合中移除obj元素。
+    Collection coll = new ArrayList();
+    coll.add(123);
+    coll.add(456);
+    coll.add(new Person("Jerry",20));
+    coll.add(new String("Tom"));
+    coll.add(false);
+
+    coll.remove(1234);
+    System.out.println(coll);
+
+    coll.remove(new Person("Jerry",20));
+    System.out.println(coll);
+
+    //4. removeAll(Collection coll1):差集：从当前集合中移除coll1中所有的元素。
+    Collection coll1 = Arrays.asList(123,456);
+    coll.removeAll(coll1);
+    System.out.println(coll);
+}
+```
+
+- 获取当前集合和coll1集合的交集
+
+```java
+@Test
+public void test3(){
+    Collection coll = new ArrayList();
+    coll.add(123);
+    coll.add(456);
+    coll.add(new Person("Jerry",20));
+    coll.add(new String("Tom"));
+    coll.add(false);
+
+    //5.retainAll(Collection coll1):交集：获取当前集合和coll1集合的交集，并返回给当前集合(直接在当前集合修改)
+    Collection coll1 = Arrays.asList(123,456,789);
+    coll.retainAll(coll1);
+    System.out.println(coll);
+    //[123, 456]
+    }
+```
+
+- equals(Object obj)
+
+```java
+@Test
+public void test3(){
+    Collection coll = new ArrayList();
+    coll.add(123);
+    coll.add(456);
+    coll.add(new Person("Jerry",20));
+    coll.add(new String("Tom"));
+    coll.add(false);
+
+    //6.equals(Object obj):要想返回true，需要当前集合和形参集合的元素都相同。
+    //顺序是否需要相同取决于子类 -> 这里ArrayList要求顺序相同
+    Collection coll1 = new ArrayList();
+    coll1.add(456);
+    coll1.add(123);
+    coll1.add(new Person("Jerry",20));
+    coll1.add(new String("Tom"));
+    coll1.add(false);
+
+    System.out.println(coll.equals(coll1));
+}
+```
+
+- 数组集合相互转换
+
+```java
+@Test
+public void test4(){
+    Collection coll = new ArrayList();
+    coll.add(123);
+    coll.add(456);
+    coll.add(new Person("Jerry",20));
+    coll.add(new String("Tom"));
+    coll.add(false);
+
+    //7.hashCode():返回当前对象的哈希值
+    System.out.println(coll.hashCode());
+
+    //8.集合 --->数组：toArray()
+    Object[] arr = coll.toArray();
+    for(int i = 0;i < arr.length;i++){
+        System.out.println(arr[i]);
+    }
+
+    //拓展：数组 --->集合:调用Arrays类的静态方法asList()
+    List<String> list = Arrays.asList(new String[]{"AA", "BB", "CC"});
+    System.out.println(list);
+
+    //装入非对象数组，认为装入一个数组（作为集合的元素）
+    //装入对象数组，数组包含几个对象，集合元素就是几个
+    List arr1 = Arrays.asList(new int[]{123, 456});
+    System.out.println(arr1.size());//1
+
+    List arr2 = Arrays.asList(new Integer[]{123, 456});
+    System.out.println(arr2.size());//2
+}
+```
+
 ## Iterator迭代器接口
 
+**lterator仅用于遍历实现Collection接口的集合(Map不用)**
 
+![image-20220508104544327](Pic/image-20220508104544327.png)
 
+### 遍历输出集合
 
+```java
+@Test
+public void test1(){
+    Collection coll = new ArrayList();
+    coll.add(123);
+    coll.add(456);
+    coll.add(new Person("Jerry",20));
+    coll.add(new String("Tom"));
+    coll.add(false);
+
+    Iterator iterator = coll.iterator();
+    //方式三：推荐
+    ////hasNext():判断是否还有下一个元素
+    while(iterator.hasNext()){//指针不变，看看下面又没有数据
+        //next():①指针下移 ②将下移以后集合位置上的元素返回
+        System.out.println(iterator.next());
+    }
+}
+```
+
+- 遍历错误方式
+
+```java
+@Test
+    public void test2(){
+        Collection coll = new ArrayList();
+        coll.add(123);
+        coll.add(456);
+        coll.add(new Person("Jerry",20));
+        coll.add(new String("Tom"));
+        coll.add(false);
+
+        //错误方式一：
+        //出现越界
+//        Iterator iterator = coll.iterator();
+//        while((iterator.next()) != null){
+//            System.out.println(iterator.next());
+//        }
+
+        //错误方式二：
+        //集合对象每次调用iterator()方法都得到一个全新的迭代器对象，默认游标都在集合的第一个元素之前。
+        //输出第一个元素，死循环
+        while (coll.iterator().hasNext()){
+            System.out.println(coll.iterator().next());
+        }
+    }
+```
+
+### remove()
+
+```java
+//测试Iterator中的remove()
+//如果还未调用next(),再调用remove会报IllegalStateException。
+//如果在上一次调用 next 方法之后已经调用了 remove 方法，再调用remove会报IllegalStateException。
+@Test
+public void test3(){
+    Collection coll = new ArrayList();
+    coll.add(123);
+    coll.add(456);
+    coll.add(new Person("Jerry",20));
+    coll.add(new String("Tom"));
+    coll.add(false);
+
+    //删除集合中"Tom"
+    Iterator iterator = coll.iterator();
+    while (iterator.hasNext()){
+        Object obj = iterator.next();
+        if("Tom".equals(obj)){
+            iterator.remove();
+        }
+    }
+    //遍历集合
+    iterator = coll.iterator();
+    while (iterator.hasNext()){
+        System.out.println(iterator.next());
+    }
+}
+```
+
+### foreach
+
+![image-202205081107 22125](Pic/image-20220508110722125.png)
+
+```java
+@Test
+//针对集合
+public void test1(){
+    Collection coll = new ArrayList();
+    coll.add(123);
+    coll.add(456);
+    coll.add(new Person("Jerry",20));
+    coll.add(new String("Tom"));
+    coll.add(false);
+
+    //for(集合元素的类型 局部变量 : 集合对象)
+    //内部仍然调用了迭代器。
+    for(Object obj : coll){
+        System.out.println(obj);
+    }
+}
+```
+
+```java
+@Test
+//针对数组
+public void test2(){
+    int[] arr = new int[]{1,2,3,4,5,6};
+    //for(数组元素的类型 局部变量 : 数组对象)
+    //数组也是对象
+    for(int i : arr){
+        System.out.println(i);
+    }
+}
+```
+
+- 易错点
+
+```java
+//练习题
+    @Test
+    public void test3(){
+        String[] arr = new String[]{"MM","MM","MM"};
+
+//        //方式一：普通for赋值
+//        for(int i = 0;i < arr.length;i++){
+//            arr[i] = "GG";
+//        }//变成GG
+
+        //方式二：增强for循环
+        for(String s : arr){
+            s = "GG";//没有变成GG
+        }
+
+        for(int i = 0;i < arr.length;i++){
+            System.out.println(arr[i]);
+        }
+    }
+```
 
 ## Collection子接口一：List
 
+```java
+/**List接口框架
+*
+*    |----Collection接口：单列集合，用来存储一个一个的对象
+*          |----List接口：存储有序的、可重复的数据。  -->“动态”数组,替换原有的数组
+*              |----ArrayList：作为List接口的主要实现类；线程不安全的，效率高；底层使用Object[] elementData存储
+*              |----LinkedList：对于频繁的插入、删除操作，使用此类效率比ArrayList高(一个改，移动一堆)；底层使用双向链表存储
+*              |----Vector：作为List接口的古老实现类；线程安全的，效率低；底层使用Object[] elementData存储/
+```
 
+![image-20220508113048466](Pic/image-20220508113048466.png)
+
+- List接口中的常用方法
+
+```java
+/*
+void add(int index, Object ele):在index位置插入ele元素
+boolean addAll(int index, Collection eles):从index位置开始将eles中的所有元素添加进来
+Object get(int index):获取指定index位置的元素
+int indexOf(Object obj):返回obj在集合中首次出现的位置
+int lastIndexOf(Object obj):返回obj在当前集合中末次出现的位置
+Object remove(int index):移除指定index位置的元素，并返回此元素
+Object set(int index, Object ele):设置指定index位置的元素为ele
+List subList(int fromIndex, int toIndex):返回从fromIndex到toIndex位置的子集合
+
+总结：常用方法
+增：add(Object obj)
+删：remove(int index) / remove(Object obj)
+改：set(int index, Object ele)
+查：get(int index)
+插：add(int index, Object ele)
+长度：size()
+遍历：① Iterator迭代器方式
+     ② 增强for循环
+     ③ 普通的循环
+     */
+```
+
+```java
+//遍历
+@Test
+public void test3(){
+    ArrayList list = new ArrayList();
+    list.add(123);
+    list.add(456);
+    list.add("AA");
+
+    //方式一：Iterator迭代器方式
+    Iterator iterator = list.iterator();
+    while(iterator.hasNext()){
+        System.out.println(iterator.next());
+    }
+
+    System.out.println("***************");
+
+    //方式二：增强for循环
+    for(Object obj : list){
+        System.out.println(obj);
+    }
+}
+```
+
+```java
+@Test
+public void test2(){
+    ArrayList list = new ArrayList();
+    list.add(123);
+    list.add(456);
+    list.add("AA");
+    list.add(new Person("Tom",12));
+    list.add(456);
+    //int indexOf(Object obj):返回obj在集合中首次出现的位置。如果不存在，返回-1.
+    //找不到返回值一般都是负数
+    int index = list.indexOf(4567);
+    System.out.println(index);
+
+    //int lastIndexOf(Object obj):返回obj在当前集合中末次出现的位置。如果不存在，返回-1.
+    System.out.println(list.lastIndexOf(456));
+
+    //Object remove(int index):移除指定index位置的元素，并返回此元素
+    Object obj = list.remove(0);
+    System.out.println(obj);
+    System.out.println(list);
+
+    //Object set(int index, Object ele):设置指定index位置的元素为ele
+    list.set(1,"CC");
+    System.out.println(list);
+
+    //List subList(int fromIndex, int toIndex):返回从fromIndex到toIndex位置的左闭右开区间的子集合
+    List subList = list.subList(2, 4);
+    System.out.println(subList);
+    //[Person{name='Tom', age=12}, 456]
+    System.out.println(list);
+    //[456, CC, Person{name='Tom', age=12}, 456]
+}
+```
+
+### ArrayList(代替数组)
+
+```java
+2. ArrayList的源码分析：
+*   2.1 jdk 7情况下
+*      ArrayList list = new ArrayList();//底层创建了长度是10的Object[]数组elementData
+*      list.add(123);//elementData[0] = new Integer(123);
+*      ...
+*      list.add(11);//如果此次的添加导致底层elementData数组容量不够，则扩容。
+*      默认情况下，扩容为原来的容量的1.5倍，同时需要将原有数组中的数据复制到新的数组中。
+*
+*      结论：建议开发中使用带参的构造器：ArrayList list = new ArrayList(int capacity)
+*
+*   2.2 jdk 8中ArrayList的变化：
+*      ArrayList list = new ArrayList();//底层Object[] elementData初始化为{}.并没有创建长度为10的数组
+*
+*      list.add(123);//第一次调用add()时，底层才创建了长度10的数组，并将数据123添加到elementData[0]
+*      ...
+*      后续的添加和扩容操作与jdk 7 无异。
+*   2.3 小结：jdk7中的ArrayList的对象的创建类似于单例的饿汉式，而jdk8中的ArrayList的对象
+*            的创建类似于单例的懒汉式，延迟了数组的创建，节省内存。
+```
+
+
+
+### LinkedList
+
+```java
+3. LinkedList的源码分析：
+*      LinkedList list = new LinkedList(); 内部声明了Node类型的first和last属性，默认值为null
+*      list.add(123);//将123封装到Node中，创建了Node对象。
+*
+*      其中，Node定义为：体现了LinkedList的双向链表的说法
+*      private static class Node<E> {
+            E item;
+            Node<E> next;
+            Node<E> prev;
+
+            Node(Node<E> prev, E element, Node<E> next) {
+            this.item = element;
+            this.next = next;
+            this.prev = prev;
+            }
+        }
+```
+
+- LinkedList双向链表：
+
+![image-20220508114330290](Pic/image-20220508114330290.png)
+
+![image-20220508114440105](Pic/image-20220508114440105.png)
+
+### Vector(不太用)
+
+```java
+4. Vector的源码分析：jdk7和jdk8中通过Vector()构造器创建对象时，底层都创建了长度为10的数组。
+*      在扩容方面，默认扩容为原来的数组长度的2倍。
+```
 
 ## Collection-子接口二：Set
 
+![image-20220509151857645](Pic/image-20220509151857645.png)
 
+
+
+![image-20220509151928212](Pic/image-20220509151928212.png)
+
+
+
+![image-20220509152325918](Pic/image-20220509152325918.png)
+
+### HashSet
+
+![image-20220509160411535](Pic/image-20220509160411535.png)
+
+### LinkedHashSet
+
+![image-20220509153743884](Pic/image-20220509153743884.png)
+
+### TreeSet
 
 ## Map接口
 
