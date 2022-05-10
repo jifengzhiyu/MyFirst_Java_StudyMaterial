@@ -411,7 +411,7 @@ class Generic<@MyAnnotation T>{
 
 - List Set是Collection接口的子接口
 
-## Collection接口方法
+## Collection接口
 
 ![image-20220507165258046](Pic/image-20220507165258046.png)
 
@@ -1198,6 +1198,12 @@ public void test2(){
 
 ## Map接口
 
+![image-20220510151902969](Pic/image-20220510151902969.png)
 
+![image-20220510154202078](Pic/image-20220510154202078.png)
+
+- Key不可重复,Value可以重复(一对一)
+- Entry里面两个属性：key,value
+  - Entry无序不可重复（Set）
 
 ## Collections工具类
