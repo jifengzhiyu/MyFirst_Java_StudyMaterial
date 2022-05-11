@@ -608,12 +608,15 @@ public void test1(){
     coll.add(false);
 
     Iterator iterator = coll.iterator();
-    //方式三：推荐
+    //方式1
     ////hasNext():判断是否还有下一个元素
     while(iterator.hasNext()){//指针不变，看看下面又没有数据
         //next():①指针下移 ②将下移以后集合位置上的元素返回
         System.out.println(iterator.next());
     }
+  
+    //方式2
+    coll.forEach(System.out::println);
 }
 ```
 
@@ -1053,7 +1056,8 @@ User{name='Tom', age=12}
                    equals()返回false,则元素a添加成功。--->情况2
 
     对于添加成功的情况2和情况3而言：元素a 与已经存在指定索引位置上数据以链表的方式存储。(jdk7)
-    jdk8底层与Map有关
+    jdk8底层 HashSet与HashMap有关.放在key的位置;TreeSet与TreeMap有关；
+    
     jdk 7 :元素a放到数组中，指向原来的元素。
     jdk 8 :原来的元素在数组中，指向元素a
     总结：七上八下
@@ -1100,7 +1104,7 @@ public void test2(){
 
 ### TreeSet
 
-- 不用hash
+- 不用hash，不用equals(),用排序
 
 ![image-20220509160411535](Pic/image-20220509160411535.png)
 
@@ -1210,5 +1214,9 @@ public void test2(){
 - Key不可重复,Value可以重复(一对一)
 - Entry里面两个属性：key,value
   - Entry无序不可重复（Set）
+
+
+
+![image-20220511160348933](Pic/image-20220511160348933.png)
 
 ## Collections工具类
