@@ -1288,13 +1288,142 @@ public void test1(){
 }
 ```
 
+```java
+@Test
+public void test2(){
+    Map map = new HashMap();
+    map = new LinkedHashMap();
+    map.put(123,"AA");
+    map.put(345,"BB");
+    map.put(12,"CC");
 
+    System.out.println(map);
+}
+```
 
+```java
+/*
+    添加、删除、修改操作：
+Object put(Object key,Object value)：将指定key-value添加到(或修改)当前map对象中
+void putAll(Map m):将m中的所有key-value对存放到当前map中
+Object remove(Object key)：移除指定key的key-value对，并返回value
+void clear()：清空当前map中的所有数据
+    */
+   @Test
+   public void test3(){
+       Map map = new HashMap();
+       //添加
+       map.put("AA",123);
+       map.put(45,123);
+       map.put("BB",56);
+       //修改
+       map.put("AA",87);
 
+       System.out.println(map);
 
+       Map map1 = new HashMap();
+       map1.put("CC",123);
+       map1.put("DD",123);
 
+       map.putAll(map1);
 
+       System.out.println(map);
 
+       //remove(Object key)
+       Object value = map.remove("CC");
+       System.out.println(value);
+       System.out.println(map);
+
+       //clear()
+       map.clear();//与map = null操作不同
+       System.out.println(map.size());//0
+       System.out.println(map);//{}
+   }
+```
+
+```java
+/*
+元素查询的操作：
+Object get(Object key)：获取指定key对应的value
+boolean containsKey(Object key)：是否包含指定的key
+boolean containsValue(Object value)：是否包含指定的value
+int size()：返回map中key-value对的个数
+boolean isEmpty()：判断当前map是否为空
+boolean equals(Object obj)：判断当前map和参数对象obj是否相等
+    */
+   @Test
+   public void test4(){
+       Map map = new HashMap();
+       map.put("AA",123);
+       map.put(45,123);
+       map.put("BB",56);
+       // Object get(Object key)
+       System.out.println(map.get(45));
+       //containsKey(Object key)
+       boolean isExist = map.containsKey("BB");
+       System.out.println(isExist);
+
+       isExist = map.containsValue(123);
+       System.out.println(isExist);
+
+       map.clear();
+
+       System.out.println(map.isEmpty());
+   }
+```
+
+- 遍历
+
+```java
+/*
+元视图操作的方法：
+Set keySet()：返回所有key构成的Set集合
+Collection values()：返回所有value构成的Collection集合
+Set entrySet()：返回所有key-value对构成的Set集合
+    */
+   @Test
+   public void test5(){
+       Map map = new HashMap();
+       map.put("AA",123);
+       map.put(45,1234);
+       map.put("BB",56);
+
+       //遍历所有的key集：keySet()
+       Set set = map.keySet();
+           Iterator iterator = set.iterator();
+           while(iterator.hasNext()){
+               System.out.println(iterator.next());
+       }
+       System.out.println();
+       //遍历所有的value集：values()
+       Collection values = map.values();
+       for(Object obj : values){
+           System.out.println(obj);
+       }
+       //一一对应关系
+       System.out.println();
+       
+       //遍历所有的key-value
+       //方式一：entrySet()
+       Set entrySet = map.entrySet();
+       Iterator iterator1 = entrySet.iterator();
+       while (iterator1.hasNext()){
+           Object obj = iterator1.next();
+           //entrySet集合中的元素都是entry
+           Map.Entry entry = (Map.Entry) obj;
+           System.out.println(entry.getKey() + "---->" + entry.getValue());
+       }
+       System.out.println();
+       //方式二：
+       Set keySet = map.keySet();
+       Iterator iterator2 = keySet.iterator();
+       while(iterator2.hasNext()){
+           Object key = iterator2.next();
+           Object value = map.get(key);
+           System.out.println(key + "=====" + value);
+       }
+   }
+```
 
 ### HashMap
 
@@ -1351,37 +1480,283 @@ jdk8 相较于jdk7在底层实现方面的不同：
 
 ### TreeMap
 
+```java
+//向TreeMap中添加key-value，要求key必须是由同一个类创建的对象(否则怎么排序)
+//因为要按照key进行排序：自然排序 、定制排序
+```
 
+```java
+//向TreeMap中添加key-value，要求key必须是由同一个类创建的对象(否则怎么排序)
+//因为要按照key进行排序：自然排序 、定制排序
+//自然排序
+@Test
+public void test1(){
+    TreeMap map = new TreeMap();
+    User u1 = new User("Tom",23);
+    User u2 = new User("Jerry",32);
+    User u3 = new User("Jack",20);
+    User u4 = new User("Rose",18);
+
+    map.put(u1,98);
+    map.put(u2,89);
+    map.put(u3,76);
+    map.put(u4,100);
+
+    Set entrySet = map.entrySet();
+    Iterator iterator1 = entrySet.iterator();
+    while (iterator1.hasNext()){
+        Object obj = iterator1.next();
+        Map.Entry entry = (Map.Entry) obj;
+        System.out.println(entry.getKey() + "---->" + entry.getValue());
+    }
+}
+```
+
+```java
+//定制排序
+@Test
+public void test2(){
+    TreeMap map = new TreeMap(new Comparator() {
+        @Override
+        public int compare(Object o1, Object o2) {
+            if(o1 instanceof User && o2 instanceof User){
+                User u1 = (User)o1;
+                User u2 = (User)o2;
+                return Integer.compare(u1.getAge(),u2.getAge());
+            }
+            throw new RuntimeException("输入的类型不匹配！");
+        }
+    });
+    User u1 = new User("Tom",23);
+    User u2 = new User("Jerry",32);
+    User u3 = new User("Jack",20);
+    User u4 = new User("Rose",18);
+
+    map.put(u1,98);
+    map.put(u2,89);
+    map.put(u3,76);
+    map.put(u4,100);
+
+    Set entrySet = map.entrySet();
+    Iterator iterator1 = entrySet.iterator();
+    while (iterator1.hasNext()){
+        Object obj = iterator1.next();
+        Map.Entry entry = (Map.Entry) obj;
+        System.out.println(entry.getKey() + "---->" + entry.getValue());
+    }
+}
+```
+
+```java
+public class User implements Comparable{
+    private String name;
+    private int age;
+
+    public User() {
+    }
+
+    public User(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        System.out.println("User equals()....");
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        if (age != user.age) return false;
+        return name != null ? name.equals(user.name) : user.name == null;
+    }
+
+    @Override
+    public int hashCode() { //return name.hashCode() + age;
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + age;
+        return result;
+    }
+
+    //按照姓名从大到小排列,年龄从小到大排列
+    @Override
+    public int compareTo(Object o) {
+        if(o instanceof User){
+            User user = (User)o;
+//            return -this.name.compareTo(user.name);
+            int compare = -this.name.compareTo(user.name);
+            if(compare != 0){
+                return compare;
+            }else{
+                return Integer.compare(this.age,user.age);
+            }
+        }else{
+            throw new RuntimeException("输入的类型不匹配");
+        }
+    }
+}
+```
 
 ### Hashtable
-
-
 
 #### Properties
 
 ![image-20220511221906541](Pic/image-20220511221906541.png)
 
-
-
 ![image-20220511222213363](Pic/image-20220511222213363.png)
-
-
 
 
 
 ![image-20220511223056787](Pic/image-20220511223056787.png)
 
 - 钩上之后再做配置文件 
+- .properties文件
+
+```java
+//不要加空格
+name=Tom宋红康
+password=abc123
+```
+
+```java
+public class PropertiesTest {
+    //Properties:常用来处理配置文件。key和value都是String类型
+    public static void main(String[] args)  {
+        FileInputStream fis = null;
+        try {
+            Properties pros = new Properties();
+
+            fis = new FileInputStream("jdbc.properties");
+            pros.load(fis);//加载流对应的文件
+
+            String name = pros.getProperty("name");
+            String password = pros.getProperty("password");
+
+            System.out.println("name = " + name + ", password = " + password);
+            //name = Tom宋红康, password = abc123
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if(fis != null){
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+}
+```
 
 ## Collections工具类
 
 ![image-20220511224323842](Pic/image-20220511224323842.png)
 
-
-
 ![image-20220512150718318](Pic/image-20220512150718318.png)
 
+- **ArrayList,HashMap可能使用同步控制**
 
+```java
+/*
+reverse(List)：反转 List 中元素的顺序
+shuffle(List)：对 List 集合元素进行随机排序
+sort(List)：根据元素的自然顺序对指定 List 集合元素按升序排序
+sort(List，Comparator)：根据指定的 Comparator 产生的顺序对 List 集合元素进行排序
+swap(List，int， int)：将指定 list 集合中的 i 处元素和 j 处元素进行交换
+
+Object max(Collection)：根据元素的自然顺序，返回给定集合中的最大元素
+Object max(Collection，Comparator)：根据 Comparator 指定的顺序，返回给定集合中的最大元素
+Object min(Collection)
+Object min(Collection，Comparator)
+int frequency(Collection，Object)：返回指定集合中指定元素的出现次数
+void copy(List dest,List src)：将src中的内容复制到dest中
+boolean replaceAll(List list，Object oldVal，Object newVal)：使用新值替换 List 对象的所有旧值
+ */
+
+   Collections:操作Collection、Map的工具类
+ *
+ * 面试题：Collection 和 Collections的区别？
+```
+
+```java
+@Test
+    public void test1(){
+        List list = new ArrayList();
+        list.add(123);
+        list.add(43);
+        list.add(765);
+        list.add(765);
+        list.add(765);
+        list.add(-97);
+        list.add(0);
+
+        System.out.println(list);
+
+//        Collections.reverse(list);
+//        Collections.shuffle(list);
+//        Collections.sort(list);
+//        Collections.swap(list,1,2);
+        int frequency = Collections.frequency(list, 123);
+
+        System.out.println(list);
+        System.out.println(frequency);
+    }
+```
+
+```java
+@Test
+    public void test2(){
+        List list = new ArrayList();
+        list.add(123);
+        list.add(43);
+        list.add(765);
+        list.add(-97);
+        list.add(0);
+
+        //报异常：IndexOutOfBoundsException("Source does not fit in dest")
+//        List dest = new ArrayList();
+//        Collections.copy(dest,list);
+        //正确的：
+        List dest = Arrays.asList(new Object[list.size()]);
+        System.out.println(dest.size());// == list.size(); = 5
+        Collections.copy(dest,list);
+
+        System.out.println(dest);
+        /*
+        Collections 类中提供了多个 synchronizedXxx() 方法，
+        该方法可使将指定集合包装成线程同步的集合，从而可以解决
+        多线程并发访问集合时的线程安全问题
+         */
+        //返回的list1即为线程安全的List
+        List list1 = Collections.synchronizedList(list);
+    }
+```
 
 数据结构与算法分析]ava语言描述（第2版）[美]卡拉罗(Carrano,F.M.) 著金名，等译
 大话数据结构（作者：程杰著）⊙
