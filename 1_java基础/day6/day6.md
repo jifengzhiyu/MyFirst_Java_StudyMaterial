@@ -522,8 +522,8 @@ public File[] listFiles() ：获取指定目录下的所有文件或者文件目
 
         System.out.println(file1.getAbsolutePath());//用相对路径构造，输出相对路径
         System.out.println(file1.getPath());//用相对路径构造，输出相对路径
-        System.out.println(file1.getName());//null
-        System.out.println(file1.getParent());
+        System.out.println(file1.getName());
+        System.out.println(file1.getParent());//null
         System.out.println(file1.length());
         System.out.println(new Date(file1.lastModified()));
 
@@ -531,8 +531,8 @@ public File[] listFiles() ：获取指定目录下的所有文件或者文件目
 
         System.out.println(file2.getAbsolutePath());//用绝对路径构造，输出绝对路径
         System.out.println(file2.getPath());//用绝对路径构造，输出绝对路径
-        System.out.println(file2.getName());//null
-        System.out.println(file2.getParent());
+        System.out.println(file2.getName());
+        System.out.println(file2.getParent());//null
         System.out.println(file2.length());
         System.out.println(file2.lastModified());
     }
@@ -608,15 +608,61 @@ public boolean isHidden() ：判断是否隐藏
     }
 ```
 
-### 创建
+### 创建删除
 
 - 在硬盘中创建文件/文件夹
 
-![image-20220517102616374](Pic/image-20220517102616374.png)
+```java
+/*
+    创建硬盘中对应的文件或文件目录
+public boolean createNewFile() ：创建文件。若文件存在，则不创建，返回false
+public boolean mkdir() ：创建文件目录。如果此文件目录存在，就不创建了。如果此文件目录的上层目录不存在，也不创建。
+public boolean mkdirs() ：创建文件目录。如果此文件目录存在，就不创建了。如果上层文件目录不存在，一并创建
 
+    删除磁盘中的文件或文件目录
+public boolean delete()：删除文件或者文件夹
+    删除注意事项：Java中的删除不走回收站。
+     */
+```
 
+```java
+@Test
+public void test6() throws IOException {
+    File file1 = new File("hi.txt");
+    if(!file1.exists()){
+        //文件的创建
+        file1.createNewFile();
+        System.out.println("创建成功");
+    }else{//文件存在
+        file1.delete();
+        System.out.println("删除成功");
+    }
+}
+```
 
+```java
+@Test
+public void test7(){
+    //文件目录的创建
+    File file1 = new File("d:\\io\\io1\\io3");
 
+    boolean mkdir = file1.mkdir();
+    if(mkdir){
+        System.out.println("创建成功1");
+    }
+
+    File file2 = new File("d:\\io\\io1\\io4");
+
+    boolean mkdir1 = file2.mkdirs();
+    if(mkdir1){
+        System.out.println("创建成功2");
+    }
+    //要想删除成功，io4文件目录下不能有子目录或文件
+    File file3 = new File("D:\\io\\io1\\io4");
+    file3 = new File("D:\\io\\io1");
+    System.out.println(file3.delete());
+}
+```
 
 ## IO流原理及流的分类
 
