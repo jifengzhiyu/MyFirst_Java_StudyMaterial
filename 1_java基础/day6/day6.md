@@ -319,9 +319,74 @@ public void print(List<?> list){
 
 ![image-20220515204828934](Pic/image-20220515204828934.png)
 
+```java
+/*
+    3.有限制条件的通配符的使用。
+        ? extends A:
+                G<? extends A> 可以作为G<A>和G<B>的父类，其中B是A的子类
+        ? super A:
+                G<? super A> 可以作为G<A>和G<B>的父类，其中B是A的父类
+     */
+    @Test
+    public void test4(){
+        List<? extends Person> list1 = null;
+        List<? super Person> list2 = null;
 
+        List<Student> list3 = new ArrayList<Student>();
+        List<Person> list4 = new ArrayList<Person>();
+        List<Object> list5 = new ArrayList<Object>();
+
+        list1 = list3;
+        list1 = list4;
+//        list1 = list5;
+
+//        list2 = list3;
+        list2 = list4;
+        list2 = list5;
+
+        //读取数据：
+        list1 = list3;
+        Person p = list1.get(0);
+        //编译不通过
+        //Student s = list1.get(0);
+
+        list2 = list4;
+        Object obj = list2.get(0);
+        ////编译不通过
+//        Person obj = list2.get(0);
+
+        //写入数据：
+        //编译不通过
+//        list1.add(new Student());
+
+        //编译通过
+        list2.add(new Person());
+        //多态
+        list2.add(new Student());
+    }
+```
 
 ## 泛型的应用
+
+```java
+public class DAO<T> {
+    private Map<String,T> map = new HashMap<String,T>();
+    
+    //返回 map 中存放的所有 T 对象
+    public List<T> list(){
+        //错误的：
+//        Collection<T> values = map.values();
+//        return (List<T>) values;
+        //正确的：
+        ArrayList<T> list = new ArrayList<>();
+        Collection<T> values = map.values();
+        for(T t : values){
+            list.add(t);
+        }
+        return list;
+    }
+}
+```
 
 ### 比较
 
@@ -372,3 +437,201 @@ TreeSet<Employee> set = new TreeSet<>(new Comparator<Employee>() {
 ### 泛型嵌套
 
 ![image-20220515212255934](Pic/image-20220515212255934.png)
+
+# IO流
+
+## File类
+
+![image-20220517093904711](Pic/image-20220517093904711.png)
+
+```java
+/**
+ * File类的使用
+ *
+ * 1. File类的一个对象，代表一个文件或一个文件目录(俗称：文件夹)
+ * 2. File类声明在java.io包下
+ * 3. File类中涉及到关于文件或文件目录的创建、删除、重命名、修改时间、文件大小等方法，
+ *    并未涉及到写入或读取文件内容的操作。如果需要读取或写入文件内容，必须使用IO流来完成。
+ * 4. 后续File类的对象常会作为参数传递到流的构造器中，指明读取或写入的"终点".
+ */
+```
+
+### 构造器
+
+```java
+/*
+1.如何创建File类的实例
+    File(String filePath)
+    File(String parentPath,String childPath)
+    File(File parentFile,String childPath)
+
+2.
+相对路径：相较于某个路径下，指明的路径。
+绝对路径：包含盘符在内的文件或文件目录的路径
+
+3.路径分隔符
+ windows:\\
+ unix:/
+ */
+```
+
+![image-20220517094144406](Pic/image-20220517094144406.png)
+
+![image-20220517094651587](Pic/image-20220517094651587.png)
+
+```java
+@Test
+public void test1(){
+    //构造器1
+    File file1 = new File("hello.txt");//相对于当前module
+    File file2 =  new File("D:\\workspace_idea1\\JavaSenior\\day08\\he.txt");
+
+    System.out.println(file1);//用相对路径构造，输出相对路径
+    System.out.println(file2);
+
+    //构造器2：
+    File file3 = new File("D:\\workspace_idea1","JavaSenior");
+    System.out.println(file3);
+
+    //构造器3：
+    File file4 = new File(file3,"hi.txt");
+    System.out.println(file4);
+}
+```
+
+### 使用
+
+```java
+/*
+public String getAbsolutePath()：获取绝对路径
+public String getPath() ：获取路径
+public String getName() ：获取名称
+public String getParent()：获取上层文件目录路径。若无，返回null
+public long length() ：获取文件长度（即：字节数）。不能获取目录的长度。
+public long lastModified() ：获取最后一次的修改时间，毫秒值
+
+如下的两个方法适用于文件目录：
+public String[] list() ：获取指定目录下的所有文件或者文件目录的名称数组
+public File[] listFiles() ：获取指定目录下的所有文件或者文件目录的File数组
+     */
+    @Test
+    //还不涉及硬盘，仅在内存中
+    public void test2(){
+        File file1 = new File("hello.txt");
+        File file2 = new File("d:\\io\\hi.txt");
+
+        System.out.println(file1.getAbsolutePath());//用相对路径构造，输出相对路径
+        System.out.println(file1.getPath());//用相对路径构造，输出相对路径
+        System.out.println(file1.getName());//null
+        System.out.println(file1.getParent());
+        System.out.println(file1.length());
+        System.out.println(new Date(file1.lastModified()));
+
+        System.out.println();
+
+        System.out.println(file2.getAbsolutePath());//用绝对路径构造，输出绝对路径
+        System.out.println(file2.getPath());//用绝对路径构造，输出绝对路径
+        System.out.println(file2.getName());//null
+        System.out.println(file2.getParent());
+        System.out.println(file2.length());
+        System.out.println(file2.lastModified());
+    }
+```
+
+```java
+@Test
+public void test3(){
+    File file = new File("/Users/kaixin/Downloads/尚硅谷宋红康Java核心基础_好评如潮（30天入门）/新建文件夹/4_代码/第2部分：Java高级编程/JavaSenior");
+
+    String[] list = file.list();
+    for(String s : list){
+        System.out.println(s);
+    }
+
+    System.out.println();
+
+    File[] files = file.listFiles();
+    for(File f : files){
+        System.out.println(f);
+    }
+```
+
+```java
+/*
+public boolean renameTo(File dest):把文件重命名为指定的文件路径
+ 比如：file1.renameTo(file2)为例：
+    要想保证返回true,需要file1在硬盘中是存在的，且file2不能在硬盘中存在。
+    成功之后file1消失，转移到file2
+ */
+@Test
+public void test4(){
+    File file1 = new File("hello.txt");
+    File file2 = new File("D:\\io\\hi.txt");
+
+    boolean renameTo = file2.renameTo(file1);
+    System.out.println(renameTo);
+}
+```
+
+```java
+/*
+public boolean isDirectory()：判断是否是文件目录
+public boolean isFile() ：判断是否是文件
+public boolean exists() ：判断是否存在
+public boolean canRead() ：判断是否可读
+public boolean canWrite() ：判断是否可写
+public boolean isHidden() ：判断是否隐藏
+     */
+    @Test
+    public void test5(){
+        File file1 = new File("hello.txt");
+        file1 = new File("hello1.txt");
+
+        //先判断存在与否
+        System.out.println(file1.isDirectory());
+        System.out.println(file1.isFile());
+        System.out.println(file1.exists());
+        System.out.println(file1.canRead());
+        System.out.println(file1.canWrite());
+        System.out.println(file1.isHidden());
+
+        System.out.println();
+
+        File file2 = new File("d:\\io");
+        file2 = new File("d:\\io1");
+        System.out.println(file2.isDirectory());
+        System.out.println(file2.isFile());
+        System.out.println(file2.exists());
+        System.out.println(file2.canRead());
+        System.out.println(file2.canWrite());
+        System.out.println(file2.isHidden());
+    }
+```
+
+### 创建
+
+- 在硬盘中创建文件/文件夹
+
+![image-20220517102616374](Pic/image-20220517102616374.png)
+
+
+
+
+
+## IO流原理及流的分类
+
+
+
+## 节点流（文件流）
+
+
+
+## 缓冲流
+
+
+
+## 转换流
+
+
+
+## 标准输入输出流
