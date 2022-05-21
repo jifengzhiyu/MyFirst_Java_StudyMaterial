@@ -983,6 +983,8 @@ public void testFileInputOutputStream()  {
 
 ## 缓冲流
 
+![image-20220520161833398](Pic/image-20220520161833398.png)
+
 ```Java
 /**
  * 处理流之一：缓冲流的使用
@@ -1108,7 +1110,7 @@ public void testFileInputOutputStream()  {
     }
 ```
 
-## 转换流
+## 转换流(编码)
 
 ![image-20220518195646779](Pic/image-20220518195646779.png)
 
@@ -1301,14 +1303,78 @@ public void test2() {
 
 ![image-20220518214516929](Pic/image-20220518214516929.png)
 
+```java
+/*
+3. 数据流
+3.1 DataInputStream 和 DataOutputStream
+3.2 作用：用于读取或写出基本数据类型的变量或字符串
 
+练习：将内存中的字符串、基本数据类型的变量写出到文件中。
+
+注意：处理异常的话，仍然应该使用try-catch-finally.
+ */
+@Test
+public void test3() throws IOException {
+    //1.
+    DataOutputStream dos = new DataOutputStream(new FileOutputStream("data.txt"));
+    //2.
+    dos.writeUTF("刘建辰");
+    dos.flush();//刷新操作，将内存中的数据写入文件
+    dos.writeInt(23);
+    dos.flush();
+    dos.writeBoolean(true);
+    dos.flush();
+    //3.
+    dos.close();
+}
+```
+
+```java
+/*
+将文件中存储的基本数据类型变量和字符串读取到内存中，保存在变量中。
+注意点：读取不同类型的数据的顺序要与当初写入文件时，保存的数据的顺序一致！
+ */
+@Test
+public void test4() throws IOException {
+    //1.
+    DataInputStream dis = new DataInputStream(new FileInputStream("data.txt"));
+    //2.
+    String name = dis.readUTF();
+    int age = dis.readInt();
+    boolean isMale = dis.readBoolean();
+
+    System.out.println("name = " + name);
+    System.out.println("age = " + age);
+    System.out.println("isMale = " + isMale);
+
+    //3.
+    dis.close();
+}
+```
 
 ## 对象流
 
+![image-20220520165722604](Pic/image-20220520165722604.png)
 
+![image-20220520170019498](Pic/image-20220520170019498.png)
+
+![image-20220520175122771](Pic/image-20220520175122771.png)
+
+- 凡事跨进程传输对象需要对象可序列化，但是现在转化成json传输（特殊字符串，字符串本身就可以序列化反序列化）
 
 ## 随机存取文件流
+
+![image-20220520181716560](Pic/image-20220520181716560.png)
+
+![image-20220520182450886](Pic/image-20220520182450886.png)
+
+![image-20220521102743176](Pic/image-20220521102743176.png)
+
+
 
 
 
 ## NlO.2中Path、Paths、Files类的使用
+
+![image-20220521102803858](Pic/image-20220521102803858.png)
+
