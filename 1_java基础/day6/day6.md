@@ -1362,6 +1362,192 @@ public void test4() throws IOException {
 
 - 凡事跨进程传输对象需要对象可序列化，但是现在转化成json传输（特殊字符串，字符串本身就可以序列化反序列化）
 
+```java
+/**
+ * 对象流的使用
+ * 1.ObjectInputStream 和 ObjectOutputStream
+ * 2.作用：用于存储和读取基本数据类型数据或对象的处理流。它的强大之处就是可以把Java中的对象写入到数据源中，也能把对象从数据源中还原回来。
+ *
+ * 3.要想一个java对象是可序列化的，需要满足相应的要求。见Person.java
+ *
+ * 4.序列化机制：
+ * 对象序列化机制允许把内存中的Java对象转换成平台无关的二进制流，从而允许把这种
+ * 二进制流持久地保存在磁盘上，或通过网络将这种二进制流传输到另一个网络节点。
+ * 当其它程序获取了这种二进制流，就可以恢复成原来的Java对象。
+ */
+```
+
+```java
+/**
+ * Person需要满足如下的要求，方可序列化
+ * 1.需要实现接口：Serializable,标识接口，没有抽象方法
+ * 2.当前类提供一个全局常量：serialVersionUID
+ * 3.除了当前Person类需要实现Serializable接口之外，还必须保证其内部所有属性
+ *   也必须是可序列化的。（默认情况下，基本数据类型可序列化）
+ *
+ * 补充：ObjectOutputStream和ObjectInputStream不能序列化static和transient修饰的成员变量
+ */
+public class Person implements Serializable{
+    public static final long serialVersionUID = 475463534532L;
+
+    private String name;
+    private int age;
+    private int id;
+    private Account acct;
+
+    public Person(String name, int age, int id) {
+        this.name = name;
+        this.age = age;
+        this.id = id;
+    }
+
+    public Person(String name, int age, int id, Account acct) {
+        this.name = name;
+        this.age = age;
+        this.id = id;
+        this.acct = acct;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                ", id=" + id +
+                ", acct=" + acct +
+                '}';
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public Person() {
+    }
+}
+
+class Account implements Serializable{
+    public static final long serialVersionUID = 4754534532L;
+    private double balance;
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "balance=" + balance +
+                '}';
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
+    public Account(double balance) {
+        this.balance = balance;
+    }
+}
+```
+
+```java
+/*
+序列化过程：将内存中的java对象保存到磁盘中或通过网络传输出去
+使用ObjectOutputStream实现
+ */
+@Test
+public void testObjectOutputStream(){
+    ObjectOutputStream oos = null;
+    try {
+        //1.
+        oos = new ObjectOutputStream(new FileOutputStream("object.dat"));
+        //2.
+        oos.writeObject(new String("我爱北京天安门"));
+        oos.flush();//刷新写入操作
+
+        oos.writeObject(new Person("王铭",23));
+        oos.flush();
+
+        oos.writeObject(new Person("张学良",23,1001,new Account(5000)));
+        oos.flush();
+
+    } catch (IOException e) {
+        e.printStackTrace();
+    } finally {
+        if(oos != null){
+            //3.
+            try {
+                oos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+```
+
+```java
+/*
+反序列化：将磁盘文件中的对象还原为内存中的一个java对象
+使用ObjectInputStream来实现
+ */
+@Test
+public void testObjectInputStream(){
+    ObjectInputStream ois = null;
+    try {
+        ois = new ObjectInputStream(new FileInputStream("object.dat"));
+
+        Object obj = ois.readObject();
+        String str = (String) obj;
+
+        Person p = (Person) ois.readObject();
+        Person p1 = (Person) ois.readObject();
+
+        System.out.println(str);
+        System.out.println(p);
+        System.out.println(p1);
+    } catch (IOException e) {
+        e.printStackTrace();
+    } catch (ClassNotFoundException e) {
+        e.printStackTrace();
+    } finally {
+        if(ois != null){
+            try {
+                ois.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+```
+
 ## 随机存取文件流
 
 ![image-20220520181716560](Pic/image-20220520181716560.png)
@@ -1370,11 +1556,86 @@ public void test4() throws IOException {
 
 ![image-20220521102743176](Pic/image-20220521102743176.png)
 
+```java
+/**
+ * RandomAccessFile的使用
+ * 1.RandomAccessFile直接继承于java.lang.Object类，实现了DataInput和DataOutput接口
+ * 2.RandomAccessFile既可以作为一个输入流，又可以作为一个输出流（同一个类一个对象来输入，一个对象输出）
+ *
+ * 3.如果RandomAccessFile作为输出流时，写出到的文件如果不存在，则在执行过程中自动创建。
+ *   如果写出到的文件存在，则会对原有文件内容进行覆盖。（默认情况下，从头覆盖,没覆盖玩的地方保持不变）
+ *
+ * 4. 可以通过相关的操作，实现RandomAccessFile“插入”数据的效果
+ */
+```
 
+随机存取文件流暂且看作字节流:raf1.write("xyz".getBytes());
 
+```java
+@Test
+public void test1() {
+    RandomAccessFile raf1 = null;
+    RandomAccessFile raf2 = null;
+    try {
+        //1.
+        raf1 = new RandomAccessFile(new File("爱情与友情.jpg"),"r");
+        raf2 = new RandomAccessFile(new File("爱情与友情1.jpg"),"rw");
+        //2.
+        byte[] buffer = new byte[1024];
+        int len;
+        while((len = raf1.read(buffer)) != -1){
+            raf2.write(buffer,0,len);
+        }
+    } catch (IOException e) {
+        e.printStackTrace();
+    } finally {
+        //3.
+        if(raf1 != null){
+            try {
+                raf1.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if(raf2 != null){
+            try {
+                raf2.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+```
 
+```java
+@Test
+public void test2() throws IOException {
+    RandomAccessFile raf1 = new RandomAccessFile("hello.txt","rw");
+    raf1.seek(3);//将指针调到角标为3的位置
+    raf1.write("xyz".getBytes());//
+    raf1.close();
+}
+```
 
 ## NlO.2中Path、Paths、Files类的使用
 
 ![image-20220521102803858](Pic/image-20220521102803858.png)
+
+![image-20220521102842135](Pic/image-20220521102842135.png)
+
+![image-20220521103103750](Pic/image-20220521103103750.png)
+
+![image-20220521103226876](Pic/image-20220521103226876.png)
+
+![image-20220521103243179](Pic/image-20220521103243179.png)
+
+# 导入三方jar包
+
+![image-20220521103718493](Pic/image-20220521103718493.png)
+
+- 命名lib
+- 粘贴jar包
+
+![image-20220521103904704](Pic/image-20220521103904704.png)
 
