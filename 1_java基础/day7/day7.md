@@ -71,6 +71,9 @@ public static void main(String[] args) {
 
 ![image-20220521172727692](Pic/image-20220521172727692.png)
 
+- TCP:可靠的数据传输（三次握手）：进行大数据量的传输：效率低
+  UDP:不可靠；以数据报形式发送， 数据报限定为64k:效率高
+
 ### TCP网络编程
 
 ![image-20220521172742555](Pic/image-20220521172742555.png)
@@ -296,4 +299,3 @@ public class URLTest1 {
 }
 ```
 
- 

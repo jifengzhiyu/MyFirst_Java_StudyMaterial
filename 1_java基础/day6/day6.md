@@ -1354,6 +1354,13 @@ public void test4() throws IOException {
 
 ## 对象流
 
+- 一个进程的多个线程共享堆，方法区
+
+  进程与进程共享，序列化
+
+- Object0utputStream:内存中的对象-->存储中的文件、通过网络传输出去
+  ObjectInputstream:存储中的文件、通过网络接收过来-->内存中的对象
+
 ![image-20220520165722604](Pic/image-20220520165722604.png)
 
 ![image-20220520170019498](Pic/image-20220520170019498.png)
@@ -1632,6 +1639,8 @@ System.out.println(baos.toString());
 ```
 
 ## NlO.2中Path、Paths、Files类的使用
+
+- IO阻塞，NIO非阻塞(read()结束不了，scanner类比)
 
 ![image-20220521102803858](Pic/image-20220521102803858.png)
 
