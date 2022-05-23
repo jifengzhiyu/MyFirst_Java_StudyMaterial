@@ -71,18 +71,120 @@ public static void main(String[] args) {
 
 ![image-20220521172727692](Pic/image-20220521172727692.png)
 
-## TCP网络编程
+### TCP网络编程
 
 ![image-20220521172742555](Pic/image-20220521172742555.png)
 
 ![image-20220521173520439](Pic/image-20220521173520439.png)
 
 - 客户端(浏览器等)或服务器均可主动发起挥手动作
-- TCP,UDP都是接收端先跑着，再开发送端
+- TCP,UDP都是接收端先跑着，再跑发送端
 
+```java
+/**
+ * 实现TCP的网络编程
+ * 例子1：客户端发送信息给服务端，服务端将数据显示在控制台上
+ * IP 岛
+ * port 港口
+ */
+public class TCPTest1 {
+    //客户端
+    @Test
+    public void client()  {
+        Socket socket = null;
+        OutputStream os = null;
+        try {
+            //1.创建Socket对象，指明服务器端的ip和端口号
+            InetAddress inet = InetAddress.getByName("127.0.0.1");
+            socket = new Socket(inet,8899);
+            //2.获取一个输出流，用于输出数据
+            os = socket.getOutputStream();
+            //3.写出数据的操作
+            os.write("你好，我是客户端mm".getBytes());
+          //关闭数据的输出，阻塞写出要手动关闭
+        	//socket.shutdownOutput();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            //4.资源的关闭
+            if(os != null){
+                try {
+                    os.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if(socket != null){
+                try {
+                    socket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+    //服务端
+    @Test
+    public void server()  {
+        ServerSocket ss = null;
+        Socket socket = null;
+        InputStream is = null;
+        ByteArrayOutputStream baos = null;
+        try {
+            //1.创建服务器端的ServerSocket，指明自己的端口号
+            ss = new ServerSocket(8899);
+            //2.调用accept()表示接收来自于客户端的socket
+            socket = ss.accept();
+            //3.获取输入流
+            is = socket.getInputStream();
+            //4.读取输入流中的数据
+            baos = new ByteArrayOutputStream();
+            byte[] buffer = new byte[5];
+            int len;
+            while((len = is.read(buffer)) != -1){
+                //字节数组输出流在内存中创建一个字节数组缓冲区，所有发送到输出流的数据保存在该字节数组缓冲区中。
+                baos.write(buffer,0,len);
+            }
+            System.out.println(baos.toString());
+            System.out.println("收到了来自于：" + socket.getInetAddress().getHostAddress() + "的数据");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if(baos != null){
+                //5.关闭资源
+                try {
+                    baos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if(is != null){
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if(socket != null){
+                try {
+                    socket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if(ss != null){
+                try {
+                    ss.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+}
+```
 
-
-## UDP网络编程
+### UDP网络编程
 
 ![image-20220523152049935](Pic/image-20220523152049935.png)
 

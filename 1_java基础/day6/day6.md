@@ -1618,6 +1618,19 @@ public void test2() throws IOException {
 }
 ```
 
+## ByteArrayOutputStream
+
+```java
+ByteArrayOutputStream baos = new ByteArrayOutputStream();
+byte[] buffer = new byte[5];
+int len;
+while((len = is.read(buffer)) != -1){
+    //字节数组输出流在内存中创建一个字节数组缓冲区，所有发送到输出流的数据保存在该字节数组缓冲区中。
+    baos.write(buffer,0,len);
+}
+System.out.println(baos.toString());
+```
+
 ## NlO.2中Path、Paths、Files类的使用
 
 ![image-20220521102803858](Pic/image-20220521102803858.png)
