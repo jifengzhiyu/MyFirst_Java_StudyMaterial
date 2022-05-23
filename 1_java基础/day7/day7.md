@@ -188,14 +188,112 @@ public class TCPTest1 {
 
 ![image-20220523152049935](Pic/image-20220523152049935.png)
 
-
+```java
+/**
+ * UDPd协议的网络编程
+ */
+public class UDPTest {
+    //发送端
+    @Test
+    public void sender() throws IOException {
+        DatagramSocket socket = new DatagramSocket();
+        String str = "我是UDP方式发送的导弹";
+        byte[] data = str.getBytes();
+        InetAddress inet = InetAddress.getLocalHost();
+        DatagramPacket packet = new DatagramPacket(data,0,data.length,inet,9090);
+        socket.send(packet);
+        socket.close();
+    }
+    //接收端
+    @Test
+    public void receiver() throws IOException {
+        DatagramSocket socket = new DatagramSocket(9090);
+        byte[] buffer = new byte[100];
+        DatagramPacket packet = new DatagramPacket(buffer,0,buffer.length);
+        socket.receive(packet);
+        System.out.println(new String(packet.getData(),0,packet.getLength()));
+        socket.close();
+    }
+}
+```
 
 ## URL编程
 
 ![image-20220523153203501](Pic/image-20220523153203501.png)
 
+```java
+/**
+ * URL网络编程
+ * 1.URL:统一资源定位符，对应着互联网的某一资源地址
+ * 2.格式：
+ *  http://localhost:8080/examples/beauty.jpg?username=Tom
+ *  协议   主机名    端口号  资源地址           参数列表
+ */
+public class URLTest {
+    public static void main(String[] args) {
+        try {
+            URL url = new URL("http://localhost:8080/examples/beauty.jpg?username=Tom");
+//            public String getProtocol(  )     获取该URL的协议名
+            System.out.println(url.getProtocol());//http
+//            public String getHost(  )           获取该URL的主机名
+            System.out.println(url.getHost());//localhost
+//            public String getPort(  )            获取该URL的端口号
+            System.out.println(url.getPort());//8080
+//            public String getPath(  )           获取该URL的文件路径
+            System.out.println(url.getPath());///examples/beauty.jpg
+//            public String getFile(  )             获取该URL的文件名
+            System.out.println(url.getFile());///examples/beauty.jpg?username=Tom
+//            public String getQuery(   )        获取该URL的查询名
+            System.out.println(url.getQuery());///examples/beauty.jpg?username=Tom
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
 
-
-
+```java
+public class URLTest1 {
+    public static void main(String[] args) {
+        HttpURLConnection urlConnection = null;
+        InputStream is = null;
+        FileOutputStream fos = null;
+        try {
+            URL url = new URL("http://localhost:8080/examples/beauty.jpg");
+            urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.connect();
+            is = urlConnection.getInputStream();
+            fos = new FileOutputStream("day10\\beauty3.jpg");
+            byte[] buffer = new byte[1024];
+            int len;
+            while((len = is.read(buffer)) != -1){
+                fos.write(buffer,0,len);
+            }
+            System.out.println("下载完成");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            //关闭资源
+            if(is != null){
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if(fos != null){
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if(urlConnection != null){
+                urlConnection.disconnect();
+            }
+        }
+    }
+}
+```
 
  
