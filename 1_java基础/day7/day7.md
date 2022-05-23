@@ -6,6 +6,8 @@
 
 ![image-20220521162405376](Pic/image-20220521162405376.png)
 
+
+
 ```java
 /**
  * 一、网络编程中有两个主要的问题：
@@ -22,6 +24,8 @@
  * 3. IP分类：IPv4 和 IPv6 ; 万维网 和 局域网
  * 4. 域名 (来访问ip):   www.baidu.com   www.mi.com  www.sina.com  www.jd.com
  *            www.vip.com
+ 域名解析：域名容易记忆，当在连接网络时输入一个主机的域名后，域名服务器(DNS)负责将域名转化成IP地址，这样才能
+主机建立连接。域名解析
  * 5. 本地回路地址：127.0.0.1 对应着：localhost
  * 6. 如何实例化InetAddress:两个方法：getByName(String host) 、 getLocalHost()
  *        两个常用方法：getHostName() / getHostAddress()
@@ -299,3 +303,20 @@ public class URLTest1 {
 }
 ```
 
+# 反射机制
+
+![image-20220523225018332](Pic/image-20220523225018332.png)
+
+## 
+
+## 理解Class类并获取Class实例
+
+## 类的加载与ClassLoader的理解
+
+## 创建运行时类的对象
+
+## 获取运行时类的完整结构
+
+## 调用运行时类的指定结构
+
+## 反射的应用:动态代理
