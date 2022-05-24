@@ -305,13 +305,189 @@ public class URLTest1 {
 
 # 反射机制
 
+- 主要是框架用
+
+- 体验：可以使用反射机制调用私有构造器，属性，方法
+
+```java
+public class Person {
+    private String name;
+    public int age;
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                '}';
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    private Person(String name) {
+        this.name = name;
+    }
+
+    public Person() {
+        System.out.println("Person()");
+    }
+
+    public void show(){
+        System.out.println("你好，我是一个人");
+    }
+
+    private String showNation(String nation){
+        System.out.println("我的国籍是：" + nation);
+        return nation;
+    }
+}
+```
+
+```java
+@Test
+public void test2() throws Exception{
+    Class clazz = Person.class;
+    //1.通过反射，创建Person类的对象
+    Constructor cons = clazz.getConstructor(String.class,int.class);
+    Object obj = cons.newInstance("Tom", 12);
+    Person p = (Person) obj;
+    System.out.println(p.toString());//Person{name='Tom', age=12}
+    //2.通过反射，调用对象指定的属性、方法
+    //调用属性
+    Field age = clazz.getDeclaredField("age");
+    age.set(p,10);
+    System.out.println(p.toString());//Person{name='Tom', age=10}
+    //调用方法
+    Method show = clazz.getDeclaredMethod("show");
+    show.invoke(p);//你好，我是一个人
+
+    System.out.println("*******************************");
+
+    //通过反射，可以调用Person类的私有结构的。比如：私有的构造器、方法、属性
+    //调用私有的构造器
+    Constructor cons1 = clazz.getDeclaredConstructor(String.class);
+    cons1.setAccessible(true);//访问私有
+    Person p1 = (Person) cons1.newInstance("Jerry");
+    System.out.println(p1);
+
+    //调用私有的属性
+    Field name = clazz.getDeclaredField("name");
+    name.setAccessible(true);//访问私有
+    name.set(p1,"HanMeimei");
+    System.out.println(p1);
+
+    //调用私有的方法
+    Method showNation = clazz.getDeclaredMethod("showNation", String.class);
+    showNation.setAccessible(true);//访问私有
+    //相当于String nation = p1.showNation("中国")
+    String nation = (String) showNation.invoke(p1,"中国");
+    System.out.println(nation);
+}
+```
+
+```java
+疑问1：通过直接new的方式或反射的方式都可以调用公共的结构，开发中到底用那个？
+建议：直接new的方式。
+什么时候会使用：反射的方式。 反射的特征：动态性
+疑问2：反射机制与面向对象中的封装性是不是矛盾的？如何看待两个技术？
+不矛盾。反射机制偏向能否使用，面向对象中的封装性偏向建议使用不
+```
+
+## 理解Class类并获取Class实例
+
 ![image-20220523225018332](Pic/image-20220523225018332.png)
 
-## ![image-20220523225051774](Pic/image-20220523225051774.png)
+![image-20220523225051774](Pic/image-20220523225051774.png)
 
 ![image-20220523225723043](Pic/image-20220523225723043.png)
 
 ![image-20220524145826424](Pic/image-20220524145826424.png)
+
+```java
+//Class实例可以是哪些结构的说明：
+    @Test
+    public void test4(){
+        Class c1 = Object.class;
+        Class c2 = Comparable.class;
+        Class c3 = String[].class;
+        Class c4 = int[][].class;
+        Class c5 = ElementType.class;
+        Class c6 = Override.class;
+        Class c7 = int.class;
+        Class c8 = void.class;
+        Class c9 = Class.class;
+
+        int[] a = new int[10];
+        int[] b = new int[100];
+        Class c10 = a.getClass();
+        Class c11 = b.getClass();
+        // 只要数组的元素类型与维度一样，就是同一个Class
+        System.out.println(c10 == c11);//true
+    }
+}
+```
+
+```java
+/*
+关于java.lang.Class类的理解
+1.类的加载过程：
+程序经过javac.exe命令以后，会生成一个或多个字节码文件(.class结尾)。
+接着我们使用java.exe命令对某个字节码文件进行解释运行。相当于将某个字节码文件
+加载到内存中。此过程就称为类的加载。加载到内存中的类，我们就称为运行时类，此
+运行时类，就作为Class的一个实例。
+
+2.换句话说，Class的实例就对应着一个运行时类。
+3.加载到内存中的运行时类，会缓存一定的时间。在此时间之内，我们可以通过不同的方式
+来获取此运行时类。
+ */
+```
+
+```java
+//获取Class的实例的方式（前三种方式需要掌握）
+@Test
+public void test3() throws ClassNotFoundException {
+    //方式一：调用运行时类的属性：.class
+    Class clazz1 = Person.class;
+    System.out.println(clazz1);//class com.atguigu.java.Person
+    //方式二：通过运行时类的对象,调用getClass()
+    Person p1 = new Person();
+    Class clazz2 = p1.getClass();
+    System.out.println(clazz2);//class com.atguigu.java.Person
+    //方式三：调用Class的静态方法：forName(String classPath)
+    Class clazz3 = Class.forName("com.atguigu.java.Person");
+    System.out.println(clazz3);//class com.atguigu.java.Person
+
+    System.out.println(clazz1 == clazz2);//true 地址值相同，同一个实例类
+    System.out.println(clazz1 == clazz3);//true
+
+    //方式四：使用类的加载器：ClassLoader  (了解)
+    ClassLoader classLoader = ReflectionTest.class.getClassLoader();
+    Class clazz4 = classLoader.loadClass("com.atguigu.java.Person");
+    System.out.println(clazz4);
+    System.out.println(clazz1 == clazz4);//true
+}
+```
+
+## 类的加载与ClassLoader的理解
 
 ![image-20220524150630908](Pic/image-20220524150630908.png)
 
@@ -323,19 +499,86 @@ public class URLTest1 {
 
 ![image-20220524152037677](Pic/image-20220524152037677.png)
 
+```java
+@Test
+public void test1(){
+    //对于自定义类，使用系统类加载器进行加载
+    ClassLoader classLoader = ClassLoaderTest.class.getClassLoader();
+    System.out.println(classLoader);
+    //jdk.internal.loader.ClassLoaders$AppClassLoader@14899482
+    //调用系统类加载器的getParent()：获取扩展类加载器
+    ClassLoader classLoader1 = classLoader.getParent();
+    System.out.println(classLoader1);
+    //jdk.internal.loader.ClassLoaders$PlatformClassLoader@32eebfca
+    //调用扩展类加载器的getParent()：无法获取引导类加载器
+    //引导类加载器主要负责加载java的核心类库，无法加载自定义类的。
+    ClassLoader classLoader2 = classLoader1.getParent();
+    System.out.println(classLoader2);//null
 
+    ClassLoader classLoader3 = String.class.getClassLoader();
+    System.out.println(classLoader3);//null
+}
+```
 
-## 理解Class类并获取Class实例
+### 读取配置文件
 
-## 类的加载与ClassLoader的理解
+```
+//jdbc.properties文件
+user=吴飞
+password=abc123
+```
+
+```java
+public class ClassLoaderTest {
+//    Properties：用来读取配置文件。
+    @Test
+    public void test2() throws Exception {
+        Properties pros =  new Properties();
+        //此时的文件默认在当前的module下。
+        //读取配置文件的方式一：
+//        FileInputStream fis = new FileInputStream("jdbc.properties");
+        //不在module在src时
+//        FileInputStream fis = new FileInputStream("src\\jdbc1.properties");
+//        pros.load(fis);
+
+        //读取配置文件的方式二：使用ClassLoader
+        //配置文件默认识别为：当前module的src下(推荐放在src下)
+        ClassLoader classLoader = ClassLoaderTest.class.getClassLoader();
+        InputStream is = classLoader.getResourceAsStream("jdbc1.properties");
+        pros.load(is);
+        String user = pros.getProperty("user");
+        String password = pros.getProperty("password");
+        System.out.println("user = " + user + ",password = " + password);
+    }
+}
+```
 
 ## 创建运行时类的对象
 
+```java
+@Test
+public void test1() throws IllegalAccessException, InstantiationException {
+    Class<Person> clazz = Person.class;
+    /*
+    newInstance():调用此方法，创建对应的运行时类的对象。内部调用了运行时类的空参的构造器。
 
+    要想此方法正常的创建运行时类的对象，要求：
+    1.运行时类必须提供空参的构造器
+    2.空参的构造器的访问权限得够。通常，设置为public。
 
-
+    在javabean中要求提供一个public的空参构造器。原因：
+    1.便于通过反射，创建运行时类的对象
+    2.便于子类继承此运行时类时，默认调用super()时，保证父类有此构造器
+     */
+    Person obj = clazz.newInstance();//指定泛型，返回值就是指定的泛型
+    //反射造对象通常先造一个空参对象，之后按需再给参数赋值
+    System.out.println(obj);
+}
+```
 
 ## 获取运行时类的完整结构
+
+
 
 ## 调用运行时类的指定结构
 
