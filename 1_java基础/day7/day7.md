@@ -927,6 +927,18 @@ public void testConstructor() throws Exception {
 
 ## 函数式(Functional)接口
 
+![image-20220526200257116](Pic/image-20220526200257116.png)
+
+![image-20220526200600956](Pic/image-20220526200600956.png)
+
+![image-20220526200755567](Pic/image-20220526200755567.png)
+
+- 在java.util.function包下定义了Java8的丰富的函数式接口
+
+![image-20220526202831982](Pic/image-20220526202831982.png)
+
+
+
 ## 方法引用与构造器引用
 
 ## 强大的Stream API
