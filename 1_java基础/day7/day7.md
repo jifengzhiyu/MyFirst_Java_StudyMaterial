@@ -907,5 +907,28 @@ public void testConstructor() throws Exception {
 
 ## 反射的应用:动态代理
 
+- 总结：创建类的对象的方式？
+  方式一：new+构造器
+  方式二：要创建Xxx类的对象，可以考虑：Xxx、Xxxs、XxxFactory、XxxBuilder类中查看是否有
+  静态方法的存在。可以调用其静态方法，创建XXX对象。
+  方式三：通过反射
+
+![image-20220526155231500](Pic/image-20220526155231500.png)
+
+# Java8新特性
+
+新出Java版本新特性不要急着学，看看时间的检验（可能下一个版本就删去了）
+
+![image-20220526171211244](Pic/image-20220526171211244.png)
 
 
+
+## Lambda表达式
+
+## 函数式(Functional)接口
+
+## 方法引用与构造器引用
+
+## 强大的Stream API
+
+## Optional类
