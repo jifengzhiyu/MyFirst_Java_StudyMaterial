@@ -941,6 +941,35 @@ public void testConstructor() throws Exception {
 
 ## 方法引用与构造器引用
 
+![image-20220526221237054](Pic/image-20220526221237054.png)
+
+
+
+
+
 ## 强大的Stream API
 
+![image-20220527152544587](Pic/image-20220527152544587.png)
+
+![image-20220527153938550](Pic/image-20220527153938550.png)
+
+![image-20220527154033571](Pic/image-20220527154033571.png)
+
+![image-20220527154507334](Pic/image-20220527154507334.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Optional类
+
+![image-20220527184752218](Pic/image-20220527184752218.png)
+
