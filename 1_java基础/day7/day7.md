@@ -915,13 +915,140 @@ public void testConstructor() throws Exception {
 
 ![image-20220526155231500](Pic/image-20220526155231500.png)
 
+### 静态代理举例
+
+```java
+/**
+ * 静态代理举例
+ *
+ * 特点：代理类和被代理类在编译期间，就确定下来了。
+ */
+interface ClothFactory{
+    void produceCloth();
+}
+//代理类
+class ProxyClothFactory implements ClothFactory{
+    private ClothFactory factory;//用被代理类对象进行实例化
+    public ProxyClothFactory(ClothFactory factory){
+        this.factory = factory;
+    }
+    @Override
+    public void produceCloth() {
+        System.out.println("代理工厂做一些准备工作");
+        factory.produceCloth();
+        System.out.println("代理工厂做一些后续的收尾工作");
+    }
+}
+//被代理类
+class NikeClothFactory implements ClothFactory{
+    @Override
+    public void produceCloth() {
+        System.out.println("Nike工厂生产一批运动服");
+    }
+}
+public class StaticProxyTest {
+    public static void main(String[] args) {
+        //创建被代理类的对象
+        ClothFactory nike = new NikeClothFactory();
+        //创建代理类的对象
+        ClothFactory proxyClothFactory = new ProxyClothFactory(nike);
+        proxyClothFactory.produceCloth();
+    }
+}
+```
+
+### 动态代理的举例
+
+```java
+interface Human{
+    String getBelief();
+    void eat(String food);
+}
+
+//被代理类
+class SuperMan implements Human{
+    @Override
+    public String getBelief() {
+        return "I believe I can fly!";
+    }
+    @Override
+    public void eat(String food) {
+        System.out.println("我喜欢吃" + food);
+    }
+}
+
+class HumanUtil{
+    public void method1(){
+        System.out.println("====================通用方法一====================");
+    }
+    public void method2(){
+        System.out.println("====================通用方法二====================");
+    }
+}
+
+/*
+要想实现动态代理，需要解决的问题？
+问题一：如何根据加载到内存中的被代理类，动态的创建一个代理类及其对象。
+问题二：当通过代理类的对象调用方法a时，如何动态的去调用被代理类中的同名方法a。
+ */
+class ProxyFactory{
+    //调用此方法，返回一个代理类的对象。解决问题一
+    public static Object getProxyInstance(Object obj){//obj:被代理类的对象
+        MyInvocationHandler handler = new MyInvocationHandler();
+        handler.bind(obj);
+        return Proxy.newProxyInstance(obj.getClass().getClassLoader(),obj.getClass().getInterfaces(),handler);
+    }
+}
+
+class MyInvocationHandler implements InvocationHandler{
+    private Object obj;//需要使用被代理类的对象进行赋值
+
+    public void bind(Object obj){
+        this.obj = obj;
+    }
+
+    //当我们通过代理类的对象，调用方法a时，就会自动的调用如下的方法：invoke()
+    //将被代理类要执行的方法a的功能就声明在invoke()中
+    @Override
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        HumanUtil util = new HumanUtil();
+        util.method1();
+
+        //method:即为代理类对象调用的方法，此方法也就作为了被代理类对象要调用的方法
+        //obj:被代理类的对象
+        Object returnValue = method.invoke(obj,args);
+
+        util.method2();
+
+        //上述方法的返回值就作为当前类中的invoke()的返回值。
+        return returnValue;
+    }
+}
+
+public class ProxyTest {
+    public static void main(String[] args) {
+        SuperMan superMan = new SuperMan();
+        //proxyInstance:代理类的对象
+        Human proxyInstance = (Human) ProxyFactory.getProxyInstance(superMan);
+        //当通过代理类对象调用方法时，会自动的调用被代理类中同名的方法
+        String belief = proxyInstance.getBelief();
+        System.out.println(belief);
+        proxyInstance.eat("四川麻辣烫");
+
+        System.out.println("*****************************");
+
+        NikeClothFactory nikeClothFactory = new NikeClothFactory();
+        ClothFactory proxyClothFactory = (ClothFactory) ProxyFactory.getProxyInstance(nikeClothFactory);
+        proxyClothFactory.produceCloth();
+    }
+}
+```
+
 # Java8新特性
 
 新出Java版本新特性不要急着学，看看时间的检验（可能下一个版本就删去了）
 
 ![image-20220526171211244](Pic/image-20220526171211244.png)
-
-
 
 ## Lambda表达式
 
@@ -931,19 +1058,290 @@ public void testConstructor() throws Exception {
 
 ![image-20220526200600956](Pic/image-20220526200600956.png)
 
+```java
+/**
+ * Lambda表达式的使用
+ *
+ * 1.举例： (o1,o2) -> Integer.compare(o1,o2);
+ * 2.格式：
+ *      -> :lambda操作符 或 箭头操作符
+ *      ->左边：lambda形参列表 （其实就是接口中的抽象方法的形参列表）
+ *      ->右边：lambda体 （其实就是重写的抽象方法的方法体）
+ *
+ * 3. Lambda表达式的使用：（分为6种情况介绍）
+ *    总结：
+ *    ->左边：lambda形参列表的参数类型可以省略(类型推断)；如果lambda形参列表只有一个参数，其一对()也可以省略
+ *    ->右边：lambda体应该使用一对{}包裹；如果lambda体只有一条执行语句（可能是return语句），省略这一对{}和return关键字
+ *
+ * 4.Lambda表达式的本质：作为函数式接口的实例
+ *
+ * 5. 如果一个接口中，只声明了一个抽象方法，则此接口就称为函数式接口。我们可以在一个接口上使用 @FunctionalInterface 注解，
+ *   这样做可以检查它是否是一个函数式接口。
+ *
+ * 6. 所以以前用匿名实现类表示的现在都可以用Lambda表达式来写。
+ */
+```
+
+```java
+public class LambdaTest1 {
+    //语法格式一：无参，无返回值
+    @Test
+    public void test1(){
+        Runnable r1 = new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("我爱北京天安门");
+            }
+        };
+        r1.run();
+        System.out.println("***********************");
+        Runnable r2 = () -> {
+            System.out.println("我爱北京故宫");
+        };
+        r2.run();
+    }
+
+    //语法格式三：数据类型可以省略，因为可由编译器推断得出，称为“类型推断”
+    //语法格式四：Lambda 若只需要一个参数时，参数的小括号可以省略
+    @Test
+    public void test3(){
+        Consumer<String> con = new Consumer<String>() {
+            @Override
+            public void accept(String s) {
+                System.out.println(s);
+            }
+        };
+        con.accept("谎言和誓言的区别是什么？");
+        System.out.println("*******************");
+        Consumer<String> con2 = s -> {
+            System.out.println(s);
+        };
+        con2.accept("一个是听得人当真了，一个是说的人当真了");
+    }
+
+    //语法格式五：Lambda 需要两个或以上的参数，多条执行语句，并且可以有返回值
+    @Test
+    public void test6(){
+        Comparator<Integer> com1 = new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                System.out.println(o1);
+                System.out.println(o2);
+                return o1.compareTo(o2);
+            }
+        };
+        System.out.println(com1.compare(12,21));
+        System.out.println("*****************************");
+        Comparator<Integer> com2 = (o1,o2) -> {
+            System.out.println(o1);
+            System.out.println(o2);
+            return o1.compareTo(o2);
+        };
+        System.out.println(com2.compare(12,6));
+    }
+
+    //语法格式六：当 Lambda 体只有一条语句时，return 与大括号若有，都可以省略
+    @Test
+    public void test7(){
+        Comparator<Integer> com1 = (o1,o2) -> {
+            return o1.compareTo(o2);
+        };
+        System.out.println(com1.compare(12,6));
+        System.out.println("*****************************");
+        Comparator<Integer> com2 = (o1,o2) -> o1.compareTo(o2);
+        System.out.println(com2.compare(12,21));
+    }
+}
+```
+
+### java内置的4大核心函数式接口
+
 ![image-20220526200755567](Pic/image-20220526200755567.png)
 
-- 在java.util.function包下定义了Java8的丰富的函数式接口
+```java
+public class LambdaTest2 {
+    @Test
+    public void test1(){
+        happyTime(500, new Consumer<Double>() {
+            @Override
+            public void accept(Double aDouble) {
+                System.out.println("学习太累了，去天上人间买了瓶矿泉水，价格为：" + aDouble);
+            }
+        });
+        System.out.println("********************");
+        happyTime(400,money -> System.out.println("学习太累了，去天上人间喝了口水，价格为：" + money));
+    }
+
+    public void happyTime(double money, Consumer<Double> con){
+        con.accept(money);
+    }
+    
+    @Test
+    public void test2(){
+        List<String> list = Arrays.asList("北京","南京","天津","东京","西京","普京");
+        List<String> filterStrs = filterString(list, new Predicate<String>() {
+            @Override
+            public boolean test(String s) {
+                return s.contains("京");
+            }
+        });
+        System.out.println(filterStrs);
+        List<String> filterStrs1 = filterString(list,s -> s.contains("京"));
+        System.out.println(filterStrs1);
+    }
+
+    //根据给定的规则，过滤集合中的字符串。此规则由Predicate的方法决定
+    public List<String> filterString(List<String> list, Predicate<String> pre){
+        ArrayList<String> filterList = new ArrayList<>();
+        for(String s : list){
+            if(pre.test(s)){
+                filterList.add(s);
+            }
+        }
+        return filterList;
+    }
+}
+```
 
 ![image-20220526202831982](Pic/image-20220526202831982.png)
 
-
-
 ## 方法引用与构造器引用
+
+### 方法引用
 
 ![image-20220526221237054](Pic/image-20220526221237054.png)
 
+```java
+/**
+ * 方法引用的使用
+ *
+ * 1.使用情境：当要传递给Lambda体的操作，已经有实现的方法了，可以使用方法引用！
+ *
+ * 2.方法引用，本质上就是Lambda表达式，而Lambda表达式作为函数式接口的实例。所以
+ *   方法引用，也是函数式接口的实例。
+ *
+ * 3. 使用格式：  类(或对象) :: 方法名
+ *
+ * 4. 具体分为如下的三种情况：
+ *    情况1     对象 :: 非静态方法
+ *    情况2     类 :: 静态方法
+ *
+ *    情况3     类 :: 非静态方法
+ *
+ * 5. 方法引用使用的要求：要求接口中的抽象方法的形参列表和返回值类型与方法引用的方法的
+ *    形参列表和返回值类型相同！（针对于情况1和情况2）
+ *
+ *    情况三 第一个参数作为下面方法的调用者
+ */
+```
 
+```java
+public class MethodRefTest {
+   // 情况一：对象 :: 实例方法
+   //Consumer中的void accept(T t)
+   //PrintStream中的void println(T t)
+   @Test
+   public void test1() {
+      Consumer<String> con1 = str -> System.out.println(str);
+      con1.accept("北京");
+
+      System.out.println("*******************");
+      PrintStream ps = System.out;
+      Consumer<String> con2 = ps::println;
+      con2.accept("beijing");
+   }
+   
+   //Supplier中的T get()
+   //Employee中的String getName()
+   @Test
+   public void test2() {
+      Employee emp = new Employee(1001,"Tom",23,5600);
+      Supplier<String> sup1 = () -> emp.getName();
+      System.out.println(sup1.get());
+
+      System.out.println("*******************");
+      Supplier<String> sup2 = emp::getName;
+      System.out.println(sup2.get());
+   }
+
+   // 情况二：类 :: 静态方法
+   //Comparator中的int compare(T t1,T t2)
+   //Integer中的int compare(T t1,T t2)
+   @Test
+   public void test3() {
+      Comparator<Integer> com1 = (t1,t2) -> Integer.compare(t1,t2);
+      System.out.println(com1.compare(12,21));
+      System.out.println("*******************");
+
+      Comparator<Integer> com2 = Integer::compare;
+      System.out.println(com2.compare(12,3));
+   }
+   
+   //Function中的R apply(T t)
+   //Math中的Long round(Double d)
+   @Test
+   public void test4() {
+      Function<Double,Long> func = new Function<Double, Long>() {
+         @Override
+         public Long apply(Double d) {
+            return Math.round(d);
+         }
+      };
+      System.out.println("*******************");
+
+      Function<Double,Long> func1 = d -> Math.round(d);
+      System.out.println(func1.apply(12.3));
+
+      System.out.println("*******************");
+
+      Function<Double,Long> func2 = Math::round;
+      System.out.println(func2.apply(12.6));
+   }
+
+   // 情况三：类 :: 实例方法  (有难度)
+   // Comparator中的int comapre(T t1,T t2)
+   // String中的int t1.compareTo(t2)
+   @Test
+   public void test5() {
+      Comparator<String> com1 = (s1,s2) -> s1.compareTo(s2);
+      System.out.println(com1.compare("abc","abd"));
+
+      System.out.println("*******************");
+
+      Comparator<String> com2 = String :: compareTo;
+      System.out.println(com2.compare("abd","abm"));
+   }
+
+   //BiPredicate中的boolean test(T t1, T t2);
+   //String中的boolean t1.equals(t2)
+   @Test
+   public void test6() {
+      BiPredicate<String,String> pre1 = (s1,s2) -> s1.equals(s2);
+      System.out.println(pre1.test("abc","abc"));
+
+      System.out.println("*******************");
+      BiPredicate<String,String> pre2 = String :: equals;
+      System.out.println(pre2.test("abc","abd"));
+   }
+   
+   // Function中的R apply(T t)
+   // Employee中的String getName();
+   @Test
+   public void test7() {
+      Employee employee = new Employee(1001, "Jerry", 23, 6000);
+      
+      Function<Employee,String> func1 = e -> e.getName();
+      System.out.println(func1.apply(employee));
+
+      System.out.println("*******************");
+
+      Function<Employee,String> func2 = Employee::getName;
+      System.out.println(func2.apply(employee));
+   }
+}
+```
+
+### 构造器引用
 
 
 
@@ -972,4 +1370,6 @@ public void testConstructor() throws Exception {
 ## Optional类
 
 ![image-20220527184752218](Pic/image-20220527184752218.png)
+
+![image-20220528112945315](Pic/image-20220528112945315.png)
 
