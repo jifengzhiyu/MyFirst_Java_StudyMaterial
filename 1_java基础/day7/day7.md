@@ -1052,6 +1052,11 @@ public class ProxyTest {
 
 ## Lambda表达式
 
+3.1何时使用lambda表达式？
+当需要对一个函数式接口实例化的时候，可以使用lambda表达式。
+3.2何时使用给定的函数式接口？
+如果我们开发中需要定义一个函数式接口，首先看看在已有的jdk提供的函数式接口是否提供了能满足需求的函数式接口。如果有，则直接调用即可，不需要自己再自定义了。
+
 ## 函数式(Functional)接口
 
 ![image-20220526200257116](Pic/image-20220526200257116.png)
@@ -1232,6 +1237,7 @@ public class LambdaTest2 {
  *    形参列表和返回值类型相同！（针对于情况1和情况2）
  *
  *    情况三 第一个参数作为下面方法的调用者
+ >当函歌式接口方法的第一个参数是需要引用方法的调用者，并且第二个参数是需要引用方法的参数（或无参数）时：ClassName::methodName
  */
 ```
 
@@ -1695,6 +1701,10 @@ public class StreamAPITest {
 
 ![image-20220529163504314](Pic/image-20220529163504314.png)
 
+![image-20220529220139683](Pic/image-20220529220139683.png)
+
+Collector需要使用collectors提供实例。
+
 ```java
 //3-收集
     @Test
@@ -1793,3 +1803,4 @@ public void test5(){
     System.out.println(girlName);
 }
 ```
+
