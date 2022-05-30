@@ -951,7 +951,7 @@ public class ListExer {
   栈底层是Vector，先进后出
 ```
 
-## Collection-子接口二：Set
+## Collection子接口二：Set
 
 - Set下面这些实现类的底层就是Map实现类
   - HashSet --- HashMap

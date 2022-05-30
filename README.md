@@ -1,8 +1,256 @@
 # MyFirst_Java_StudyMaterial
-目标Java后端
+## Java基础
 
-学习路线
+![image-20220326222510587](Pic/image-20220326222510587.png)
 
-![image-20220326222510587](%E8%B7%AF%E7%BA%BF/%E8%B7%AF%E7%BA%BF%E5%9B%BE%E7%89%87/image-20220326222510587.png)
+### day1
 
-- 1
+- 文件与编译
+- 文档注释
+- 打印
+- 标识符(ldentifier)
+- 名称命名规范
+- Java强类型语言
+- 基本数据类型
+- 常量
+- String变量
+- 进制
+- 运算符
+- Scanner类
+- 流程控制
+- 随机数
+- 引用数据类型(数组)
+
+### day2
+
+- 面向过程(POP)与面向对象(OOP)
+- 对象的内存解析
+- 属性（成员变量）VS局部变量
+- 类中方法的声明和使用
+- 方法的重载(overload)
+- 可变个数形参
+- 变量的赋值
+- 递归
+- 面向对象特征之一：封装和隐藏
+   - getter&setter
+   - 四种访问权限修饰符（可见性）
+- 构造器
+- 属性赋值的先后顺序
+- JavaBean
+- UML类图
+- 关键字：this的使用
+- package:关键字
+- import关键字
+- MVC介绍
+- 客户信息管理项目
+- 面向对象特征之二：继承性
+- 方法的重写(override)
+- super关键字
+- 子类对象实例化的全过程
+- 面向对象特征之三：多态性
+  - 强制类型转换
+    - instancetype
+- Object类
+  - ==和equals()区别
+  - toString()
+- 单元测试JUnit
+- 包装类
+
+### day3
+
+- 关键字：static
+  - 单例（设计模式）
+- Main方法
+- 代码块
+- 关键字：final
+- 抽象类与抽象方法
+  - 抽象类的匿名子类
+  - 模版方法设计模式
+- 接口
+  - 面向接口编程
+  - 接口的匿名实现类
+  - 代理模式
+  - 工厂模式
+  - Java8接口新特性
+- 内部类
+- 异常处理
+  - 常见异常
+  - try-catch-finally
+  - finally
+  - throws
+  - 手动抛出异常&自定义异常类
+
+### day4
+
+- IDEA&Eclipse
+- 进线程
+  - 创建thread(继承法)
+  - thread相关方法
+  - 创建thread(Runnable接口法)
+  - 线程的生命周期
+  - 同步机制（同步锁)
+    - 同步代码块
+    - 同步方法
+  - 改进懒汉式单例模式
+  - 线程的死锁
+  - Lock
+  - 线程通信
+  - 创建thread(Callable接口)
+  - 创建thread(线程池法)
+    - Runnablef使用
+    - Callable使用
+- String
+  - 内存
+  - 与其他结构之间的转换
+  - 与基本数据类型、包装类
+  - 与char[]
+  - 与byte[]
+- String、 StringBuffer、StringBuilder
+  - 异同&创建
+  - StringBuffer和StringBuilder的使用
+  - String算法
+    - 字符串指定反转
+    - 统计出现次数
+    - 最大相同子串
+  - 日期时间
+    - System.currentTimeMillis()
+    - java.util.Date
+    - SimpleDateFormat
+    - Calendar
+    - Java8 java.timeAPl
+      - LocalDateTime.系列：重要
+      - Instant
+      - DateTimeFormatter
+    - 对象的排序
+      - 自然排序Comparable
+      - 定制排序Comparator
+- System类
+- Math类
+- BigInteger&BigDecimal
+
+### day5
+
+- 枚举类
+  - 自定义枚举类
+  - enum
+- Annotation注解
+  - 自定义Annotation
+  - 元注解
+  - 利用反射获取注解信息
+  - 可重复注解
+  - 类型注解
+- 集合框架
+  - Collection接口
+  - Iterator迭代器接口
+    - 遍历输出集合
+    - remove()
+    - foreach增强for循环
+  - Collection子接口一：List
+    - ArrayList(代替数组)
+    - LinkedList
+    - Vector((不太用)
+  - Collection子接口二：Set
+    - HashSet
+    - LinkedHashSet
+    - TreeSet
+  - Map接口
+    - HashMap
+      - LinkedHashMap
+    - TreeMap
+    - Hashtable
+      - Properties
+    - Collections工具类
+- 数据结构
+
+### day6
+
+- 泛型
+  - 在集合中使用泛型
+  - 自定义泛型结构
+    - 自定义泛型类，泛型方法
+  - 泛型与异常
+  - 泛型在继承上的表现
+  - 通配符的使用
+    - 一般使用
+    - 有限制的通配符
+  - 泛型的应用
+    - 比较
+    - 泛型嵌套
+- lO流
+  - File类
+    - 构造器
+    - 使用
+    - 创建删除
+  - IO流原理及流的分类
+  - 节点流（文件流）
+    - FileReader
+    - FileWriter
+    - 二合一
+    - FilelnputStream
+    - FilelnputOutputStream
+  - 缓冲流
+    - BufferedInputOutputStream
+    - BufferedReaderWriter
+  - 转换流（编码）
+    - InputStreamReader
+    - InputStreamReaderWriter
+  - 标准输入输出流
+  - 打印流
+  - 数据流
+  - 对象流
+  - 随机存取文件流
+  - ByteArrayOutputStream
+  - NIO.2中Path、Paths、Files类的使用
+- 导入三方jar包
+
+### day7
+
+- 网络编程
+  - 网络通信要素概述
+  - 通信要素1：IP和端口号
+  - 通信要素2：网络协议
+    - TCP网络编程
+    - UDP网络编程
+  - URL编程
+- 反射机制
+  - 理解Class类并获取Class实例
+  - 类的加载与ClassLoader的理解
+    - 读取配置文件
+  - 创建运行时类的对象
+  - 获取运行时类的完整结构
+    - 属性结构
+    - 权限修饰符 数据类型 变量名
+    - 方法结构
+    - 构造器结构
+    - 运行时类的父类
+    - 运行时类的带泛型的父类
+    - 运行时类的带泛型的父类的泛型
+    - 运行时类实现的接口
+    - 运行时类所在的包
+    - 运行时类声明的注解
+  - 调用运行时类的指定结构
+    - 属性
+    - 方法
+    - 构造器
+  - 反射的应用：动态代理
+    - 静态代理举例
+    - 动态代理的举例
+- Java8新特性
+  - Lambda表达式
+  - 函数式(Functional)接口
+    - java内置的4大核心函数式接口
+  - 方法引用与构造器引用
+    - 方法引用
+    - 构造器引用
+    - 数组引用
+  - 强大的Stream API
+    - Stream实例化
+    - Stream的中间操作
+      - 筛选与切片
+      - 映射
+      - 排序
+    - Stream的终止操作
+      - 匹配与杳找
+      - 归约
+      - 收集
+- Optional类
