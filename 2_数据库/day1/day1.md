@@ -112,3 +112,16 @@
 
 ![image-20220530232208032](Pic/image-20220530232208032.png)
 
+
+
+docker pull mysql/mysql-server
+
+MySQL8.0.26
+
+MySQL5.7企业用得多
+
+https://juejin.cn/post/7039024521159901197
+
+https://blog.csdn.net/a1023266384/article/details/119455841
+
+https://prinsss.github.io/build-x86-docker-images-on-an-m1-macs/
