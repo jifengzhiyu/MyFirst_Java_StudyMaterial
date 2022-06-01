@@ -145,6 +145,8 @@ export PATH=$PATH:/usr/local/mysql/support-files
 
 ### 自带客户端的登录与退出
 
+当MySQL服务启动完成后，便可以通过客户端来登录MySQL数据库。注意：确认服务是开启的。（下载设置mysql默认服务开启）
+
 - 登陆
 
    mysql -u root -p 
@@ -159,13 +161,42 @@ export PATH=$PATH:/usr/local/mysql/support-files
 
 ### mac下启动/停止/重启mysql服务
 
-- 遇到问题的话
+- ⚠️遇到问题的话
 
-cd 个人\磁盘\usr\local\mysql\support-files 目录下执行命令
+  - sudo su 的条件下搞上面的 启动/停止/重启mysql服务
 
-这个电脑是：
+  - **杀死线程**
 
-/usr/local/mysql-8.0.29-macos12-arm64/support-files
+    https://www.jianshu.com/p/8095bdbf20bb 
+
+    - 执行`ps -ef|grep mysqld`查看mysql的进程
+    - 使用`sudo kill -9 进程id`杀死进程
+
+  - ⚠️要不然全删了再安装mysql
+
+    - sudo su 的条件下搞下面的（可以删除干净）
+
+    - ```bash
+      sudo rm /usr/local/mysql
+      sudo rm -rf /usr/local/mysql*
+      sudo rm -rf /Library/StartupItems/MySQLCOM
+      sudo rm -rf /Library/PreferencePanes/My*
+      rm -rf ~/Library/PreferencePanes/My*
+      sudo rm -rf /Library/Receipts/mysql*
+      sudo rm -rf /Library/Receipts/MySQL*
+      sudo rm -rf /var/db/receipts/com.mysql.*
+      ```
+
+    - 完成会发现user/local 路径没有mysql之类的文件
+
+    - System Preferences里面也没有mysql🐬图标
+
+- 遇到的问题:
+  -  Access denied for user 'root'@'localhost' (using password: YES)
+    - 我这里应该是密码错误，停止mysql -> mysql.server stop，删除多余进程 -> sudo kill -9
+    - 在System Preferences里面的mysql🐬图标，Initialize Database，里面重新设置密码
+  - Can't connect to local MySQL server through socket '/tmp/mysql.sock' (2)
+    - 没有启动mysql, mysql.server start 
 
 - 开始mysql
 
@@ -198,3 +229,4 @@ cd 个人\磁盘\usr\local\mysql\support-files 目录下执行命令
     - 执行`ps -ef|grep mysqld`查看mysql的进程
     - 使用`sudo kill -9 进程id`杀死进程
     - 执行`sudo /usr/local/mysql/support-files/mysql.server restart`重启mysql。我这里执行了两次(推荐两次)
+
