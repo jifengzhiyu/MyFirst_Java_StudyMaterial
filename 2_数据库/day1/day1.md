@@ -112,16 +112,89 @@
 
 ![image-20220530232208032](Pic/image-20220530232208032.png)
 
+# 我的尝试
 
+## docker安装mysql
 
-docker pull mysql/mysql-server
+- MySQL8.0.26
 
-MySQL8.0.26
+  MySQL5.7企业用得多
 
-MySQL5.7企业用得多
+- 听说把数据库撞到docker比较好，参考下面的装了mysql5.7和8+的版本，结果5.7可以链接navicat,8+不能链接navicat。5.7还牵扯文件改编码格式，咱不会改，找不到文件夹，就删了docker
 
 https://juejin.cn/post/7039024521159901197
 
 https://blog.csdn.net/a1023266384/article/details/119455841
 
 https://prinsss.github.io/build-x86-docker-images-on-an-m1-macs/
+
+## 直接安装mysql
+
+- 还是老老实实安装mysql到本地好了，于是参考下面的文件
+
+https://blog.csdn.net/weixin_58089927/article/details/122061041
+
+我是直接复制路径在bash文件修改配置的
+
+```bash
+export PATH=$PATH:/usr/local/mysql/bin
+export PATH=$PATH:/usr/local/mysql/support-files
+```
+
+## mysql初步几个终端指令
+
+### 自带客户端的登录与退出
+
+- 登陆
+
+   mysql -u root -p 
+
+- 退出登录 
+
+  - exit 
+
+    或
+
+  - quit 
+
+### mac下启动/停止/重启mysql服务
+
+- 遇到问题的话
+
+cd 个人\磁盘\usr\local\mysql\support-files 目录下执行命令
+
+这个电脑是：
+
+/usr/local/mysql-8.0.29-macos12-arm64/support-files
+
+- 开始mysql
+
+  mysql.server start 
+
+  或者
+
+   sudo /usr/local/mysql/support-files/mysql.server start
+
+- 停止mysql
+
+  mysql.server stop
+
+  或者
+
+  sudo /usr/local/mysql/support-files/mysql.server stop
+
+- 重启mysql
+
+  mysql.server restart
+
+  或者
+
+  sudo /usr/local/mysql/support-files/mysql.server restart
+
+  - mac重启mysql提示ERROR! MySQL server PID file could not be found!的解决办法 **杀死线程**
+
+    https://www.jianshu.com/p/8095bdbf20bb 
+
+    - 执行`ps -ef|grep mysqld`查看mysql的进程
+    - 使用`sudo kill -9 进程id`杀死进程
+    - 执行`sudo /usr/local/mysql/support-files/mysql.server restart`重启mysql。我这里执行了两次(推荐两次)
