@@ -120,7 +120,7 @@
 
   MySQL5.7企业用得多
 
-- 听说把数据库撞到docker比较好，参考下面的装了mysql5.7和8+的版本，结果5.7可以链接navicat,8+不能链接navicat。5.7还牵扯文件改编码格式UTF-8，咱不会改，找不到文件夹，就删了docker
+- 听说把数据库安装到docker比较好，参考下面的装了mysql5.7和8+的版本，结果5.7可以链接navicat,8+不能链接navicat。5.7还牵扯文件改编码格式UTF-8，咱不会改，找不到文件夹，就删了docker
 
 https://juejin.cn/post/7039024521159901197
 
@@ -134,7 +134,7 @@ https://prinsss.github.io/build-x86-docker-images-on-an-m1-macs/
 
 https://blog.csdn.net/weixin_58089927/article/details/122061041
 
-我是直接复制路径在bash文件修改配置的
+我是直接复制路径在bash文件修改配置的 ~/.bash_profile
 
 ```bash
 export PATH=$PATH:/usr/local/mysql/bin
@@ -145,7 +145,7 @@ export PATH=$PATH:/usr/local/mysql/support-files
 
 ### 自带客户端的登录与退出
 
-当MySQL服务启动完成后，便可以通过客户端来登录MySQL数据库。注意：确认服务是开启的。（下载设置mysql默认服务开启）
+当MySQL服务启动完成后，便可以通过客户端来登录MySQL数据库。注意：确认服务是开启的。（下载设置mysql自动勾选默认服务开启）
 
 - 登陆
 
@@ -229,4 +229,46 @@ export PATH=$PATH:/usr/local/mysql/support-files
     - 执行`ps -ef|grep mysqld`查看mysql的进程
     - 使用`sudo kill -9 进程id`杀死进程
     - 执行`sudo /usr/local/mysql/support-files/mysql.server restart`重启mysql。我这里执行了两次(推荐两次)
+
+### 创建/查看/增删
+
+- 创建自己的数据库
+
+```bash
+create database 数据库名;
+```
+
+- 使用自己的数据库
+
+```bash
+use 数据库名;
+```
+
+- 查看某个库的所有表格
+
+```bash
+show tables; #要求前面有use语句
+```
+
+- 查看数据库的创建信息
+
+```bash
+show create database 数据库名\G
+```
+
+- 删除表格
+
+```bash
+drop table 表名称;
+```
+
+- 删除数据库
+
+```bash
+drop database 数据库名;
+```
+
+# 基本的SELECT语句
+
+##  SQL **分类** 
 
