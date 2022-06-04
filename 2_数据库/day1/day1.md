@@ -317,3 +317,136 @@ source 路径;
 - 同一个MySQL软件中，数据库不能同名；同一个库中，表不能重名；同一个表中，字段不能重名
 - 必须保证你的字段名，表名没有和保留字、数据库系统或常用方法冲突。如果坚持使用，请在SQL语句中使用`（着重号）引起来
 - 保持字段名和类型的一致性，在命名字段并为其指定数据类型的时候一定要保证一致性。假如数据类型在一个表里是整数，那在另一个表里可就别变成字符型了
+
+## **基本的**SELECT语句
+
+### SELECT ... FROM
+
+- ```sql
+  SELECT 标识选择哪些列 FROM 标识从哪个表中选择
+
+- 选择全部列：
+
+```sql
+SELECT * FROM 表名;
+```
+
+- 选择特定的列：
+
+```sql
+SELECT department_id, location_id 
+FROM departments;
+```
+
+将关键字大写、数据列和表名小写
+
+###  列的别名
+
+- as:全称：alias(别名),可以省略
+- 列的别名可以使用一对" "引起来，不要使用' '。
+
+```sql
+-- 下面几种写法都可以
+
+SELECT employee_id emp_id,
+last_name AS lname,
+department_id "部门id",
+salary * 12 AS "annual sal"
+FROM employees;
+```
+
+### 去除重复行
+
+```sql
+SELECT DISTINCT department_id 
+FROM employees;
+```
+
+```sql
+SELECT DISTINCT department_id,salary 
+FROM employees;
+
+/*
+1. DISTINCT 需要放到所有列名的前面，如果写成 SELECT salary, DISTINCT department_id FROM employees 会报错。
+2. DISTINCT 其实是对后面所有列名的组合进行去重，你能看到最后的结果是 74 条，因为这 74 个部
+门id不同，都有 salary 这个属性值。如果你想要看都有哪些不同的部门（department_id），只需
+要写 DISTINCT department_id 即可，后面不需要再加其他的列名了。
+*/
+```
+
+### 空值参与运算
+
+- 所有运算符或列值遇到null值，运算的结果都为null
+
+- 在 MySQL 里面， 空值不等于空字符串。一个空字符串的长度是 0，而一个空值的长
+
+  度是空。而且，在 MySQL 里面，空值是占用空间的。
+
+### 着重号
+
+- 我们需要保证表中的字段、表名等没有和保留字、数据库系统或常用方法冲突。如果真的相同，请在
+
+  SQL语句中使用一对``（着重号）引起来。
+
+### 查询常数
+
+- 是在 SELECT 查询结果中增加一列固定的常数列。这列的取值是我们指定的，而不是从数据表中动态取出的。
+
+- 如果我们想整合不同的数据源，用常数列作为这个表的标记，就需要查询常数。
+
+- 我们想对 employees 数据表中的员工姓名进行查询，同时增加一列字段 corporation ，这个字段固定值为“尚硅谷”，可以这样写：
+
+  ```sql
+  SELECT '尚硅谷' as corporation, last_name 
+  FROM employees;
+  ```
+
+### 显示表结构
+
+- 使用DESCRIBE 或 DESC 命令，表示表结构。
+
+```sql
+DESCRIBE employees; 
+或
+DESC employees;
+```
+
+- Null：表示该列是否可以存储NULL值。
+
+  Key：表示该列是否已编制索引。PRI表示该列是表主键的一部分；UNI表示该列是UNIQUE索引的一
+
+  部分；MUL表示在列中某个给定值允许出现多次。
+
+  Default：表示该列是否有默认值，如果有，那么值是多少。
+
+  Extra：表示可以获取的与给定列有关的附加信息，例如AUTO_INCREMENT等。
+
+### 过滤数据
+
+```sql
+SELECT 字段1,字段2 
+FROM 表名 
+WHERE 过滤条件
+```
+
+- **WHERE子句紧随FROM子句**
+
+```sql
+SELECT employee_id, last_name, job_id, department_id 
+FROM employees 
+WHERE department_id = 90 ;
+```
+
+
+
+div除
+
+mod取模
+
+
+
+整形整形除法，结果都是浮点型
+
+
+
+% 取模结果与被模数的正负性有关
