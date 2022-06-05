@@ -441,6 +441,8 @@ WHERE department_id = 90 ;
 
 # 运算符
 
+![image-20220605231052065](Pic/image-20220605231052065.png)
+
 ## 算术运算符
 
 ![image-20220605224513983](Pic/image-20220605224513983.png)
@@ -762,5 +764,65 @@ WHERE department_id = 10 OR department_id = 20;
 SELECT last_name,salary,department_id
 FROM employees
 WHERE department_id = 50 XOR salary > 6000;
+```
+
+## 位运算符
+
+![image-20220605230955424](Pic/image-20220605230955424.png)
+
+# 排序与分页
+
+## 排序
+
+- 如果没有使用排序操作，默认情况下查询返回的数据是按照添加数据的顺序显示的。
+- 可以使用不在SELECT列表中的列排序。
+
+### 升序&&降序
+
+```sql
+# 1.1 基本使用
+# 使用 ORDER BY 对查询到的数据进行排序操作。
+# 升序：ASC (ascend)
+# 降序：DESC (descend)
+
+# 练习：按照salary从高到低的顺序显示员工信息
+SELECT employee_id,last_name,salary
+FROM employees
+ORDER BY salary DESC;
+
+# 练习：按照salary从低到高的顺序显示员工信息
+SELECT employee_id,last_name,salary
+FROM employees
+ORDER BY salary ASC;
+
+
+SELECT employee_id,last_name,salary
+FROM employees
+ORDER BY salary; # 如果在ORDER BY 后没有显式指名排序的方式的话，则默认按照升序排列。
+```
+
+### 别名问题
+
+```sql
+#2. 我们可以使用列的别名，进行排序
+#列的别名只能在 ORDER BY 中使用，不能在WHERE中使用。
+SELECT employee_id,salary,salary * 12 annual_sal
+FROM employees
+ORDER BY annual_sal;
+
+#3. 强调格式：WHERE 需要声明在FROM后，ORDER BY之前。
+SELECT employee_id,salary # 实际操作第三步 可以在 SELECT里面取别名 
+FROM employees # 实际操作第一步
+WHERE department_id IN (50,60,70) # 实际操作第二步
+ORDER BY department_id DESC; # 实际操作第四步
+```
+
+### 二级排序
+
+```sql
+#练习：显示员工信息，按照department_id的降序排列，salary的升序排列
+SELECT employee_id,salary,department_id
+FROM employees
+ORDER BY department_id DESC,salary ASC;
 ```
 
