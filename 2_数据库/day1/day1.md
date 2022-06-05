@@ -427,6 +427,8 @@ DESC employees;
 SELECT 字段1,字段2 
 FROM 表名 
 WHERE 过滤条件
+
+-- WHRER 比较的结果不是1都不要
 ```
 
 - **WHERE子句紧随FROM子句**
@@ -437,16 +439,266 @@ FROM employees
 WHERE department_id = 90 ;
 ```
 
+# 运算符
 
+## 算术运算符
 
-div除
+- 加（+）、减（-）、乘（*）、除（/ 或者 DIV）和取模（% 或者 MOD）
 
-mod取模
+- 一个整数类型的值对整数进行加法和减法操作，结果还是一个整数；
 
+  一个整数类型的值对浮点数进行加法和减法和乘法操作，结果是一个浮点数；
 
+- 如果遇到非数值类型，先尝试转成数值，如果转失败，就按0计算。
 
-整形整形除法，结果都是浮点型
+- 加减
 
+```sql
+# 在SQL中，+没有连接的作用，就表示加法运算。此时，会将字符串转换为数值（隐式转换）
+SELECT 100 + '1'  # 在Java语言中，结果是：1001。 
+FROM DUAL;
+# 101
 
+SELECT 100 + 'a' #此时将'a'看做0处理;如果遇到非数值类型，先尝试转成数值，如果转失败，就按0计算。
+FROM DUAL;
+# 100
 
-% 取模结果与被模数的正负性有关
+SELECT 100 + NULL  # null值参与运算，结果为null
+FROM DUAL;
+```
+
+- 乘除
+  - 整形与整形作除法，结果都是浮点型，并保留到小数点后4位
+
+```sql
+SELECT 100, 100 * 1, 100 * 1.0, 100 / 1.0, 100 / 2,
+100 + 2 * 5 / 2,100 / 3, 100 DIV 0  # 分母如果为0，则结果为null
+FROM DUAL;
+-- 100	100	100.0	100.0000	50.0000	105.0000	33.3333	
+```
+
+- 取模
+
+```sql
+# 取模运算： % mod
+-- % 取模结果与被模数的正负性有关
+SELECT 12 % 3,12 % 5, 12 MOD -5,-12 % 5,-12 % -5
+FROM DUAL;
+-- 0	2	2	-2	-2
+```
+
+## 比较运算符
+
+- 比较的结果为真则返回1，比较的结果为假则返回0，其他情况则返回NULL。
+
+- **数字用符号 字段用关键字**
+
+- =  <=>  <> !=  <  <=  >  >= 
+
+- 等号运算符
+
+  - 如果等号两边的值、字符串或表达式中有一个为NULL，则比较结果为NULL。
+
+  - ```sql
+    SELECT 1 = 2,1 != 2,1 = '1',1 = 'a',0 = 'a' #字符串存在隐式转换。如果转换数值不成功，则看做0
+    FROM DUAL;
+    -- 0	1	1	0	1
+    
+    SELECT 'a' = 'a','ab' = 'ab','a' = 'b' #两边都是字符串的话，则按照ANSI的比较规则进行比较。
+    FROM DUAL;
+    
+    SELECT 1 = NULL,NULL = NULL # 只要有null参与判断，结果就为null
+    FROM DUAL;
+    
+    SELECT last_name,salary,commission_pct
+    FROM employees
+    WHERE commission_pct = NULL;  #此时执行，不会有任何的结果
+    ```
+
+- 安全等于运算符
+
+```sql
+# <=> ：安全等于。 记忆技巧：为NULL而生。
+SELECT 1 <=> 2,1 <=> '1',1 <=> 'a',0 <=> 'a'
+FROM DUAL;
+-- 0	1	0	1
+
+SELECT 1 <=> NULL, NULL <=> NULL
+FROM DUAL;
+-- 0	1
+```
+
+安全等于运算符（<=>）与等于运算符（=）的作用是相似的， 唯一的区别 是‘<=>’可以用来对NULL进行判断。在两个操作数均为NULL时，其返回值为1，而不为NULL；当一个操作数为NULL时，其返回值为0，而不为NULL。
+
+- 不等于运算符
+
+不等于运算符（<>和!=）用于判断两边的数字、字符串或者表达式的值是否不相等，如果不相等则返回1，相等则返回0。不等于运算符不能判断NULL值。如果两边的值有任意一个为NULL，或两边都为NULL，则结果为NULL。 
+
+```sql
+SELECT 3 <> 2,'4' <> NULL, '' != NULL,NULL != NULL
+FROM DUAL;
+-- 1	 NULL NULL
+```
+
+- 空运算符
+
+ 空运算符（IS NULL或者ISNULL）判断一个值是否为NULL，如果为NULL则返回1，否则返回0。
+
+```sql
+#① IS NULL \ IS NOT NULL \ ISNULL
+#练习：查询表中commission_pct为null的数据有哪些
+SELECT last_name,salary,commission_pct
+FROM employees
+WHERE commission_pct IS NULL;
+#或
+SELECT last_name,salary,commission_pct
+FROM employees
+WHERE ISNULL(commission_pct);
+```
+
+- 非空运算符
+
+非空运算符（IS NOT NULL）判断一个值是否不为NULL，如果不为NULL则返回1，否则返回0。
+
+```sql
+#查询commission_pct不等于NULL 
+SELECT employee_id,commission_pct FROM employees WHERE commission_pct IS NOT NULL; 
+SELECT employee_id,commission_pct FROM employees WHERE NOT commission_pct <=> NULL; 
+SELECT employee_id,commission_pct FROM employees WHERE NOT ISNULL(commission_pct);
+```
+
+- 最小值运算符
+  - 语法格式为：LEAST(值1，值2，...，值n)。其中，“值n”表示参数列表中有n个值。在有两个或多个参数的情下，返回最小值。
+  - 当比较值列表中有NULL时，不能判断大小，返回值为NULL。 
+  - 字符串比较，有' '，' '最小
+
+```sql
+SELECT LEAST('g','b','t',NULL,'');
+```
+
+- 最大值运算符
+
+ 语法格式为：GREATEST(值1，值2，...，值n)。其中，n表示参数列表中有n个值。当有两个或多个参数时，返回值为最大值。假如任意一个自变量为NULL，则GREATEST()的返回值为NULL。
+
+```sql
+mysql> SELECT GREATEST(1,0,2), GREATEST('b','a','c'), GREATEST(1,NULL,2);
+```
+
+-  BETWEEN AND运算符
+
+BETWEEN运算符使用的格式通常为SELECT D FROM TABLE WHERE C BETWEEN A AND B，此时，当C大于或等于A，并且C小于或等于B时，结果为1，否则结果为0。 
+
+```sql
+#③ BETWEEN 条件下界1 AND 条件上界2  （查询条件1和条件2范围内的数据，包含边界）
+#查询工资在6000 到 8000的员工信息
+SELECT employee_id,last_name,salary
+FROM employees
+#where salary between 6000 and 8000;
+WHERE salary >= 6000 && salary <= 8000;
+#交换6000 和 8000之后，查询不到数据
+
+#查询工资不在6000 到 8000的员工信息
+SELECT employee_id,last_name,salary
+FROM employees
+WHERE salary NOT BETWEEN 6000 AND 8000;
+#where salary < 6000 or salary > 8000;
+```
+
+-  IN运算符
+
+IN运算符用于判断给定的值是否是IN列表中的一个值，如果是则返回1，否则返回0。如果给定的值为NULL则结果为NULL。 
+
+```sql
+SELECT 'a' IN ('a','b','c'), 1 IN (2,3), NULL IN ('a','b'), 'a' IN (NULL,'a'),'a' IN (NULL,'b');
+-- 1	0	NULL 1 NULL
+
+#练习：查询部门为10,20,30部门的员工信息
+SELECT last_name,salary,department_id
+FROM employees
+# where department_id = 10 or department_id = 20 or department_id = 30; 
+# or 跟着的的字段名要写
+WHERE department_id IN (NULL,10,20,30);
+```
+
+- NOT IN运算符
+
+NOT IN运算符用于判断给定的值是否不是IN列表中的一个值，如果不是IN列表中的一个值，则返回1，否则返回0。 
+
+```sql
+SELECT NULL NOT IN ('a','b'), 'a' NOT IN (NULL,'b'),'a' NOT IN (NULL,'a');
+-- NULL NULL 0
+
+#练习：查询工资不是6000,7000,8000的员工信息
+SELECT last_name,salary,department_id
+FROM employees
+WHERE salary NOT IN (6000,7000,8000);
+```
+
+- LIKE运算符 
+
+LIKE运算符主要用来匹配字符串，通常用于模糊匹配，如果满足条件则返回1，否则返回0。如果给定的值或者匹配条件为NULL，则返回结果为NULL。 
+
+LIKE运算符通常使用如下通配符：
+
+```sql
+“%”：不确定个数的字符0个或多个字符。 
+“_”：只能匹配一个字符。
+
+#练习：查询last_name中包含字符'a'的员工信息
+SELECT last_name
+FROM employees
+WHERE last_name LIKE '%a%';
+
+#练习：查询last_name中以字符'a'开头的员工信息
+SELECT last_name
+FROM employees
+WHERE last_name LIKE 'a%';
+
+#练习：查询last_name中包含字符'a'且包含字符'e'的员工信息
+#写法1：
+SELECT last_name
+FROM employees
+WHERE last_name LIKE '%a%' AND last_name LIKE '%e%';
+#写法2：
+SELECT last_name
+FROM employees
+WHERE last_name LIKE '%a%e%' OR last_name LIKE '%e%a%';
+
+------------------------------------------------------
+#练习：查询第3个字符是'a'的员工信息
+SELECT last_name
+FROM employees
+WHERE last_name LIKE '__a%';
+
+#练习：查询第2个字符是_且第3个字符是'a'的员工信息
+#需要使用转义字符: \ 
+SELECT last_name
+FROM employees
+WHERE last_name LIKE '_\_a%';
+```
+
+-  REGEXP 或者 RLIKE 运算符（正则表达式）
+
+REGEXP运算符用来匹配字符串，语法格式为： expr REGEXP 匹配条件 。如果expr满足匹配条件，返回1；如果不满足，则返回0。若expr或匹配条件任意一个为NULL，则结果为NULL。 
+
+REGEXP运算符在进行匹配时，常用的有下面几种通配符：
+
+```sql
+（1）‘^’匹配以该字符后面的字符开头的字符串。 
+（2）‘$’匹配以该字符前面的字符结尾的字符串。 
+（3）‘.’匹配任何一个单字符。 
+（4）“[...]”匹配在方括号内的任何字符。例如，“[abc]”匹配“a”或“b”或“c”。为了命名字符的范围，使用一 个‘-’。“[a-z]”匹配任何字母，而“[0-9]”匹配任何数字。 
+（5）‘*’匹配零个或多个在它前面的字符。例如，“x*”匹配任何数量的‘x’字符，“[0-9]*”匹配任何数量的数字， 而“*”匹配任何数量的任何字符。
+
+SELECT 'shkstart' RLIKE '^shk', 'shkstart' RLIKE 't$', 'shkstart' RLIKE 'hk'
+FROM DUAL;
+-- 是不是有'hk' 的字符
+-- 1 1 1
+
+SELECT 'atguigu' REGEXP 'gu.gu','atguigu' REGEXP '[ab]'
+FROM DUAL;
+-- 1 1
+```
+
+## 逻辑运算符
+
