@@ -443,6 +443,8 @@ WHERE department_id = 90 ;
 
 ## 算术运算符
 
+![image-20220605224513983](Pic/image-20220605224513983.png)
+
 - 加（+）、减（-）、乘（*）、除（/ 或者 DIV）和取模（% 或者 MOD）
 
 - 一个整数类型的值对整数进行加法和减法操作，结果还是一个整数；
@@ -488,6 +490,10 @@ FROM DUAL;
 ```
 
 ## 比较运算符
+
+![image-20220605224538571](Pic/image-20220605224538571.png)
+
+![image-20220605224626238](Pic/image-20220605224626238.png)
 
 - 比较的结果为真则返回1，比较的结果为假则返回0，其他情况则返回NULL。
 
@@ -701,4 +707,60 @@ FROM DUAL;
 ```
 
 ## 逻辑运算符
+
+![image-20220605224640094](Pic/image-20220605224640094.png)
+
+- 逻辑非运算符 
+
+逻辑非（NOT或!）运算符表示当给定的值为0时返回1；当给定的值为非0值时返回0；当给定的值为NULL时，返回NULL。 
+
+```sql
+# not 
+SELECT last_name,salary,department_id
+FROM employees
+#where salary not between 6000 and 8000;
+#where commission_pct is not null;
+WHERE NOT commission_pct <=> NULL;
+```
+
+- 逻辑与运算符
+
+逻辑与（AND或&&）运算符是当给定的所有值均为非0值，并且都不为NULL时，返回1；当给定的一个值或者多个值为0时则返回0；否则返回NULL。 
+
+```sql
+SELECT 1 AND -1, 0 AND 1, 0 AND NULL, 1 AND NULL;
+-- 1	0	0	NULL
+
+SELECT last_name,salary,department_id
+FROM employees
+#where department_id = 10 and department_id = 20;
+WHERE department_id = 50 AND salary > 6000;
+```
+
+- 逻辑或运算符
+
+逻辑或（OR或||）运算符是当给定的值都不为NULL，并且任何一个值为非0值时，则返回1，否则返回0；当一个值为NULL，并且另一个值为非0值时，返回1，否则返回NULL；当两个值都为NULL时，返回NULL。 
+
+```sql
+SELECT 1 OR -1, 1 OR 0, 1 OR NULL, 0 || NULL, NULL || NULL; 
+-- 1  1  1  NULL  NULL 
+```
+
+>OR可以和AND一起使用，但是在使用时要注意两者的优先级，由于AND的优先级高于OR，因此先对AND两边的操作数进行操作，再与OR中的操作数结合。
+
+```sql
+SELECT last_name,salary,department_id
+FROM employees
+WHERE department_id = 10 OR department_id = 20;
+```
+
+- 逻辑异或运算符 
+
+逻辑异或（XOR）运算符是当给定的值中任意一个值为NULL时，则返回NULL；如果两个非NULL的值都是0或者都不等于0时，则返回0；如果一个值为0，另一个值不为0时，则返回1。
+
+```sql
+SELECT last_name,salary,department_id
+FROM employees
+WHERE department_id = 50 XOR salary > 6000;
+```
 
