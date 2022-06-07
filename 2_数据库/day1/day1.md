@@ -826,3 +826,57 @@ FROM employees
 ORDER BY department_id DESC,salary ASC;
 ```
 
+## 分页
+
+- 截取显示部分数据
+
+```sql
+LIMIT [位置偏移量,] 行数
+
+-- 第一个“位置偏移量”参数指示MySQL从哪一行开始显示，是一个可选参数，如果不指定“位置偏移量”，将会从表中的第一条记录开始（第一条记录的位置偏移量是0，第二条记录的位置偏移量是1，以此类推）；第二个参数“行数”指示返回的记录条数。
+
+-- 前10条记录： 
+SELECT * FROM 表名 LIMIT 0,10; 
+或者
+SELECT * FROM 表名 LIMIT 10;
+```
+
+- MySQL 8.0中可以使用“LIMIT 3 OFFSET 4”，意思是获取从第5条记录开始后面的3条记录，和“LIMIT 4,3;”返回的结果相同。
+
+```sql
+#练习：表里有107条数据，我们只想要显示第 32、33 条数据怎么办呢？
+SELECT employee_id,last_name
+FROM employees
+LIMIT 2 OFFSET 31;
+```
+
+- 分页显式公式**：（当前页数**-1**）*****每页条数，每页条数**
+
+```sql
+SELECT * FROM table 
+LIMIT(PageNo - 1)*PageSize,PageSize;
+
+# 需求1：每页显示20条记录，此时显示第1页
+SELECT employee_id,last_name
+FROM employees
+LIMIT 0,20;
+
+
+# 需求2：每页显示20条记录，此时显示第2页
+SELECT employee_id,last_name
+FROM employees
+LIMIT 20,20;
+```
+
+- **注意：LIMIT 子句必须放在整个SELECT语句的最后！**
+- 分页 在不同的 DBMS 中使用的关键字可能不同。**不能使用在SQL Server、DB2、Oracle！**
+
+```sql
+SELECT employee_id,last_name,salary
+FROM employees
+WHERE salary > 6000
+ORDER BY salary DESC
+#limit 0,10;
+LIMIT 10;
+```
+
