@@ -965,7 +965,7 @@ WHERE emp.`manager_id` = mgr.`employee_id`;
 
 ### 内连接vs外连接
 
-#### 内连接
+#### 内连接(SQL92)
 
 ```sql
 #SQL92语法实现内连接:
@@ -976,7 +976,7 @@ FROM employees e,departments d
 WHERE e.`department_id` = d.department_id;  #只有106条记录
 ```
 
-#### 外连接
+#### 外连接(SQL92)
 
 - 合并具有同一列的两个以上的表的行, 结果集中除了包含一个表与另一个表匹配的行之外，还查询到了左表 或 右表中不匹配的行。
 
@@ -1000,4 +1000,76 @@ SELECT employee_id,department_name
 FROM employees e,departments d
 WHERE e.`department_id` = d.department_id(+);
 ```
+
+## SQL99语法实现多表查询
+
+### JOIN ...ON
+
+- SQL99语法中使用 JOIN ...ON 的方式实现多表的查询。这种方式也能解决外连接的问题。MySQL是支持此种方式的。
+- 它的嵌套逻辑类似我们使用的 FOR 循环
+
+### 内连接
+
+- 关键字 JOIN、INNER JOIN、CROSS JOIN 的含义是一样的，都表示内连接
+
+```sql
+#SQL99语法实现内连接：
+SELECT 字段列表 
+FROM A表 
+INNER JOIN B表
+ON 关联条件 
+WHERE 等其他子句;
+
+SELECT last_name,department_name
+-- 可以省略INNER
+FROM employees e INNER JOIN departments d
+-- 下面ON =号左右语句可以颠倒
+ON e.`department_id` = d.`department_id`;
+
+-- 连续使用
+SELECT last_name,department_name,city
+FROM employees e JOIN departments d
+ON e.`department_id` = d.`department_id`
+JOIN locations l
+ON d.`location_id` = l.`location_id`;
+```
+
+### 外连接
+
+- 需要注意的是，LEFT JOIN 和 RIGHT JOIN 只存在于 SQL99 及以后的标准中，在 SQL92 中不存在，只能用 (+) 表示。
+
+```sql
+-- 左外连接(LEFT OUTER JOIN)
+#实现查询结果是A 
+SELECT 字段列表 
+FROM A表 LEFT JOIN B表 
+ON 关联条件 
+WHERE 等其他子句;
+
+SELECT last_name,department_name
+FROM employees e LEFT JOIN departments d
+ON e.`department_id` = d.`department_id`;
+
+#右外连接：
+-- 没有OUTER也可以
+SELECT last_name,department_name
+FROM employees e RIGHT OUTER JOIN departments d
+ON e.`department_id` = d.`department_id`;
+
+#满外连接：mysql不支持FULL OUTER JOIN
+```
+
+##  UNION的使用
+
+**合并查询结果** 利用UNION关键字，可以给出多条SELECT语句，并将它们的结果组合成单个结果集。合并时，两个表对应的列数和数据类型必须相同，并且相互对应。各个SELECT语句之间使用UNION或UNION ALL关键字分隔。
+
+![image-20220609000547211](Pic/image-20220609000547211.png)
+
+![image-20220609000559145](Pic/image-20220609000559145.png)
+
+>注意：执行UNION ALL语句时所需要的资源比UNION语句少。如果明确知道合并数据后的结果数据不存在重复数据，或者不需要去除重复的数据，则尽量使用UNION ALL语句，以提高数据查询的效率。
+
+## 7种JOIN的实现
+
+![image-20220609000746854](Pic/image-20220609000746854.png)
 
