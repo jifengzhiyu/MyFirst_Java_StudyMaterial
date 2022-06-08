@@ -880,3 +880,124 @@ ORDER BY salary DESC
 LIMIT 10;
 ```
 
+# 多表查询
+
+![image-20220608200710448](Pic/image-20220608200710448.png)
+
+>之前sql顺序汇总
+>
+>SELECT ...,....,....
+>FROM ....
+>WHERE .... AND / OR / NOT....
+>ORDER BY .... (ASC/DESC),....,...
+>LIMIT ...,...
+
+## 笛卡尔积（或交叉连接）的理解
+
+- 假设我有两个集合 X 和 Y，那么 X 和 Y 的笛卡尔积就是 X 和 Y 的所有可能组合，也就是第一个对象来自于 X，第二个对象来自于 Y 的所有可能。组合的个数即为两个集合中元素个数的乘积数。
+- 出现笛卡尔积的错误原因：
+  - 缺少了有效的多表的连接条件
+
+```sql
+#3. 多表查询的正确方式：需要有连接条件
+SELECT employee_id,department_name
+FROM employees,departments
+#两个表的连接条件
+WHERE employees.`department_id` = departments.department_id;
+
+-- 着重号这里可加可不加
+```
+
+```sql
+#4. 如果查询语句中出现了多个表中都存在的字段，则必须指明此字段所在的表。
+SELECT employees.employee_id,departments.department_name,employees.department_id
+FROM employees,departments
+-- 着重号这里可加可不加
+WHERE employees.`department_id` = departments.department_id;
+#建议：从sql优化的角度，建议多表查询时，每个字段前都指明其所在的表。
+```
+
+```sql
+#5. 可以给表起别名，在SELECT和WHERE中使用表的别名。
+SELECT emp.employee_id,dept.department_name,emp.department_id
+FROM employees emp,departments dept
+WHERE emp.`department_id` = dept.department_id;
+#如果给表起了别名，一旦在SELECT或WHERE中使用表名的话，则必须使用表的别名，而不能再使用表的原名。
+#可以理解原来的表名被别名覆盖掉了
+```
+
+```sql
+#6. 结论：如果有n个表实现多表的查询，则需要至少n-1个连接条件
+#练习：查询员工的employee_id,last_name,department_name,city
+SELECT e.employee_id,e.last_name,d.department_name,l.city,e.department_id,l.location_id
+FROM employees e,departments d,locations l
+WHERE e.`department_id` = d.`department_id`
+AND d.`location_id` = l.`location_id`;
+```
+
+## 多表查询的分类
+
+每种分类都是不同角度的分类
+
+### 等值连接vs非等值连接
+
+- 之前的例子都是等值连接`WHERE e.department_id = d.department_id`
+
+- ```sql
+  #非等值连接的例子：
+  SELECT e.last_name, e.salary, j.grade_level
+  FROM employees e,job_grades j
+  #where e.`salary` between j.`lowest_sal` and j.`highest_sal`;
+  WHERE e.`salary` >= j.`lowest_sal` AND e.`salary` <= j.`highest_sal`;
+  ```
+
+### 自连接vs非自连接
+
+```sql
+#自连接的例子：
+#练习：查询员工id,员工姓名及其管理者的id和姓名
+SELECT emp.employee_id,emp.last_name,mgr.employee_id,mgr.last_name
+FROM employees emp ,employees mgr
+WHERE emp.`manager_id` = mgr.`employee_id`;
+```
+
+当table1和table2本质上是同一张表，只是用取别名的方式虚拟成两张表以代表不同的意义。然后两个表再进行内连接，外连接等查询。
+
+### 内连接vs外连接
+
+#### 内连接
+
+```sql
+#SQL92语法实现内连接:
+# 内连接：合并具有同一列的两个以上的表的行, 结果集中不包含一个表与另一个表不匹配的行
+# 单独截取交集
+SELECT employee_id,department_name
+FROM employees e,departments d
+WHERE e.`department_id` = d.department_id;  #只有106条记录
+```
+
+#### 外连接
+
+- 合并具有同一列的两个以上的表的行, 结果集中除了包含一个表与另一个表匹配的行之外，还查询到了左表 或 右表中不匹配的行。
+
+- 外连接的分类：左外连接、右外连接、满外连接
+
+  - 左外连接：两个表在连接过程中除了返回满足连接条件的行以外还返回左表中不满足条件的行，这种连接称为左外连接。
+  - 右外连接：两个表在连接过程中除了返回满足连接条件的行以外还返回右表中不满足条件的行，这种连接称为右外连接。
+
+- 如果是左外连接，则连接条件中左边的表也称为 主表 ，右边的表称为 从表 。
+
+  如果是右外连接，则连接条件中右边的表也称为 主表 ，左边的表称为 从表 。 
+
+```sql
+#SQL92语法实现外连接：使用 +  ----------MySQL不支持SQL92语法中外连接的写法！
+-- 在 SQL92 中采用（+）代表从表所在的位置。即左或右外连接中，(+) 表示哪个是从表。
+-- Oracle 对 SQL92 支持较好，而 MySQL 则不支持 SQL92 的外连接。
+-- 而且在 SQL92 中，只有左外连接和右外连接，没有满（或全）外连接。
+#不支持：
+# 左外连接
+SELECT employee_id,department_name
+FROM employees e,departments d
+WHERE e.`department_id` = d.department_id(+);
+```
+
