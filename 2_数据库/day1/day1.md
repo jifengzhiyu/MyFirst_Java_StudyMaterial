@@ -1003,10 +1003,11 @@ WHERE e.`department_id` = d.department_id(+);
 
 ## SQL99语法实现多表查询
 
-### JOIN ...ON
+### JOIN ...ON（推荐使用）
 
 - SQL99语法中使用 JOIN ...ON 的方式实现多表的查询。这种方式也能解决外连接的问题。MySQL是支持此种方式的。
 - 它的嵌套逻辑类似我们使用的 FOR 循环
+- 超过三个表禁止 join。需要 join 的字段，数据类型保持绝对一致；多表关联查询时， 保证被关联的字段需要有索引。
 
 ### 内连接
 
@@ -1072,4 +1073,116 @@ ON e.`department_id` = d.`department_id`;
 ## 7种JOIN的实现
 
 ![image-20220609000746854](Pic/image-20220609000746854.png)
+
+```sql
+#9. 7种JOIN的实现：
+-- 左圆employees 右圆departments
+# 中图：内连接
+SELECT employee_id,department_name
+FROM employees e JOIN departments d
+ON e.`department_id` = d.`department_id`;
+
+# 左上图：左外连接
+SELECT employee_id,department_name
+FROM employees e LEFT JOIN departments d
+ON e.`department_id` = d.`department_id`;
+
+# 右上图：右外连接
+SELECT employee_id,department_name
+FROM employees e RIGHT JOIN departments d
+ON e.`department_id` = d.`department_id`;
+
+# 左中图：
+SELECT employee_id,department_name
+FROM employees e LEFT JOIN departments d
+ON e.`department_id` = d.`department_id`
+WHERE d.`department_id` IS NULL;
+
+# 右中图：
+SELECT employee_id,department_name
+FROM employees e RIGHT JOIN departments d
+ON e.`department_id` = d.`department_id`
+WHERE e.`department_id` IS NULL;
+```
+
+```sql
+# 左下图：满外连接
+# 方式1：左上图 UNION ALL 右中图
+SELECT employee_id,department_name
+FROM employees e LEFT JOIN departments d
+ON e.`department_id` = d.`department_id`
+UNION ALL
+SELECT employee_id,department_name
+FROM employees e RIGHT JOIN departments d
+ON e.`department_id` = d.`department_id`
+WHERE e.`department_id` IS NULL;
+
+# 方式2：左中图 UNION ALL 右上图
+SELECT employee_id,department_name
+FROM employees e LEFT JOIN departments d
+ON e.`department_id` = d.`department_id`
+WHERE d.`department_id` IS NULL
+UNION ALL
+SELECT employee_id,department_name
+FROM employees e RIGHT JOIN departments d
+ON e.`department_id` = d.`department_id`;
+
+# 右下图：左中图  UNION ALL 右中图
+SELECT employee_id,department_name
+FROM employees e LEFT JOIN departments d
+ON e.`department_id` = d.`department_id`
+WHERE d.`department_id` IS NULL
+UNION ALL
+SELECT employee_id,department_name
+FROM employees e RIGHT JOIN departments d
+ON e.`department_id` = d.`department_id`
+WHERE e.`department_id` IS NULL;
+```
+
+##  SQL99语法新特性
+
+###  **自然连接** 
+
+SQL99 在 SQL92 的基础上提供了一些特殊语法，比如 NATURAL JOIN 用来表示自然连接。我们可以把自然连接理解为 SQL92 中的等值连接。它会帮你自动查询两张连接表中 所有相同的字段 ，然后进行 等值 连接 。
+
+```sql
+#10. SQL99语法的新特性1:自然连接
+SELECT employee_id,last_name,department_name
+FROM employees e JOIN departments d
+ON e.`department_id` = d.`department_id`
+AND e.`manager_id` = d.`manager_id`;
+
+# NATURAL JOIN : 它会帮你自动查询两张连接表中`所有相同的字段`，然后进行`等值连接`。
+SELECT employee_id,last_name,department_name
+FROM employees e NATURAL JOIN departments d;
+```
+
+###  USING连接
+
+当我们进行连接的时候，SQL99还支持使用 USING 指定数据表里的 同名字段 进行等值连接。但是只能配合JOIN一起使用。比如：
+
+```sql
+#11. SQL99语法的新特性2:USING
+-- 不能在自连接里面使用（自连接连接字段不一样）
+SELECT employee_id,last_name,department_name
+FROM employees e JOIN departments d
+ON e.department_id = d.department_id;
+
+SELECT employee_id,last_name,department_name
+FROM employees e JOIN departments d
+USING (department_id);
+```
+
+## 注意
+
+```sql
+# 3.选择所有有奖金的员工的 last_name , department_name , location_id , city
+-- 之前join有补的左右外连接，后面join都要有左右外连接(保持同一个左或右)
+SELECT e.last_name ,e.`commission_pct`, d.department_name , d.location_id , l.city
+FROM employees e LEFT JOIN departments d
+ON e.`department_id` = d.`department_id`
+LEFT JOIN locations l
+ON d.`location_id` = l.`location_id`
+WHERE e.`commission_pct` IS NOT NULL; #也应该是35条记录
+```
 
