@@ -247,3 +247,271 @@ ORDER BY num DESC # 顺序 6
 LIMIT 2 # 顺序 7
 ```
 
+# 子查询
+
+```sql
+#1. 由一个具体的需求，引入子查询
+#需求：谁的工资比Abel的高？
+#方式1：
+SELECT salary
+FROM employees
+WHERE last_name = 'Abel';
+
+SELECT last_name,salary
+FROM employees
+WHERE salary > 11000;
+
+#方式2：自连接
+SELECT e2.last_name,e2.salary
+FROM employees e1,employees e2
+WHERE e2.`salary` > e1.`salary` #多表的连接条件
+AND e1.last_name = 'Abel';
+
+#方式3：子查询
+SELECT last_name,salary
+FROM employees
+WHERE salary > (
+		SELECT salary
+		FROM employees
+		WHERE last_name = 'Abel'
+		);
+
+#2. 称谓的规范：外查询（或主查询）、内查询（或子查询）
+```
+
+## 子查询的基本使用与分类
+
+```sql
+/*
+- 子查询（内查询）在主查询之前一次执行完成。
+- 子查询的结果被主查询（外查询）使用 。
+- 注意事项
+  - 子查询要包含在括号内
+  - 将子查询放在比较条件的右侧
+  - 单行操作符对应单行子查询，多行操作符对应多行子查询
+*/
+```
+
+```sql
+/*
+3. 子查询的分类
+角度1：从内查询返回的结果的条目数
+	单行子查询  vs  多行子查询
+
+角度2：内查询是否被执行多次
+	相关子查询  vs  不相关子查询
+	
+子查询从数据表中查询了数据结果，如果这个数据结果只执行一次，然后这个数据结果作为主查询的条
+件进行执行，那么这样的子查询叫做不相关子查询。
+同样，如果子查询需要执行多次，即采用循环的方式，先从外部查询开始，每次都传入子查询进行查
+询，然后再将结果反馈给外部，这种嵌套的执行方式就称为相关子查询。
+	
+ 比如：相关子查询的需求：查询工资大于本部门平均工资的员工信息。
+      不相关子查询的需求：查询工资大于本公司平均工资的员工信息。
+*/
+```
+
+```sql
+子查询的编写技巧（或步骤）：
+① 从里往外写  保险
+② 从外往里写  简单的可以
+```
+
+## 单行子查询
+
+### 单行操作符
+
+![image-20220615200753589](Pic/image-20220615200753589.png)
+
+```sql
+#4. 单行子查询
+#4.1 单行操作符： =  !=  >   >=  <  <= 
+#题目：查询工资大于149号员工工资的员工的信息
+-- WHERE比较的就是子查询里面SELECT的内容
+
+SELECT employee_id,last_name,salary
+FROM employees
+WHERE salary > (
+		SELECT salary
+		FROM employees
+		WHERE employee_id = 149
+		);
+		
+#题目：返回job_id与141号员工相同，salary比143号员工多的员工姓名，job_id和工资
+SELECT last_name,job_id,salary
+FROM employees
+WHERE job_id = (
+		SELECT job_id
+		FROM employees
+		WHERE employee_id = 141
+		)
+AND salary > (
+		SELECT salary
+		FROM employees
+		WHERE employee_id = 143
+		);
+		
+#题目：返回公司工资最少的员工的last_name,job_id和salary
+SELECT last_name,job_id,salary
+FROM employees
+WHERE salary = (
+		SELECT MIN(salary)
+		FROM employees
+		);
+		
+#题目：查询与141号员工的manager_id和department_id相同的其他员工
+#的employee_id，manager_id，department_id。
+#方式1：
+SELECT employee_id,manager_id,department_id
+FROM employees
+WHERE manager_id = (
+		    SELECT manager_id
+		    FROM employees
+		    WHERE employee_id = 141
+		   )
+AND department_id = (
+		    SELECT department_id
+		    FROM employees
+		    WHERE employee_id = 141
+		   )
+-- AND employee_id != 141;
+AND employee_id <> 141;
+```
+
+###  HAVING中的子查询
+
+- 首先执行子查询。
+- 向主查询中的HAVING 子句返回结果。
+
+```sql
+#题目：查询最低工资大于 110号部门最低工资 的部门id和其最低工资
+SELECT department_id,MIN(salary)
+FROM employees
+WHERE department_id IS NOT NULL
+GROUP BY department_id
+HAVING MIN(salary) > (
+			SELECT MIN(salary)
+			FROM employees
+			WHERE department_id = 110
+		     );
+```
+
+### CASE中的子查询
+
+```sql
+#题目：显式员工的employee_id,last_name和location。
+#其中，若员工department_id与location_id为1800的department_id相同，
+#则location为’Canada’，其余则为’USA’。
+SELECT employee_id,last_name,CASE department_id WHEN (SELECT department_id 
+                                                      FROM departments 
+                                                      WHERE location_id = 1800) 
+                                                THEN 'Canada'
+																								ELSE 'USA' 
+																								END "location"
+																								FROM employees;
+```
+
+### 子查询中的空值问题
+
+**子查询不返回任何行**
+
+```sql
+#4.2 子查询中的空值问题
+SELECT last_name, job_id
+FROM   employees
+WHERE  job_id =
+                (SELECT job_id
+                 FROM   employees
+                 WHERE  last_name = 'Haas');
+```
+
+### 非法使用子查询
+
+```sql
+-- 多行子查询使用单行比较符
+#4.3 非法使用子查询
+#错误：Subquery returns more than 1 row
+SELECT employee_id, last_name
+FROM   employees
+WHERE  salary =
+                (SELECT   MIN(salary)
+                 FROM     employees
+                 GROUP BY department_id);         
+
+```
+
+## 多行子查询
+
+- 内查询返回多行
+- 使用多行比较操作符
+
+### 多行比较操作符
+
+![image-20220615202615962](Pic/image-20220615202615962.png)
+
+```sql
+#5.2举例：
+# IN:
+SELECT employee_id, last_name
+FROM   employees
+WHERE  salary IN
+                (SELECT   MIN(salary)
+                 FROM     employees
+                 GROUP BY department_id); 
+                 
+# ANY / ALL:
+#题目：返回其它job_id中比job_id为‘IT_PROG’部门任一工资低的员工的员工号、
+#姓名、job_id 以及salary
+
+SELECT employee_id,last_name,job_id,salary
+FROM employees
+WHERE job_id <> 'IT_PROG'
+AND salary < ANY (
+		SELECT salary
+		FROM employees
+		WHERE job_id = 'IT_PROG'
+		);
+
+#题目：返回其它job_id中比job_id为‘IT_PROG’部门所有工资低的员工的员工号、
+#姓名、job_id 以及salary
+SELECT employee_id,last_name,job_id,salary
+FROM employees
+WHERE job_id <> 'IT_PROG'
+AND salary < ALL (
+		SELECT salary
+		FROM employees
+		WHERE job_id = 'IT_PROG'
+		);
+		
+#题目：查询平均工资最低的部门id
+#MySQL中聚合函数是不能嵌套使用的。
+#方式1：
+SELECT department_id
+FROM employees
+GROUP BY department_id
+HAVING AVG(salary) = (
+			SELECT MIN(avg_sal)
+			FROM(
+				SELECT AVG(salary) avg_sal
+				FROM employees
+				GROUP BY department_id
+				) t_dept_avg_sal
+			);
+
+#方式2：
+SELECT department_id
+FROM employees
+GROUP BY department_id
+HAVING AVG(salary) <= ALL(	
+  -- 它本身也包括在比较操作符右边，所以要等号
+			SELECT AVG(salary) avg_sal
+			FROM employees
+			GROUP BY department_id
+			);
+```
+
+### 空值问题
+
+
+
+## 相关子查询
