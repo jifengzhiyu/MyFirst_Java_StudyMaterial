@@ -413,7 +413,7 @@ SELECT employee_id,last_name,CASE department_id WHEN (SELECT department_id
 
 ### 子查询中的空值问题
 
-**子查询不返回任何行**
+**不返回任何行**
 
 ```sql
 #4.2 子查询中的空值问题
@@ -512,6 +512,25 @@ HAVING AVG(salary) <= ALL(
 
 ### 空值问题
 
+**不返回任何行**
 
+```sql
+#5.3 空值问题
+SELECT last_name
+FROM employees
+WHERE employee_id NOT IN (
+			SELECT manager_id
+			FROM employees
+			);
+```
 
 ## 相关子查询
+
+如果子查询的执行依赖于外部查询，通常情况下都是因为子查询中的表用到了外部的表，并进行了条件关联，因此每执行一次外部查询，子查询都要重新计算一次，这样的子查询就称之为 关联子查询 。
+
+![image-20220615204637650](Pic/image-20220615204637650.png)
+
+外部送到子查询一条记录，子查询处理过后比对看，当初送到子查询到一行与子查询处理后的一行按照比较操作符比较，为真返回1保留，为假返回0不保留
+
+**子查询中使用主查询中的列**
+
