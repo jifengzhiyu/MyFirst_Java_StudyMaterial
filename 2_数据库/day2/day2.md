@@ -312,9 +312,13 @@ WHERE salary > (
 ```
 
 ```sql
-子查询的编写技巧（或步骤）：
-① 从里往外写  保险
-② 从外往里写  简单的可以
+/* 
+子查询的编写技巧（或步骤）：① 从里往外写  ② 从外往里写
+
+如何选择？
+① 如果子查询相对较简单，建议从外往里写。一旦子查询结构较复杂，则建议从里往外写
+② 如果是相关子查询的话，通常都是从外往里写。
+*/
 ```
 
 ## 单行子查询
@@ -530,7 +534,233 @@ WHERE employee_id NOT IN (
 
 ![image-20220615204637650](Pic/image-20220615204637650.png)
 
-外部送到子查询一条记录，子查询处理过后比对看，当初送到子查询到一行与子查询处理后的一行按照比较操作符比较，为真返回1保留，为假返回0不保留
+外部送到子查询一条记录，子查询处理过后与比较操作符比较，为真返回1保留，为假返回0不保留
 
 **子查询中使用主查询中的列**
 
+```sql
+#题目：查询员工中工资大于本部门平均工资的员工的last_name,salary和其department_id
+#方式1：使用相关子查询
+SELECT last_name,salary,department_id
+FROM employees e1
+WHERE salary > (
+		SELECT AVG(salary)
+		FROM employees e2
+		WHERE department_id = e1.`department_id`
+		);
+
+#方式2：在FROM中声明子查询
+SELECT e.last_name,e.salary,e.department_id
+FROM employees e,(
+		SELECT department_id,AVG(salary) avg_sal
+		-- avg_sal必须写，必须给AVG(salary)起别名，因为把它当做了一个字段而不是函数
+		FROM employees
+		GROUP BY department_id) t_dept_avg_sal
+WHERE e.department_id = t_dept_avg_sal.department_id
+AND e.salary > t_dept_avg_sal.avg_sal
+/*
+from型的子查询：子查询是作为from的一部分，子查询要用()引起来，并且要给这个子查询取别
+名， 把它当成一张“临时的虚拟的表”来使用。
+*/
+
+#题目：若employees表中employee_id与job_history表中employee_id相同的数目不小于2，
+#输出这些相同id的员工的employee_id,last_name和其job_id
+SELECT employee_id,last_name,job_id
+FROM employees e
+WHERE 2 <= (
+	    SELECT COUNT(*)
+	    FROM job_history j
+	    WHERE e.`employee_id` = j.`employee_id`
+		)
+```
+
+```sql
+#题目：查询员工的id,salary,按照department_name 排序
+SELECT employee_id,salary
+FROM employees e
+ORDER BY (
+	 SELECT department_name
+	 FROM departments d
+	 WHERE e.`department_id` = d.`department_id`
+	) ASC;
+
+#结论：在SELECT中，除了GROUP BY 和 LIMIT之外，其他位置都可以声明子查询！
+
+#结论：在SELECT中，除了GROUP BY 和 LIMIT之外，其他位置都可以声明子查询！
+/*
+SELECT ....,....,....(存在聚合函数)
+FROM ... (LEFT / RIGHT)JOIN ....ON 多表的连接条件 
+(LEFT / RIGHT)JOIN ... ON ....
+WHERE 不包含聚合函数的过滤条件
+GROUP BY ...,....
+HAVING 包含聚合函数的过滤条件
+ORDER BY ....,...(ASC / DESC )
+LIMIT ...,....
+*/
+```
+
+### EXISTS 与 NOT EXISTS关键字
+
+- EXISTS关键字表示如果存在某种条件，则返回TRUE，否则返回FALSE。
+- NOT EXISTS关键字表示如果不存在某种条件，则返回TRUE，否则返回FALSE。
+
+```sql
+#6.2 EXISTS 与 NOT EXISTS关键字
+#题目：查询公司管理者的employee_id，last_name，job_id，department_id信息
+#方式1：自连接
+SELECT DISTINCT mgr.employee_id,mgr.last_name,mgr.job_id,mgr.department_id
+FROM employees emp JOIN employees mgr
+ON emp.manager_id = mgr.employee_id;
+
+#方式2：子查询
+SELECT employee_id,last_name,job_id,department_id
+FROM employees
+WHERE employee_id IN (
+			SELECT DISTINCT manager_id
+			FROM employees
+			);
+
+#方式3：使用EXISTS（能用IN的考虑使用EXISTS，能用NOT IN的考虑使用NOT EXISTS
+SELECT employee_id,last_name,job_id,department_id
+FROM employees e1
+WHERE EXISTS (
+				 -- SELECT *表示送出一条结果
+	       SELECT *
+	       FROM employees e2
+	       WHERE e1.`employee_id` = e2.`manager_id`
+	     );
+```
+
+```sql
+#题目：查询departments表中，不存在于employees表中的部门的department_id和department_name
+#方式1：
+SELECT d.department_id,d.department_name
+FROM employees e RIGHT JOIN departments d
+ON e.`department_id` = d.`department_id`
+WHERE e.`department_id` IS NULL;
+
+#方式2：
+SELECT department_id,department_name
+FROM departments d
+WHERE NOT EXISTS (
+		SELECT *
+		FROM employees e
+		WHERE d.`department_id` = e.`department_id`
+		);
+```
+
+>题目中可以使用子查询，也可以使用自连接。一般情况建议你使用自连接，因为在许多 DBMS 的处理过程中，对于自连接的处理速度要比子查询快得多。
+
+- 即使是单行查询也可以用IN
+
+### 练习
+
+```sql
+#8.查询平均工资最低的部门信息
+#方式1：
+SELECT *
+FROM departments
+WHERE department_id = (
+			SELECT department_id
+			FROM employees
+			GROUP BY department_id
+			HAVING AVG(salary ) = (
+						SELECT MIN(avg_sal)
+						FROM (
+							SELECT AVG(salary) avg_sal
+							FROM employees
+							GROUP BY department_id
+							) t_dept_avg_sal
+						)
+			);
+			
+#方式2：
+SELECT *
+FROM departments
+WHERE department_id = (
+			SELECT department_id
+			FROM employees
+			GROUP BY department_id
+			HAVING AVG(salary ) <= ALL(
+						SELECT AVG(salary)
+						FROM employees
+						GROUP BY department_id
+						)
+			);
+			
+#方式3： LIMIT
+SELECT *
+FROM departments
+WHERE department_id = (
+			SELECT department_id
+			FROM employees
+			GROUP BY department_id
+			HAVING AVG(salary) = (
+						SELECT AVG(salary) avg_sal
+						FROM employees
+						GROUP BY department_id
+						ORDER BY avg_sal ASC
+						LIMIT 1		
+						)
+			);
+			
+#方式4：
+SELECT d.*
+FROM departments d,(
+		SELECT department_id,AVG(salary) avg_sal
+		FROM employees
+		GROUP BY department_id
+		ORDER BY avg_sal ASC
+		LIMIT 0,1
+		) t_dept_avg_sal
+WHERE d.`department_id` = t_dept_avg_sal.department_id
+```
+
+```sql
+#9.查询平均工资最低的部门信息和该部门的平均工资（相关子查询）
+-- 后面的SELECT可以直接用前面子查询后的表
+SELECT d.*,(SELECT AVG(salary) FROM employees WHERE department_id = d.`department_id`) avg_sal
+FROM departments d,(
+		SELECT department_id,AVG(salary) avg_sal
+		FROM employees
+		GROUP BY department_id
+		ORDER BY avg_sal ASC
+		LIMIT 0,1
+		) t_dept_avg_sal
+WHERE d.`department_id` = t_dept_avg_sal.department_id
+```
+
+```sql
+#14.查询平均工资最高的部门的 manager 的详细信息: last_name, department_id, email, salary
+#方式1：
+SELECT last_name, department_id, email, salary
+FROM employees
+-- ANY/IN 查出来还有一个员工ID是null，所以是多行子查询
+-- WHERE department_id = (会自己过滤null
+WHERE employee_id = ANY (
+			SELECT DISTINCT manager_id
+			FROM employees
+			WHERE department_id = (
+						SELECT department_id
+						FROM employees
+						GROUP BY department_id
+						HAVING AVG(salary) = (
+									SELECT MAX(avg_sal)
+									FROM (
+										SELECT AVG(salary) avg_sal
+										FROM employees
+										GROUP BY department_id
+										) t_dept_avg_sal
+									)
+						)
+			);
+```
+
+
+
+
+
+标识符：
+
+必须保证你的字段 和 标识符 没有和保留字、数据库系统或常用方法冲突。如果坚持使用，请在$QL语句中使用、（着重
+号)引起来
