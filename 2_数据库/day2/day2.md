@@ -756,15 +756,373 @@ WHERE employee_id = ANY (
 			);
 ```
 
+# 创建和管理表
 
+##  基础知识
 
+### 一条数据存储的过程
 
+- 一个完整的数据存储过程总共有 4 步，分别是创建数据库、确认字段、创建数据表、插入数据。
 
-标识符：
+- 因为从系统架构的层次上看，MySQL 数据库系统从大到小依次是 数据库服务器 、 数据库 、 数据表 、数
 
-必须保证你的字段 和 标识符 没有和保留字、数据库系统或常用方法冲突。如果坚持使用，请在$QL语句中使用、（着重
-号)引起来
+  据表的 行与列 。 
 
+## 标识符命名规则
 
+- 必须只能包含 A–Z, a–z, 0–9, _共63个字符
+- 数据库名、表名、字段名等对象名中间不要包含空格
+- 同一个MySQL软件中，数据库不能同名；同一个库中，表不能重名；同一个表中，字段不能重名
+- 必须保证你的字段没有和保留字、数据库系统或常用方法冲突。如果坚持使用，请在SQL语句中使用`（着重号）引起来
+
+### 阿里巴巴字段命名
+
+- 【 强制 】表名、字段名必须使用小写字母或数字，禁止出现数字开头，禁止两个下划线中间只出现数字。数据库字段名的修改代价很大，因为无法进行预发布，所以字段名称需要慎重考虑。
+- 【 强制 】表必备三字段：id, gmt_create, gmt_modified。
+  - 说明：其中 id 必为主键，类型为BIGINT UNSIGNED、单表时自增、步长为 1。gmt_create, gmt_modified 的类型均为 DATETIME 类型，前者现在时表示主动式创建，后者过去分词表示被动式更新
+- 【 推荐 】表的命名最好是遵循 “业务名称_表的作用”。
+  - 正例：alipay_task 、 force_project、 trade_config 
+- 【 推荐 】库名与应用名称尽量一致。
+- 正例：无符号值可以避免误存负数，且扩大了表示范围。
+
+## 创建和管理数据库
+
+### 创建数据库
+
+注意：DATABASE 不能改名。一些可视化工具可以改名，它是建新库，把所有表复制到新库，再删旧库完成的。
+
+```sql
+#1. 创建和管理数据库
+#1.1 如何创建数据库
+#方式1：
+# 创建的此数据库使用的是默认的字符集
+CREATE DATABASE mytest1;  
+
+#查看创建数据库的结构
+SHOW CREATE DATABASE mytest1;
+
+#方式2：显式了指名了要创建的数据库的字符集
+CREATE DATABASE mytest2 CHARACTER SET 'gbk';
+
+SHOW CREATE DATABASE mytest2;
+
+#方式3（推荐）：如果要创建的数据库已经存在（无视字符集区别），则创建不成功，但不会报错。
+CREATE DATABASE IF NOT EXISTS mytest2 CHARACTER SET 'utf8';
+
+#如果要创建的数据库不存在，则创建成功
+CREATE DATABASE IF NOT EXISTS mytest3 CHARACTER SET 'utf8';
+
+SHOW DATABASES;
+```
+
+### 使用数据库
+
+```sql
+#查看当前连接中的数据库都有哪些
+SHOW DATABASES;
+
+#切换数据库
+USE atguigudb;
+
+#查看当前数据库中保存的数据表
+SHOW TABLES;
+
+#查看当前使用的数据库
+SELECT DATABASE() FROM DUAL;
+
+#查看指定数据库下保存的数据表
+SHOW TABLES FROM mysql;
+```
+
+### 修改数据库
 
 修改数据库只有刚创建数据库没有表的时候，发现创建数据库字符集有问题时用
+
+```sql
+#1.3 修改数据库
+#更改数据库字符集
+SHOW CREATE DATABASE mytest2;
+
+ALTER DATABASE mytest2 CHARACTER SET 'utf8';
+```
+
+### 删除数据库
+
+```sql
+#1.4 删除数据库
+#方式1：如果要删除的数据库存在，则删除成功。如果不存在，则报错
+DROP DATABASE mytest1;
+
+SHOW DATABASES;
+
+#方式2：推荐。 如果要删除的数据库存在，则删除成功。如果不存在，则默默结束，不会报错。
+DROP DATABASE IF EXISTS mytest1;
+
+DROP DATABASE IF EXISTS mytest2;
+```
+
+## 创建表
+
+- **必须具备：**
+  - CREATE TABLE权限
+  - 存储空间
+- **必须指定：**
+  - 表名
+  - 列名(或字段名)，数据类型，**长度**
+- *可选指定：**
+  - 约束条件
+  - 默认值
+
+```sql
+CREATE TABLE [IF NOT EXISTS] 表名( 
+  字段1, 数据类型 [约束条件] [默认值], 
+  字段2, 数据类型 [约束条件] [默认值], 
+  字段3, 数据类型 [约束条件] [默认值],
+  ……
+  [表约束条件] 
+);
+```
+
+```sql
+#2. 如何创建数据表
+USE atguigudb;
+
+SHOW CREATE DATABASE atguigudb; #默认使用的是utf8
+
+SHOW TABLES;
+
+#方式1："白手起家"的方式
+CREATE TABLE IF NOT EXISTS myemp1(   #需要用户具备创建表的权限。
+id INT,
+emp_name VARCHAR(15), #使用VARCHAR来定义字符串，必须在使用VARCHAR时指明其长度。
+hire_date DATE
+);
+#查看表结构
+DESC myemp1;
+#查看创建表的语句结构
+SHOW CREATE TABLE myemp1; #如果创建表时没有指明使用的字符集，则默认使用表所在的数据库的字符集。
+#查看表数据
+SELECT * FROM myemp1;
+
+#方式2：基于现有的表，同时导入数据
+CREATE TABLE myemp2
+AS
+SELECT employee_id,last_name,salary
+FROM employees;
+
+DESC myemp2;
+DESC employees;
+
+SELECT *
+FROM myemp2;
+
+#说明1：查询语句中字段的别名，可以作为新创建的表的字段的名称。
+#说明2：此时的查询语句可以结构比较丰富，使用前面章节讲过的各种SELECT
+CREATE TABLE myemp3
+AS
+SELECT e.employee_id emp_id,e.last_name lname,d.department_name
+FROM employees e JOIN departments d
+ON e.department_id = d.department_id;
+
+SELECT *
+FROM myemp3;
+
+DESC myemp3;
+```
+
+```sql
+#练习2：创建一个表employees_blank，实现对employees表的复制，不包括表数据
+CREATE TABLE employees_blank
+AS
+SELECT *
+FROM employees
+#where department_id > 10000;
+WHERE 1 = 2; #山无陵，天地合，乃敢与君绝。
+```
+
+## 修改表
+
+### 追加一个列
+
+```sql
+# 3.1 添加一个字段
+ALTER TABLE 表名 ADD 【COLUMN】 字段名 字段类型 【FIRST|AFTER 字段名】;
+
+ALTER TABLE myemp1
+ADD salary DOUBLE(10,2); #默认添加到表中的最后一个字段的位置
+
+ALTER TABLE myemp1
+ADD phone_number VARCHAR(20) FIRST;
+
+ALTER TABLE myemp1
+ADD email VARCHAR(45) AFTER emp_name;
+
+DESC myemp1;
+```
+
+### 修改一个列
+
+```sql
+# 3.2 修改一个字段：数据类型、长度、默认值（略）
+ALTER TABLE 表名 MODIFY 【COLUMN】 字段名1 字段类型 【DEFAULT 默认值】【FIRST|AFTER 字段名 2】;
+
+ALTER TABLE myemp1
+MODIFY emp_name VARCHAR(25) ;
+
+ALTER TABLE myemp1
+MODIFY emp_name VARCHAR(35) DEFAULT 'aaa';
+```
+
+### 重命名一个列
+
+```sql
+# 3.3 重命名一个字段
+-- 可以更改数据类型
+ALTER TABLE 表名 CHANGE 【column】 列名 新列名 新数据类型;
+
+DESC myemp1;
+
+ALTER TABLE myemp1
+CHANGE salary monthly_salary DOUBLE(10,2);
+
+ALTER TABLE myemp1
+CHANGE email my_email VARCHAR(50);
+```
+
+### 删除一个列
+
+```sql
+# 3.4 删除一个字段
+ALTER TABLE 表名 DROP 【COLUMN】字段名
+
+ALTER TABLE myemp1
+DROP COLUMN my_email;
+```
+
+## 重命名表
+
+```sql
+#4. 重命名表
+#方式1：
+RENAME TABLE myemp1
+TO myemp11;
+
+DESC myemp11;
+
+#方式2：
+ALTER TABLE myemp2
+RENAME TO myemp12;
+
+DESC myemp12;
+```
+
+## 删除表
+
+- 在MySQL中，当一张数据表 没有与其他任何数据表形成关联关系 时，可以将当前数据表直接删除。
+- DROP TABLE 语句不能回滚
+
+```sql
+#5. 删除表
+#不光将表结构删除掉，同时表中的数据也删除掉，释放表空间
+DROP TABLE IF EXISTS myemp2;
+
+DROP TABLE IF EXISTS myemp12;
+```
+
+## 清空表
+
+- TRUNCATE语句**不能回滚**，而使用 DELETE 语句删除数据，可以回滚
+- TRUNCATE TABLE 在功能上与不带 WHERE 子句的 DELETE 语句相同。
+- TRUNCATE TABLE 比 DELETE 速度快，且使用的系统和事务日志资源少，但 TRUNCATE 无事务且不触发 TRIGGER，有可能造成事故，故不建议在开发代码中使用此语句。
+
+```sql
+#清空表，表示清空表中的所有数据，但是表结构保留。
+SELECT * FROM employees_copy;
+
+TRUNCATE TABLE employees_copy;
+
+SELECT * FROM employees_copy;
+
+DESC employees_copy;
+```
+
+## COMMIT 和 ROLLBACK
+
+```sql
+#7. DCL 中 COMMIT 和 ROLLBACK
+# COMMIT:提交数据。一旦执行COMMIT，则数据就被永久的保存在了数据库中，意味着数据不可以回滚。
+# ROLLBACK:回滚数据。一旦执行ROLLBACK,则可以实现数据的回滚。回滚到最近的一次COMMIT之后。
+```
+
+```sql
+#8. 对比 TRUNCATE TABLE 和 DELETE FROM 
+# 相同点：都可以实现对表中所有数据的删除，同时保留表结构。
+# 不同点：
+#	TRUNCATE TABLE：一旦执行此操作，表数据全部清除。同时，数据是不可以回滚的。
+#	DELETE FROM：一旦执行此操作，表数据可以全部清除（不带WHERE）。同时，数据是可以实现回滚的。
+```
+
+```sql
+/*
+9. DDL 和 DML 的说明
+  ① DDL的操作一旦执行，就不可回滚。指令SET autocommit = FALSE对DDL操作失效。(因为在执行完DDL
+    操作之后，一定会执行一次COMMIT。而此COMMIT操作不受SET autocommit = FALSE影响的。)
+  
+  ② DML的操作默认情况，一旦执行，也是不可回滚的。但是，如果在执行DML之前，执行了 
+    SET autocommit = FALSE，则执行的DML操作就可以实现回滚。
+		
+	- DDL（Data Definition Languages、数据定义语言），这些语句定义了不同的数据库、表、视图、索引等数据对象，
+	还可以用来创建、删除、修改数据库和数据表的结构。主要的语句关键字包括 CREATE 、 DROP 、 ALTER 等。
+	- DML（Data Manipulation Language、数据操作语言），用于添加、删除、更新和查询数据库记录，
+	并检查数据完整性。主要的语句关键字包括 INSERT 、 DELETE 、 UPDATE 、 SELECT 等。
+*/
+
+# 演示：DELETE FROM 
+#1)
+COMMIT;
+#2)
+SELECT *
+FROM myemp3;
+#3)
+SET autocommit = FALSE;
+#4)
+DELETE FROM myemp3;
+#5)
+SELECT *
+FROM myemp3;
+#6)
+ROLLBACK;
+#7)
+SELECT *
+FROM myemp3;
+```
+
+## MySQL8**新特性**—DDL**的原子化** 
+
+DDL操作要么成功要么回滚
+
+```sql
+#9.测试MySQL8.0的新特性：DDL的原子化
+CREATE DATABASE mytest;
+
+USE mytest;
+
+CREATE TABLE book1(
+book_id INT ,
+book_name VARCHAR(255)
+);
+
+SHOW TABLES;
+
+DROP TABLE book1,book2;
+
+SHOW TABLES;
+```
+
+
+
+
+
+做增删改操作前后查询看看，确认一下
+
+id按照行加入的时间顺序排列
