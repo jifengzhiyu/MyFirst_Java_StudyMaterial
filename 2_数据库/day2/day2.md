@@ -1119,10 +1119,198 @@ DROP TABLE book1,book2;
 SHOW TABLES;
 ```
 
+# 数据处理之增删改
+
+**做增删改操作前后查询看看，确认一下**
+
+## 插入数据
+
+```sql
+#0. 储备工作
+USE atguigudb;
+
+CREATE TABLE IF NOT EXISTS emp1(
+id INT,
+`name` VARCHAR(15),
+hire_date DATE,
+salary DOUBLE(10,2)
+);
+
+DESC emp1;
+
+SELECT *
+FROM emp1;
+
+#1. 添加数据
+#方式1：一条一条的添加数据
+# ① 没有指明添加的字段
+#正确的
+INSERT INTO emp1
+VALUES (1,'Tom','2000-12-21',3400); #注意：一定要按照声明的字段的先后顺序添加
+#错误的
+INSERT INTO emp1
+VALUES (2,3400,'2000-12-21','Jerry');
+
+# ② 指明要添加的字段 （推荐）
+INSERT INTO emp1(id,hire_date,salary,`name`)
+VALUES(2,'1999-09-09',4000,'Jerry');
+# 说明：没有进行赋值的hire_date 的值为 null
+INSERT INTO emp1(id,salary,`name`)
+VALUES(3,4500,'shk');
+
+# ③ 同时插入多条记录 （推荐）
+INSERT INTO emp1(id,NAME,salary)
+VALUES
+(4,'Jim',5000),
+(5,'张俊杰',5500);
+```
+
+```sql
+#方式2：将查询结果插入到表中
+SELECT * FROM emp1;
+
+INSERT INTO emp1(id,NAME,salary,hire_date)
+#查询语句
+SELECT employee_id,last_name,salary,hire_date  # 查询的字段一定要与添加到的表的字段一一对应
+FROM employees
+WHERE department_id IN (70,60);
+
+DESC emp1;
+DESC employees;
+#说明：emp1表中要添加数据的字段的长度不能低于employees表中查询的字段的长度。
+# 如果emp1表中要添加数据的字段的长度低于employees表中查询的字段的长度的话，就有添加不成功的风险。(报错)
+```
+
+## 更新数据
+
+```sql
+#2. 更新数据 （或修改数据）
+# UPDATE .... SET .... WHERE ...
+# 可以实现批量修改数据的。
+UPDATE emp1
+SET hire_date = CURDATE()
+WHERE id = 5;
+
+SELECT * FROM emp1;
+#同时修改一条数据的多个字段
+UPDATE emp1
+SET hire_date = CURDATE(),salary = 6000
+WHERE id = 4;
+```
+
+```sql
+#修改数据时，是可能存在不成功的情况的。（可能是由于约束的影响造成的）
+UPDATE employees
+SET department_id = 10000
+WHERE employee_id = 102;
+```
+
+## 删除数据
+
+```sql
+#3. 删除数据 DELETE FROM .... WHERE....
+DELETE FROM emp1
+WHERE id = 1;
+
+#在删除数据时，也有可能因为约束的影响，导致删除失败
+DELETE FROM departments
+WHERE department_id = 50;
+
+#小结：DML操作默认情况下，执行完以后都会自动提交数据。
+# 如果希望执行完以后不自动提交数据，则需要使用 SET autocommit = FALSE.
+```
+
+## MySQL8新特性：计算列
+
+- 是某一列的值是通过别的列计算得来的。
+
+- 在MySQL 8.0中，CREATE TABLE 和 ALTER TABLE 中都支持增加计算列。下面以CREATE TABLE为例进行讲
+
+  解。
+
+```sql
+#4. MySQL8的新特性：计算列
+USE atguigudb;
+
+CREATE TABLE test1(
+a INT,
+b INT,
+c INT GENERATED ALWAYS AS (a + b) VIRTUAL  #字段c即为计算列
+);
+
+INSERT INTO test1(a,b)
+VALUES(10,20);
+
+SELECT * FROM test1;
+
+UPDATE test1
+SET a = 100;
+```
+
+## 练习
+
+```sql
+# 15、查询书名达到10个字符的书，不包括里面的空格
+SELECT NAME
+FROM books
+WHERE CHAR_LENGTH(REPLACE(NAME,' ','')) >= 10;
+
+# 16、查询书名和类型，其中note值为novel显示小说，law显示法律，medicine显示医药，
+#cartoon显示卡通，joke显示笑话
+SELECT NAME "书名",note,CASE note WHEN 'novel' THEN '小说'
+				  WHEN 'law' THEN '法律'
+				  WHEN 'medicine' THEN '医药'
+				  WHEN 'cartoon' THEN '卡通'
+				  WHEN 'joke' THEN '笑话'
+				  ELSE '其他'
+				  END "类型"
+FROM books;
+
+# 17、查询书名、库存，其中num值超过30本的，显示滞销，大于0并低于10的，
+#显示畅销，为0的显示需要无货
+-- 每个case 条件都要写全
+SELECT NAME AS "书名",num AS "库存", CASE WHEN num > 30 THEN '滞销'
+					  WHEN num > 0 AND num < 10 THEN '畅销'
+					  WHEN num = 0 THEN '无货'
+					  ELSE '正常'
+					  END "显示状态"
+FROM books;
+```
+
+```sql
+# 18、统计每一种note的库存量，并合计总量
+SELECT IFNULL(note,'合计库存总量') AS note,SUM(num)
+FROM books
+GROUP BY note WITH ROLLUP;
+
+# 19、统计每一种note的数量，并合计总量
+SELECT IFNULL(note,'合计总量') AS note,COUNT(*)
+FROM books
+GROUP BY note WITH ROLLUP;
+```
 
 
-
-
-做增删改操作前后查询看看，确认一下
 
 id按照行加入的时间顺序排列
+
+
+
+
+
+![image-20220619083242625](Pic/image-20220619083242625.png)
+
+
+
+一般情况用int
+
+
+
+用空间换取可靠性 
+
+
+
+日期加上单引号
+
+
+
+年份写四位的
