@@ -1289,28 +1289,39 @@ FROM books
 GROUP BY note WITH ROLLUP;
 ```
 
+```sql
+#方式1:
+INSERT INTO my_employees
+VALUES(1,'patel','Ralph','Rpatel',895);
 
+INSERT INTO my_employees VALUES
+(2,'Dancs','Betty','Bdancs',860),
+(3,'Biri','Ben','Bbiri',1100),
+(4,'Newman','Chad','Cnewman',750),
+(5,'Ropeburn','Audrey','Aropebur',1550);
 
-id按照行加入的时间顺序排列
+SELECT * FROM my_employees;
+DELETE FROM my_employees;
 
+#方式2：
+INSERT INTO my_employees
+SELECT 1,'patel','Ralph','Rpatel',895 UNION ALL
+SELECT 2,'Dancs','Betty','Bdancs',860 UNION ALL
+SELECT 3,'Biri','Ben','Bbiri',1100 UNION ALL
+SELECT 4,'Newman','Chad','Cnewman',750 UNION ALL
+SELECT 5,'Ropeburn','Audrey','Aropebur',1550;
+```
 
+```sql
+-- 可以直接添加数据null
+INSERT INTO pet VALUES
+('Fluffy','harold','Cat','f','2003','2010'),
+('Claws','gwen','Cat','m','2004',NULL),
+('Buffy',NULL,'Dog','f','2009',NULL),
+('Fang','benny','Dog','m','2000',NULL),
+('bowser','diane','Dog','m','2003','2009'),
+('Chirpy',NULL,'Bird','f','2008',NULL);
 
-
-
-![image-20220619083242625](Pic/image-20220619083242625.png)
-
-
-
-一般情况用int
-
-
-
-用空间换取可靠性 
-
-
-
-日期加上单引号
-
-
-
-年份写四位的
+SELECT *
+FROM pet;
+```
