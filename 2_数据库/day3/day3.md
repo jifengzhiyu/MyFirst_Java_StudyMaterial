@@ -126,6 +126,149 @@ VALUES(4294967296);
 
 ## 浮点类型
 
+![image-20220620222701387](Pic/image-20220620222701387.png)
+
+- MySQL支持的浮点数类型，分别是 FLOAT、DOUBLE、REAL（一般不用）。
+- REAL默认就是 DOUBLE。如果你把 SQL 模式设定为启用“ REAL_AS_FLOAT ”，那 么，MySQL 就认为REAL 是 FLOAT。如果要启用“REAL_AS_FLOAT”，可以通过以下 SQL 语句实现：
+
+```sql
+SET sql_mode = “REAL_AS_FLOAT”;
+```
+
+- **问题**：为什么浮点数类型的无符号数取值范围，只相当于有符号数取值范围的一半，也就是只相当于有符号数取值范围大于等于零的部分呢？
+
+  MySQL 存储浮点数的格式为： 符号(S) 、 尾数(M) 和 阶码(E) 。因此，无论有没有符号，MySQL 的浮点数都会存储表示符号的部分。因此， 所谓的无符号数取值范围，其实就是有符号数取值范围大于等于零的部分。
+
+### 数据精度
+
+- MySQL允许使用 非标准语法 （其他数据库未必支持，因此如果涉及到数据迁移，则最好不要这么用）： FLOAT(M,D) 或 DOUBLE(M,D) 。这里，M称为 精度 ，D称为 标度 。(M,D)中 M=整数位+小数位，D=小数位。 D<=M<=255，0<=D<=30。
+- FLOAT和DOUBLE类型在不指定(M,D)时，默认会按照实际的精度（由实际的硬件和操作系统决定）来显示。
+- 说明：浮点类型，也可以加 UNSIGNED ，但是不会改变数据范围，例如：FLOAT(3,2) UNSIGNED仍然只能表示0-9.99的范围。
+
+```sql
+#测试FLOAT和DOUBLE的精度问题
+CREATE TABLE test_double2(
+f1 DOUBLE
+);
+
+INSERT INTO test_double2
+VALUES(0.47),(0.44),(0.19);
+
+SELECT SUM(f1)
+FROM test_double2;
+
+SELECT SUM(f1) = 1.1,1.1 = 1.1
+FROM test_double2;
+```
+
+- **MySQL 8.0.17开始，FLOAT(M,D) 和DOUBLE(M,D)用法在官方文档中已经明确不推荐使用**，将来可能被移除。另外，关于浮点型FLOAT和DOUBLE的UNSIGNED也不推荐使用了，将来也可能被移除。
+
+```sql
+#3.浮点类型
+CREATE TABLE test_double1(
+f1 FLOAT,
+f2 FLOAT(5,2),
+f3 DOUBLE,
+f4 DOUBLE(5,2)
+);
+
+DESC test_double1;
+
+INSERT INTO test_double1(f1,f2)
+VALUES(123.45,123.45);
+
+SELECT * FROM test_double1;
+
+INSERT INTO test_double1(f3,f4)
+VALUES(123.45,123.456); #存在四舍五入
+
+#Out of range value for column 'f4' at row 1
+INSERT INTO test_double1(f3,f4)
+VALUES(123.45,1234.456);
+
+#Out of range value for column 'f4' at row 1
+-- 四舍五入后越界 也报错
+INSERT INTO test_double1(f3,f4)
+VALUES(123.45,999.995);
+```
+
+- 误差: FLOAT和DOUBLE都有误差
+
+  MySQL 用 4 个字节存储 FLOAT 类型数据，用 8 个字节来存储 DOUBLE 类型数据。无论哪个，都是采用二进制的方式来进行存储的。无法用一个二进制数来精确表达。进而，就只好在取值允许的范围内进行四舍五入。
+
+- **因为浮点数是不准确的，所以我们要避免使用“=”来**判断两个数是否相等。同时，在一些对精确度要求较高的项目中，千万不要使用浮点数，不然会导致结果错误，甚至是造成不可挽回的损失。那么，MySQL 有没有精准的数据类型呢？当然有，这就是定点数类型： DECIMAL 。 
+
+```sql
+#测试FLOAT和DOUBLE的精度问题
+CREATE TABLE test_double2(
+f1 DOUBLE
+);
+
+INSERT INTO test_double2
+VALUES(0.47),(0.44),(0.19);
+
+SELECT SUM(f1)
+FROM test_double2;
+
+SELECT SUM(f1) = 1.1,1.1 = 1.1
+FROM test_double2;
+-- 0,1
+```
+
+## 定点数类型
+
+![image-20220620224902901](Pic/image-20220620224902901.png)
+
+```sql
+#4. 定点数类型
+CREATE TABLE test_decimal1(
+f1 DECIMAL,
+f2 DECIMAL(5,2)
+);
+
+DESC test_decimal1;
+-- decimal(10,0)
+-- decimal(5,2)
+
+INSERT INTO test_decimal1(f1)
+VALUES(123),(123.45);
+
+SELECT * FROM test_decimal1;
+
+INSERT INTO test_decimal1(f2)
+VALUES(999.99);
+
+INSERT INTO test_decimal1(f2)
+VALUES(67.567);#存在四色五入
+
+#Out of range value for column 'f2' at row 1
+INSERT INTO test_decimal1(f2)
+VALUES(1267.567);
+
+#Out of range value for column 'f2' at row 1
+INSERT INTO test_decimal1(f2)
+VALUES(999.995);
+```
+
+
+
+
+
+```sql
+#演示DECIMAL替换DOUBLE，体现精度
+ALTER TABLE test_double2
+MODIFY f1 DECIMAL(5,2);
+
+DESC test_double2;
+
+SELECT SUM(f1)
+FROM test_double2;
+
+SELECT SUM(f1) = 1.1,1.1 = 1.1
+FROM test_double2;
+-- 1		1
+```
+
 
 
 日期加上单引号
