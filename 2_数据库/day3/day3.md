@@ -784,6 +784,153 @@ FROM test_json;
 
 ![image-20220621145741251](Pic/image-20220621145741251.png)
 
+# 约束
+
+```sql
+/*
+1. 基础知识
+1.1 为什么需要约束？ 为了保证数据的完整性！
+
+1.2 什么叫约束？对表中字段的限制。
+
+1.3 约束的分类：
+
+角度1：约束的字段的个数
+单列约束:每个约束只约束一列
+vs 
+多列约束:每个约束可约束多列数据
+
+角度2：约束的作用范围
+
+列级约束：将此约束声明在对应字段的后面
+只能作用在一个列上，
+
+表级约束：在表中所有字段都声明完，在所有字段的后面声明的约束
+可以作用在多个列上
+
+角度3：约束的作用（或功能）
+
+① not null (非空约束)
+② unique  (唯一性约束)
+③ primary key (主键约束)
+④ foreign key (外键约束) (非空且唯一)
+⑤ check (检查约束) 
+注意： MySQL不支持check约束，但可以使用check约束，而没有任何效果
+⑥ default (默认值约束)
+
+1.4 如何添加/删除约束？
+
+CREATE TABLE时添加约束
+
+ALTER TABLE 时增加约束、删除约束
+*/
+```
+
+![image-20220621215310543](Pic/image-20220621215310543.png)
+
+![image-20220621215535518](Pic/image-20220621215535518.png)
+
+## 查看某个表已有的约束
+
+```sql
+#information_schema数据库名（系统库）
+#table_constraints表名称（专门存储各个表的约束）
+SELECT * FROM information_schema.table_constraints 
+WHERE table_name = '表名称';
+```
+
+## 非空约束
+
+- 限定某个字段/某列的值不允许为空
+- 特点:
+  - 默认，所有的类型的值都可以是NULL，包括INT、FLOAT等数据类型
+  - 非空约束只能出现在表对象的列上，只能某个列单独限定非空，不能组合非空
+  - 一个表可以有很多列都分别限定了非空
+  - 空字符串''不等于NULL，0也不等于NULL 
+
+```sql
+-- 添加非空约束
+-- 建表时
+CREATE TABLE 表名称(
+  字段名 数据类型, 
+  字段名 数据类型 NOT NULL,
+  字段名 数据类型 NOT NULL 
+);
+
+-- 建表后
+-- 添加not null约束时，要保证该字段的数据没有null
+alter table 表名称 modify 字段名 数据类型 not null;
+
+CREATE TABLE test1(
+id INT NOT NULL,
+last_name VARCHAR(15) NOT NULL,
+email VARCHAR(25),
+salary DECIMAL(10,2)
+);
+
+ALTER TABLE test1
+MODIFY email VARCHAR(25) NOT NULL;
+```
+
+```sql
+ -- 删除非空约束
+ alter table 表名称 modify 字段名 数据类型 NULL;
+ #去掉not null，相当于修改某个非注解字段，该字段允 许为空 
+ -- 或
+ alter table 表名称 modify 字段名 数据类型;
+ #去掉not null，相当于修改某个非注解字段，该字段允许为空
+ 
+#3.3 在ALTER TABLE时删除约束
+ALTER TABLE test1
+MODIFY email VARCHAR(25) NULL;
+```
+
+## 唯一性约束
+
+- 用来限制某个字段/某列的值不能重复。
+- 唯一约束，允许出现多个空值：null。
+- 特点：
+  - 同一个表可以有多个唯一约束。
+  - 唯一约束可以是某一个列的值唯一，也可以多个列组合的值唯一。
+  - 在创建唯一约束的时候，如果不给唯一约束命名，就默认和列名相同。
+  - MySQL**会给唯一约束的列上默认创建一个唯一索引。**
+
+```sql
+-- 建表时
+create table 表名称(
+  字段名 数据类型 unique,
+  字段名 数据类型 unique key,
+  字段名 数据类型 
+);
+
+create table 表名称( 
+  字段名 数据类型, 
+  字段名 数据类型,
+  [constraint 约束名] unique key(字段名)
+);
+
+-- 建表后指定唯一键约束
+#字段列表中如果是一个字段，表示该列的值唯一。如果是两个或更多个字段，那么复合唯一，即多个字段的组合是唯 一的
+#方式1： 
+alter table 表名称 add unique key(字段列表);
+
+#方式2： 
+alter table 表名称 modify 字段名 字段类型 unique;
+
+CREATE TABLE test2(
+id INT UNIQUE, #列级约束
+last_name VARCHAR(15) ,
+email VARCHAR(25),
+salary DECIMAL(10,2),
+#表级约束
+-- UNIQUE(email) 没有起名字，也可以
+CONSTRAINT uk_test2_email UNIQUE(email)
+);
+
+```
+
+
+
 
 
 
