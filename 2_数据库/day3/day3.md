@@ -906,13 +906,13 @@ create table 表名称(
 create table 表名称( 
   字段名 数据类型, 
   字段名 数据类型,
-  [constraint 约束名] unique key(字段名)
+  [constraint 约束名] unique [key](字段名)
 );
 
 -- 建表后指定唯一键约束
 #字段列表中如果是一个字段，表示该列的值唯一。如果是两个或更多个字段，那么复合唯一，即多个字段的组合是唯 一的
 #方式1： 
-alter table 表名称 add unique key(字段列表);
+alter table 表名称 add [constraint 约束名] unique [key](字段列表);
 
 #方式2： 
 alter table 表名称 modify 字段名 字段类型 unique;
@@ -927,6 +927,23 @@ salary DECIMAL(10,2),
 CONSTRAINT uk_test2_email UNIQUE(email)
 );
 
+#方式1：
+ALTER TABLE test2
+ADD CONSTRAINT uk_test2_sal UNIQUE(salary);
+#方式2：
+ALTER TABLE test2
+MODIFY last_name VARCHAR(15) UNIQUE;
+```
+
+```sql
+-- 复合的唯一性约束
+create table 表名称( 
+  字段名 数据类型,
+  字段名 数据类型,
+  字段名 数据类型,
+  unique key(字段列表)
+  #字段列表中写的是多个字段名，多个字段名用逗号分隔，表示那么是复合唯一，即多 个字段的组合是唯一的
+);
 ```
 
 
@@ -938,3 +955,10 @@ CONSTRAINT uk_test2_email UNIQUE(email)
 一个字段添加多个约束？
 
 同时删除多个约束？
+
+
+
+
+
+存储过程相当于外面传进去IN OUT，生命周期跟随外界定义的变量
+
