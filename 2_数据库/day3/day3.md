@@ -784,7 +784,7 @@ FROM test_json;
 
 ![image-20220621145741251](Pic/image-20220621145741251.png)
 
-# 约束
+# 约束_1
 
 ```sql
 /*
@@ -875,7 +875,7 @@ MODIFY email VARCHAR(25) NOT NULL;
 ```sql
  -- 删除非空约束
  alter table 表名称 modify 字段名 数据类型 NULL;
- #去掉not null，相当于修改某个非注解字段，该字段允 许为空 
+ #去掉not null，相当于修改某个非注解字段，该字段允许为空 
  -- 或
  alter table 表名称 modify 字段名 数据类型;
  #去掉not null，相当于修改某个非注解字段，该字段允许为空
@@ -1106,29 +1106,70 @@ create table 表名称(
 字段名 数据类型 not null default 默认值,
 primary key(字段名)
 );
+
+#6. 自增长列:AUTO_INCREMENT
+-- 在上一条的基础上自增
+# 6.1 在CREATE TABLE时添加
+CREATE TABLE test7(
+id INT PRIMARY KEY AUTO_INCREMENT,
+-- 一个字段添加多个约束？
+last_name VARCHAR(15) 
+);
+#开发中，一旦主键作用的字段上声明有AUTO_INCREMENT，则我们在添加数据时，就不要给主键
+#对应的字段去赋值了。（放它自增）
+INSERT INTO test7(last_name)
+VALUES('Tom');
+
+SELECT * FROM test7;
+
+#当我们向主键（含AUTO_INCREMENT）的字段上添加0 或 null时，实际上会自动的往上添加指定的字段的数值
+INSERT INTO test7(id,last_name)
+VALUES(0,'Tom');
+
+INSERT INTO test7(id,last_name)
+VALUES(NULL,'Tom');
+
+-- 如果自增列手动指定了具体值，直接赋值为具体值。
+INSERT INTO test7(id,last_name)
+VALUES(10,'Tom');
+
+INSERT INTO test7(id,last_name)
+VALUES(-10,'Tom');
 ```
 
 ```sql
 -- 建表后
 alter table 表名称 
 modify 字段名 数据类型 auto_increment;
+
+#6.2 在ALTER TABLE 时添加
+CREATE TABLE test8(
+id INT PRIMARY KEY ,
+last_name VARCHAR(15) 
+);
+
+DESC test8;
+
+ALTER TABLE test8
+MODIFY id INT AUTO_INCREMENT;
 ```
 
+### 如何删除自增约束
 
+```sql
+#alter table 表名称 modify 字段名 数据类型 auto_increment;
+#给这个字段增加自增约束 
 
+alter table 表名称 modify 字段名 数据类型; #去掉auto_increment相当于删除
+```
 
+### MySQL8.0新特性—自增变量的持久化
 
+在MySQL 8.0之前，自增主键AUTO_INCREMENT的值如果大于max(primary key)+1，在MySQL重启后，会重置
 
+AUTO_INCREMENT=max(primary key)+1，这种现象在某些情况下会导致业务主键冲突或者其他难以发现的问题。 下面通过案例来对比不同的版本中自增变量是否持久化。 在MySQL 5.7版本中，测试步骤如下： 创建的数据表中包含自增主键的id字段，语句如下：
 
+![image-20220622194350164](Pic/image-20220622194350164.png)
 
-
-一个字段添加多个约束？
-
-同时删除多个约束？
-
-
-
-
-
-存储过程相当于外面传进去IN OUT，生命周期跟随外界定义的变量
+![image-20220622194401843](Pic/image-20220622194401843.png)
 
