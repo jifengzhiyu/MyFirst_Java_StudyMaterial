@@ -935,6 +935,8 @@ ALTER TABLE test2
 MODIFY last_name VARCHAR(15) UNIQUE;
 ```
 
+### 复合唯一性约束
+
 ```sql
 -- 复合的唯一性约束
 create table 表名称( 
@@ -944,7 +946,175 @@ create table 表名称(
   unique key(字段列表)
   #字段列表中写的是多个字段名，多个字段名用逗号分隔，表示那么是复合唯一，即多 个字段的组合是唯一的
 );
+
+#4.3 复合的唯一性约束
+CREATE TABLE USER(
+id INT,
+`name` VARCHAR(15),
+`password` VARCHAR(25),
+
+#表级约束
+CONSTRAINT uk_user_name_pwd UNIQUE(`name`,`password`)
+);
+
+INSERT INTO USER
+VALUES(1,'Tom','abc');
+#可以成功的：
+INSERT INTO USER
+VALUES(1,'Tom1','abc');
+
+SELECT *
+FROM USER;
 ```
+
+### 删除唯一性约束
+
+- 添加唯一性约束的列上也会自动创建唯一索引。
+- 删除唯一约束只能通过删除唯一索引的方式删除。
+- 删除时需要指定唯一索引名，唯一索引名就和唯一约束名一样。
+- 如果创建唯一约束时未指定名称，如果是单列，就默认和列名相同；如果是组合列，那么默认和()中排在第一个的列名相同。也可以自定义唯一性约束名。
+
+```sql
+SELECT * FROM information_schema.table_constraints 
+WHERE table_name = '表名';
+#查看都有哪些约束
+
+ALTER TABLE 表名
+DROP INDEX uk_name_pwd;
+
+show index from 表名称; 
+-- 查看表的索引
+
+ALTER TABLE test2
+DROP INDEX uk_test2_sal;
+```
+
+## 主键约束
+
+- 用来唯一标识表中的一行记录。
+- 主键约束相当于**唯一约束**+**非空约束的组合**，主键约束列不允许重复，也不允许出现空值。
+- **一定只要有一个主键约束**
+- 主键小的行自动往前面放
+- 建立主键约束可以在列级别创建，也可以在表级别上创建。
+- 主键约束对应着表中的一列或者多列（复合主键）
+- MySQL**的主键名总是**PRIMARY，就算自己命名了主键约束名也没用。
+- 当创建主键约束时，系统默认会在所在的列或列组合上建立对应的**主键索引**（能够根据主键查询的，就根据主键查询，效率更高）。如果删除主键约束了，主键约束对应的索引就自动删除了。需要注意的一点是，不要修改主键字段的值。因为主键是数据记录的唯一标识，如果修改了主键的值，就有可能会破坏数据的完整性。
+
+```sql
+-- 建表时指定主键约束
+#列级模式 
+create table 表名称(
+字段名 数据类型 primary key, 
+字段名 数据类型
+);
+
+#表级模式
+create table 表名称(
+字段名 数据类型,
+字段名 数据类型,
+[constraint 约束名] primary key(字段名) 
+);
+#5. primary key (主键约束)
+#5.1 在CREATE TABLE时添加约束
+# 主键约束特征：非空且唯一，用于唯一的标识表中的一条记录。
+CREATE TABLE test4(
+id INT PRIMARY KEY, #列级约束
+last_name VARCHAR(15),
+salary DECIMAL(10,2),
+email VARCHAR(25)
+);
+
+#MySQL的主键名总是PRIMARY，就算自己命名了主键约束名也没用。
+CREATE TABLE test5(
+id INT , 
+last_name VARCHAR(15),
+salary DECIMAL(10,2),
+email VARCHAR(25),
+#表级约束
+CONSTRAINT pk_test5_id PRIMARY KEY(id)  #没有必要起名字。
+);
+```
+
+```sql
+-- 建表后增加主键约束
+ALTER TABLE 表名称
+ADD PRIMARY KEY(字段列表);
+#字段列表可以是一个字段，也可以是多个字段，如果是多个字段的话，是复合主键
+
+CREATE TABLE test6(
+id INT ,
+last_name VARCHAR(15),
+salary DECIMAL(10,2),
+email VARCHAR(25)
+);
+
+DESC test6;
+
+ALTER TABLE test6
+ADD PRIMARY KEY (id);
+```
+
+```sql
+#5.3 如何删除主键约束 (在实际开发中，不会去删除表中的主键约束！)
+-- 删除主键约束，不需要指定主键名，因为一个表只有一个主键，删除主键约束后，非空还存在。
+ALTER TABLE test6
+DROP PRIMARY KEY;
+```
+
+### 复合主键约束
+
+```sql
+CREATE TABLE user1(
+id INT,
+NAME VARCHAR(15),
+PASSWORD VARCHAR(25),
+PRIMARY KEY (NAME,PASSWORD)
+);
+
+#如果是多列组合的复合主键约束，那么这些列都不允许为空值，并且组合的值不允许重复。
+INSERT INTO user1
+VALUES(1,'Tom','abc');
+
+INSERT INTO user1
+VALUES(1,'Tom1','abc');
+
+SELECT * FROM user1;
+```
+
+## 自增列
+
+- 某个字段的值自增，默认从1开始（包括1）
+- 在上一条的基础上自增
+- 特点:
+  - 一个表最多只能有一个自增长列
+  - 当需要产生唯一标识符或顺序值时，可设置自增长
+  - 自增长列约束的列必须是键列（主键列，唯一键列）
+  - 自增约束的列的数据类型必须是整数类型
+  - 如果自增列指定了 0 和 null，会在当前最大值的基础上自增；如果自增列手动指定了具体值，直接赋值为具体值。
+
+```sql
+-- 建表时
+create table 表名称( 
+字段名 数据类型 primary key auto_increment,
+字段名 数据类型 unique key not null,
+字段名 数据类型 unique key,
+字段名 数据类型 not null default 默认值);
+
+create table 表名称( 
+字段名 数据类型 default 默认值,
+字段名 数据类型 unique key auto_increment,
+字段名 数据类型 not null default 默认值,
+primary key(字段名)
+);
+```
+
+```sql
+-- 建表后
+alter table 表名称 
+modify 字段名 数据类型 auto_increment;
+```
+
+
 
 
 
