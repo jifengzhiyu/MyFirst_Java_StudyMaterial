@@ -240,6 +240,10 @@ INSERT INTO test10
 VALUES(2,'Tom1',1500);
 
 SELECT * FROM test10;
+
+-- 建表后添加约束
+ALTER TABLE test110
+MODIFY salary DECIMAL(10,2) CHECK(salary > 2000);
 ```
 
 ## DEFAULT约束
@@ -314,17 +318,322 @@ modify 字段名 数据类型 not null;
 
 ![image-20220622231313807](Pic/image-20220622231313807.png)
 
-同时删除多个约束？
+## 我的总结
 
-总结删除约束`
+### 总结删除约束
 
-约束的命名
+- 非空约束 自增约束 默认值约束类似 
+
+```sql
+alter table 表名称 
+modify 字段名 数据类型;
+```
+
+- 删除唯一性约束：删除索引；删除外键约束：删除约束+手动删述索引
+
+### 约束的命名
+
+- 不支持命名的约束（只能声明在列级约束）：默认约束、非空约束、自增列、check约束；主键约束不用命名
+
+  外键约束命名：`fk_表名_主表参考字段` 
+
+  ![image-20220623084124859](Pic/image-20220623084124859.png)
+
+  唯一性约束命名：`uk_表名_字段名`
+
+- 建表后添加约束:
+
+```sql
+alter table 表名称
+modify 字段名 数据类型 添加的约束;
+
+-- 添加主键特殊
+alter table 表名称
+add primary key(字段列表);
+
+-- 添加外键特殊
+```
+
+- 一个字段添加多个约束:
+
+```sql
+-- 注意顺序
+ALTER TABLE books
+MODIFY id INT PRIMARY KEY AUTO_INCREMENT;
+```
+
+# 视图
+
+![image-20220623091311926](Pic/image-20220623091311926.png)
+
+- ① 视图，可以看做是一个虚拟表，本身是不存储数据的。
+    视图的本质，就可以看做是存储起来的SELECT语句
+
+  ② 视图中SELECT语句中涉及到的表，称为基表
+
+  ③ 针对视图做DML操作，会影响到对应的基表中的数据。反之亦然。
+
+  ④ 视图本身的删除，不会导致基表中数据的删除。
+
+  ⑤ 视图的应用场景：针对于小型项目，不推荐使用视图。针对于大型项目，可以考虑使用视图。
+
+  ⑥ 视图的优点：简化查询; 控制数据的访问
+
+## 创建视图
+
+- **在** CREATE VIEW **语句中嵌入子查询**
+
+```sql
+CREATE [OR REPLACE]
+[ALGORITHM = {UNDEFINED | MERGE | TEMPTABLE}] 
+VIEW 视图名称 [(字段列表)] 
+AS 查询语句
+[WITH [CASCADED|LOCAL] CHECK OPTION];
+
+-- 精简版
+CREATE VIEW 视图名称 
+AS 查询语句
+```
+
+### 创建单表视图
+
+- 在创建视图时，没有在视图名后面指定字段列表，则视图中字段列表默认和SELECT语句中的字段列表一致。如果SELECT语句中给字段取了别名，那么视图中的字段名和别名相同。
+
+```sql
+#准备工作
+CREATE DATABASE dbtest14;
+
+USE dbtest14;
+
+CREATE TABLE emps
+AS
+SELECT *
+FROM atguigudb.`employees`;
+-- 将已有表的数据存储在新的表，会损失约束
+
+CREATE TABLE depts
+AS
+SELECT *
+FROM atguigudb.`departments`;
+
+SELECT * FROM emps;
+
+SELECT * FROM depts;
+
+DESC emps;
+
+DESC atguigudb.employees;
+```
+
+```sql
+#2.1 针对于单表
+#情况1：视图中的字段与基表的字段有对应关系
+CREATE VIEW vu_emp1
+AS
+SELECT employee_id,last_name,salary
+FROM emps;
+
+SELECT * FROM vu_emp1;
+
+#确定视图中字段名的方式1：
+CREATE VIEW vu_emp2
+AS
+SELECT employee_id emp_id,last_name lname,salary 
+#查询语句中字段的别名会作为视图中字段的名称出现
+FROM emps
+WHERE salary > 8000;
+
+#确定视图中字段名的方式2：
+CREATE VIEW vu_emp3(emp_id,NAME,monthly_sal) 
+#小括号内字段个数与SELECT中字段个数相同
+AS
+SELECT employee_id,last_name,salary 
+FROM emps
+WHERE salary > 8000;
+
+SELECT * FROM vu_emp3;
+
+#情况2：视图中的字段在基表中可能没有对应的字段
+CREATE VIEW vu_emp_sal
+AS
+SELECT department_id,AVG(salary) avg_sal
+FROM emps
+WHERE department_id IS NOT NULL
+GROUP BY department_id;
+
+SELECT * FROM vu_emp_sal;
+```
+
+### 创建多表联合视图
+
+```sql
+#2.2 针对于多表
+CREATE VIEW vu_emp_dept
+AS
+SELECT e.employee_id,e.department_id,d.department_name
+FROM emps e JOIN depts d
+ON e.`department_id` = d.`department_id`;
+
+SELECT * FROM vu_emp_dept;
+```
+
+### 利用视图对数据进行格式化
+
+- 我们经常需要输出某个格式的内容，比如我们想输出员工姓名和对应的部门名，对应格式为emp_name(department_name)，就可以使用视图来完成数据格式化的操作：
+
+```sql
+#利用视图对数据进行格式化
+CREATE VIEW vu_emp_dept1
+AS
+SELECT CONCAT(e.last_name,'(',d.department_name,')') emp_info
+FROM emps e JOIN depts d
+ON e.`department_id` = d.`department_id`;
+
+SELECT * FROM vu_emp_dept1;
+```
+
+### 基于视图创建视图
+
+- 当我们创建好一张视图之后，还可以在它的基础上继续创建视图。
+
+```sql
+#2.3 基于视图创建视图
+CREATE VIEW vu_emp4
+AS
+SELECT employee_id,last_name
+FROM vu_emp1;
+
+SELECT * FROM vu_emp4; 
+```
+
+## 查看视图
+
+```sql
+#3. 查看视图
+# 语法1：查看数据库的表对象、视图对象
+SHOW TABLES;
+
+#语法2：查看视图的结构
+DESCRIBE vu_emp1;
+DESC vu_emp1;
+
+#语法3：查看视图的属性信息
+SHOW TABLE STATUS LIKE 'vu_emp1';
+
+#语法4：查看视图的详细定义信息
+-- 包括SQL语句
+SHOW CREATE VIEW vu_emp1;
+```
+
+## 更新视图的数据
+
+### 一般情况
+
+- MySQL支持使用INSERT、UPDATE和DELETE语句对视图中的数据进行插入、更新和删除操作。当视图中的数据发生变化时，数据表中的数据也会发生变化，反之亦然。
+
+```sql
+#4."更新"视图中的数据
+#4.1 一般情况，可以更新视图的数据
+SELECT * FROM vu_emp1;
+
+SELECT employee_id,last_name,salary
+FROM emps;
+#更新视图的数据，会导致基表中数据的修改
+UPDATE vu_emp1
+SET salary = 20000
+WHERE employee_id = 101;
+
+#同理，更新表中的数据，也会导致视图中的数据的修改
+UPDATE emps
+SET salary = 10000
+WHERE employee_id = 101;
+
+#删除视图中的数据，也会导致表中的数据的删除
+DELETE FROM vu_emp1
+WHERE employee_id = 101;
+
+SELECT employee_id,last_name,salary
+FROM emps
+WHERE employee_id = 101;
+```
+
+### 不可更新的视图
+
+>虽然可以更新视图数据，但总的来说，视图作为 虚拟表 ，主要用于 方便查询 ，不建议更新视图的数据。**对视图数据的更改，都是通过对实际数据表里数据的操作来完成的。**
+
+- 要使视图可更新，视图中的行和底层基本表中的行之间必须存在 **一对一** 的关系。另外当视图定义出现如下情况时，视图**不支持**更新操作：
+  - 在定义视图的时候指定了“ALGORITHM = TEMPTABLE”，视图将不支持INSERT和DELETE操作；
+  - 视图中不包含基表中所有被定义为非空又未指定默认值的列，视图将不支持INSERT操作；
+  - 在定义视图的SELECT语句中使用了 JOIN联合查询 ，视图将不支持INSERT和DELETE操作；
+  - 在定义视图的SELECT语句后的字段列表中使用了 数学表达式 或 子查询 ，视图将不支持INSERT，也不支持UPDATE使用了数学表达式、子查询的字段值；
+  - 在定义视图的SELECT语句后的字段列表中使用 DISTINCT 、 聚合函数 、 GROUP BY 、 HAVING 、 UNION 等，视图将不支持INSERT、UPDATE、DELETE；
+  - 在定义视图的SELECT语句中包含了子查询，而子查询中引用了FROM后面的表，视图将不支持 INSERT、UPDATE、DELETE；
+  - 视图定义基于一个 不可更新视图 ；
+  - 常量视图。
+
+
+
+
+
+## 修改视图
+
+```sql
+#5. 修改视图
+DESC vu_emp1;
+
+#方式1
+CREATE OR REPLACE VIEW vu_emp1
+AS
+SELECT employee_id,last_name,salary,email
+FROM emps
+WHERE salary > 7000;
+
+#方式2
+ALTER VIEW vu_emp1
+AS 
+SELECT employee_id,last_name,salary,email,hire_date
+FROM emps;
+```
+
+## 删除视图
+
+- 删除视图只是删除视图的定义，并不会删除基表的数据。
+- 基于视图a、b创建了新的视图c（看作a,b select语句的叠加），如果将视图a或者视图b删除，会导致视图c的查询失败。这样的视图c需要手动删除或修改，否则影响使用。
+
+```sql
+#6. 删除视图
+SHOW TABLES;
+
+DROP VIEW vu_emp4;
+
+DROP VIEW IF EXISTS vu_emp2,vu_emp3;
+```
+
+## 视图优缺点
+
+### 优点
+
+
+
+### 缺点
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 存储过程相当于外面传进去IN OUT，生命周期跟随外界定义的变量
 
 
-
-建表后添加约束要括号?啥时候有括号？啥时候没有？
 

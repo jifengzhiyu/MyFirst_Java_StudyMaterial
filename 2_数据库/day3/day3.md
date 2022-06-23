@@ -1154,13 +1154,14 @@ ALTER TABLE test8
 MODIFY id INT AUTO_INCREMENT;
 ```
 
-### 如何删除自增约束
+### 删除自增约束
 
 ```sql
-#alter table 表名称 modify 字段名 数据类型 auto_increment;
+alter table 表名称 modify 字段名 数据类型 auto_increment;
 #给这个字段增加自增约束 
 
-alter table 表名称 modify 字段名 数据类型; #去掉auto_increment相当于删除
+alter table 表名称 modify 字段名 数据类型;
+#去掉auto_increment相当于删除
 ```
 
 ### MySQL8.0新特性—自增变量的持久化
