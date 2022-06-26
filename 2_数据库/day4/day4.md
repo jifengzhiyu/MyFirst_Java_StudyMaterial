@@ -789,11 +789,117 @@ DELIMITER ;
 
 ## 调用存储过程
 
-- 存储过程必须使用CALL语句调用，并且存储过程和数据库相关，如果要执行其他数据库中的存储过程，需要指定数据库名称，例如CALL dbname.procname。 
+- 存储过程必须使用**CALL**语句调用，并且存储过程和数据库相关，如果要执行其他数据库中的存储过程，需要指定数据库名称，例如CALL dbname.procname。 `CALL 存储过程名(实参列表)`
 
+![image-20220626221805681](Pic/image-20220626221805681.png)
 
+```sql
+#1. 创建存储过程
+#类型1：无参数无返回值
+#举例1：创建存储过程select_all_data()，查看 employees 表的所有数据
+DELIMITER $
 
+CREATE PROCEDURE select_all_data()
+BEGIN
+	SELECT * FROM employees;
+END $
 
+DELIMITER ;
+
+#2. 存储过程的调用
+CALL select_all_data();
+```
+
+```sql
+#类型2：带 OUT
+#举例4：创建存储过程show_min_salary()，查看“emps”表的最低薪资值。并将最低薪资
+#通过OUT参数“ms”输出
+DELIMITER //
+
+CREATE PROCEDURE show_min_salary(OUT ms DOUBLE)
+BEGIN
+	SELECT MIN(salary) INTO ms
+	FROM employees;
+END //
+
+DELIMITER ;
+
+#调用
+CALL show_min_salary(@ms);
+#查看变量值
+SELECT @ms;
+```
+
+```sql
+#举例5：创建存储过程show_someone_salary()，查看“emps”表的某个员工的薪资，
+#并用IN参数empname输入员工姓名。
+DELIMITER //
+
+CREATE PROCEDURE show_someone_salary(IN empname VARCHAR(20))
+BEGIN
+	SELECT salary FROM employees
+	WHERE last_name = empname;
+END //
+
+DELIMITER ;
+
+#调用方式1
+CALL show_someone_salary('Abel');
+#调用方式2
+SET @empname := 'Abel';
+CALL show_someone_salary(@empname);
+```
+
+```sql
+#类型4：带 IN 和 OUT
+#举例6：创建存储过程show_someone_salary2()，查看“emps”表的某个员工的薪资，
+#并用IN参数empname输入员工姓名，用OUT参数empsalary输出员工薪资。
+DELIMITER //
+
+CREATE PROCEDURE show_someone_salary2(IN empname VARCHAR(20),OUT empsalary DECIMAL(10,2))
+BEGIN
+	SELECT salary INTO empsalary
+	FROM employees
+	WHERE last_name = empname;
+END //
+
+DELIMITER ;
+
+#调用
+SET @empname = 'Abel';
+CALL show_someone_salary2(@empname,@empsalary);
+
+SELECT @empsalary;
+```
+
+```sql
+#类型5：带 INOUT
+#举例7：创建存储过程show_mgr_name()，查询某个员工领导的姓名，并用INOUT参数“empname”输入员工姓名，
+#输出领导的姓名。
+DELIMITER $
+
+CREATE PROCEDURE show_mgr_name(INOUT empname VARCHAR(25))
+BEGIN
+
+	SELECT last_name INTO empname
+	FROM employees
+	WHERE employee_id = (
+				SELECT manager_id
+				FROM employees
+				WHERE last_name = empname
+				);
+END $
+
+DELIMITER ;
+
+#调用
+SET @empname := 'Abel';
+CALL show_mgr_name(@empname);
+
+SELECT @empname;
+```
+
+## 存储函数的使用
 
 
 
