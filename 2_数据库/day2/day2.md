@@ -1025,8 +1025,6 @@ DESC myemp12;
 #5. 删除表
 #不光将表结构删除掉，同时表中的数据也删除掉，释放表空间
 DROP TABLE IF EXISTS myemp2;
-
-DROP TABLE IF EXISTS myemp12;
 ```
 
 ## 清空表

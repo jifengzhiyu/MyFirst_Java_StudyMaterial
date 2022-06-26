@@ -655,6 +655,8 @@ DROP VIEW IF EXISTS vu_emp2,vu_emp3;
 - 存储过程和函数能够将复杂的SQL逻辑封装在一起，应用程序无须关注存储过程和函数内部复杂的SQL逻辑，而只需要简单地调用存储过程和函数即可。
 - **函数才是真正有返回值**
 
+![image-20220627002125766](Pic/image-20220627002125766.png)
+
 ## 存储过程概述
 
 ### 理解
@@ -902,7 +904,176 @@ SELECT @empname;
 
 ## 存储函数的使用
 
+- 参数列表：指定参数为IN、OUT或INOUT只对PROCEDURE是合法的，FUNCTION中总是默认为IN参数。(因为存储函数一定存在return语句)
+- RETURNS type 语句表示函数返回数据的类型；
+- 函数体也可以用BEGIN…END来表示SQL代码的开始和结束。如果函数体只有一条语句，也可以省略BEGIN…END。
 
+```sql
+CREATE FUNCTION 函数名(参数名 参数类型,...) 
+RETURNS 返回值类型 
+[characteristics ...]
+BEGIN函数体 
+#函数体中肯定有 RETURN 语句 
+END
+```
+
+## 调用存储函数
+
+- 存储函数是 用户自己定义 的，而内部函数是MySQL 的开发者定义的。
+- `SELECT 函数名(实参列表) `
+
+```sql
+#2.存储函数
+# 举例1：创建存储函数，名称为email_by_name()，参数定义为空，
+#该函数查询Abel的email，并返回，数据类型为字符串型。
+DELIMITER //
+
+CREATE FUNCTION email_by_name()
+RETURNS VARCHAR(25)
+	DETERMINISTIC
+	CONTAINS SQL
+	READS SQL DATA
+BEGIN
+	RETURN (SELECT email FROM employees WHERE last_name = 'Abel');
+END //
+
+DELIMITER ;
+#调用
+SELECT email_by_name();
+```
+
+```sql
+#举例2：创建存储函数，名称为email_by_id()，参数传入emp_id，该函数查询emp_id的email，
+#并返回，数据类型为字符串型。
+#创建函数前执行此语句，保证函数的创建会成功
+SET GLOBAL log_bin_trust_function_creators = 1;
+#声明函数
+DELIMITER //
+
+CREATE FUNCTION email_by_id(emp_id INT)
+RETURNS VARCHAR(25)
+
+BEGIN
+	RETURN (SELECT email FROM employees WHERE employee_id = emp_id);
+
+END //
+
+DELIMITER ;
+#调用
+SELECT email_by_id(101);
+
+SET @emp_id := 102;
+SELECT email_by_id(@emp_id);
+```
+
+## 报错处理
+
+- 若在创建存储函数中报错“ you might want to use the less safe log_bin_trust_function_creators variable ”，有两种处理方法：
+- 方式1：加上必要的函数特性“[NOT] DETERMINISTIC”和“{CONTAINS SQL | NO SQL | READS SQL DATA | MODIFIES SQL DATA}”
+- 方式2：`mysql> SET GLOBAL log_bin_trust_function_creators = 1; `
+
+## 存储过程和函数的查看、修改、删除
+
+### 查看
+
+```sql
+-- 使用SHOW CREATE语句查看存储过程和函数的创建信息
+-- 能够看到创建代码
+SHOW CREATE {PROCEDURE | FUNCTION} 存储过程名或函数名
+SHOW CREATE FUNCTION test_db.CountProc \G
+
+-- 使用SHOW STATUS语句查看存储过程和函数的状态信息
+-- 匹配存储过程或函数的名称，可以省略。当省略不写时，会列出MySQL数据库中存在的所有存储过程或函数的信息。
+SHOW PROCEDURE STATUS;
+-- 或
+SHOW {PROCEDURE | FUNCTION} STATUS [LIKE 'pattern']
+
+-- 从information_schema.Routines表中查看存储过程和函数的信息
+SELECT * FROM information_schema.Routines 
+WHERE ROUTINE_NAME='存储过程或函数的名' 
+[AND ROUTINE_TYPE = {'PROCEDURE|FUNCTION'}];
+
+SELECT * FROM information_schema.Routines
+WHERE ROUTINE_NAME='email_by_id' AND ROUTINE_TYPE = 'FUNCTION';
+```
+
+### 修改
+
+- 修改存储过程或函数，不影响存储过程或函数功能，**只能修改相关特性。使用ALTER语句实现。**
+
+```sql
+ALTER {PROCEDURE | FUNCTION} 存储过程或函数的名 [characteristic ...]
+-- characteristic指定存储过程或函数的特性，其取值信息与创建存储过程、函数时的取值信息略有不同。
+
+{ CONTAINS SQL | NO SQL | READS SQL DATA | MODIFIES SQL DATA } 
+| SQL SECURITY { DEFINER | INVOKER } 
+| COMMENT 'string'
+```
+
+- CONTAINS SQL ，表示子程序包含SQL语句，但不包含读或写数据的语句。
+- NO SQL ，表示子程序中不包含SQL语句。
+- READS SQL DATA ，表示子程序中包含读数据的语句。
+- MODIFIES SQL DATA ，表示子程序中包含写数据的语句。
+- SQL SECURITY { DEFINER | INVOKER } ，指明谁有权限来执行。
+  - DEFINER ，表示只有定义者自己才能够执行。（默认)
+  - INVOKER ，表示调用者可以执行。
+- COMMENT 'string' ，表示注释信息。
+
+### 删除
+
+```sql
+DROP {PROCEDURE | FUNCTION} [IF EXISTS] 存储过程或函数的名
+```
+
+## 存储过程使用的争议
+
+>**阿里开发规范**
+>
+>【强制】禁止使用存储过程，存储过程难以调试和扩展，更没有移植性。
+
+### 优点
+
+1**、存储过程可以一次编译多次使用。**
+
+存储过程只在创建时进行编译，之后的使用都不需要重新编译，这就提升了 SQL 的执行效率。
+
+2**、可以减少开发工作量。**
+
+将代码 封装 成模块，实际上是编程的核心思想之一，这样可以把复杂的问题拆解成不同的模块，然后模块之间可以 重复使用 ，在减少开发工作量的同时，还能保证代码的结构清晰。
+
+3**、存储过程的安全性强。**
+
+我们在设定存储过程的时候可以 设置对用户的使用权限 ，这样就和视图一样具有较强的安全性。
+
+4**、可以减少网络传输量。**
+
+因为代码封装到存储过程中，每次使用只需要调用存储过程即可，这样就减少了网络传输量。
+
+5**、良好的封装性。**
+
+在进行相对复杂的数据库操作时，原本需要使用一条一条的 SQL 语句，可能要连接多次数据库才能完成的操作，现在变成了一次存储过程，只需要 连接一次即可 。 
+
+### 缺点
+
+1**、可移植性差。**
+
+存储过程不能跨数据库移植，比如在 MySQL、Oracle 和 SQL Server 里编写的存储过程，在换成其他数据库时都需要重新编写。
+
+2**、调试困难。**
+
+只有少数 DBMS 支持存储过程的调试。对于复杂的存储过程来说，开发和维护都不容易。虽然也有一些第三方工具可以对存储过程进行调试，但要收费。
+
+3**、存储过程的版本管理很困难。**
+
+比如数据表索引发生变化了，可能会导致存储过程失效。我们在开发软件的时候往往需要进行版本管理，但是存储过程本身没有版本控制，版本迭代更新的时候很麻烦。
+
+4**、它不适合高并发的场景。**
+
+高并发的场景需要减少数据库的压力，有时数据库会采用分库分表的方式，而且对可扩展性要求很高，在这种情况下，存储过程会变得难以维护， 增加数据库的压力 ，显然就不适用了。
+
+小结：
+
+存储过程既方便，又有局限性。尽管不同的公司对存储过程的态度不一，但是对于我们开发人员来说，不论怎样，掌握存储过程都是必备的技能之一。
 
 
 
