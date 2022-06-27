@@ -902,6 +902,27 @@ CALL show_mgr_name(@empname);
 SELECT @empname;
 ```
 
+```sql
+-- INTO多条变量
+DELIMITER //
+
+CREATE PROCEDURE get_phone(IN id INT,OUT NAME VARCHAR(15),OUT phone VARCHAR(15))
+BEGIN
+	SELECT b.name,b.phone INTO NAME,phone
+	FROM beauty b
+	WHERE b.id = id;
+END //
+
+DELIMITER ;
+
+#调用
+
+CALL get_phone(3,@name,@phone);
+SELECT @name,@phone;
+```
+
+
+
 ## 存储函数的使用
 
 - 参数列表：指定参数为IN、OUT或INOUT只对PROCEDURE是合法的，FUNCTION中总是默认为IN参数。(因为存储函数一定存在return语句)
@@ -1075,16 +1096,3 @@ DROP {PROCEDURE | FUNCTION} [IF EXISTS] 存储过程或函数的名
 
 存储过程既方便，又有局限性。尽管不同的公司对存储过程的态度不一，但是对于我们开发人员来说，不论怎样，掌握存储过程都是必备的技能之一。
 
-
-
-变量初始化问题？
-
-局部变量可以不加默认值
-
-
-
-![image-20220623164135489](Pic/image-20220623164135489.png)
-
-
-
-![image-20220625180439382](Pic/image-20220625180439382.png)
