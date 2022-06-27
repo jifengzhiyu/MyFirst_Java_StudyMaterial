@@ -301,6 +301,379 @@ DECLARE EXIT HANDLER FOR NOT FOUND SET @info = 'NO_SUCH_TABLE';
 DECLARE EXIT HANDLER FOR SQLEXCEPTION SET @info = 'ERROR';
 ```
 
+### 案例解决
+
+```sql
+#2.4 案例的处理
+#重新定义存储过程，体现错误的处理程序
+DELIMITER //
+
+CREATE PROCEDURE UpdateDataNoCondition()
+	BEGIN
+		#声明处理程序
+		#处理方式1：
+		DECLARE CONTINUE HANDLER FOR 1048 SET @prc_value = -1;
+		#处理方式2：
+		#DECLARE CONTINUE HANDLER FOR sqlstate '23000' SET @prc_value = -1;
+		
+		SET @x = 1;
+		UPDATE employees SET email = NULL WHERE last_name = 'Abel';
+		SET @x = 2;
+		UPDATE employees SET email = 'aabbel' WHERE last_name = 'Abel';
+		SET @x = 3;
+	END //
+
+DELIMITER ;
+#调用存储过程：
+CALL UpdateDataNoCondition();
+#查看变量：
+SELECT @x,@prc_value;
+-- 3 -1
+```
+
+## 流程控制
+
+- 针对于MySQL 的流程控制语句主要有 3 类。注意：只能用于存储程序。
+  - 条件判断语句 ：IF 语句和 CASE 语句
+  - 循环语句 ：LOOP、WHILE 和 REPEAT 语句
+  - 跳转语句 ：ITERATE 和 LEAVE 语句
+
+### **分支结构之** IF
+
+- 使用在begin end中
+
+```sql
+IF 表达式1 THEN 操作1 
+[ELSEIF 表达式2 THEN 操作2]
+……
+[ELSE 操作N]
+END IF
+```
+
+```sql
+DELIMITER //
+CREATE PROCEDURE test_if()
+BEGIN	
+	#情况1：
+	#声明局部变量
+	#declare stu_name varchar(15);
+	
+	#if stu_name is null 
+	#	then select 'stu_name is null';
+	#end if;
+	
+	#情况2：二选一
+	#declare email varchar(25) default 'aaa';
+	
+	#if email is null
+	#	then select 'email is null';
+	#else
+	#	select 'email is not null';
+	#end if;
+	
+	#情况3：多选一
+	DECLARE age INT DEFAULT 20;
+	
+	IF age > 40
+		THEN SELECT '中老年';
+	ELSEIF age > 18
+		THEN SELECT '青壮年';
+	ELSEIF age > 8
+		THEN SELECT '青少年';
+	ELSE
+		SELECT '婴幼儿';
+	END IF;
+
+END //
+
+DELIMITER ;
+#调用
+CALL test_if();
+```
+
+```sql
+SELECT DATEDIFF(CURDATE(),hire_date)/365 INTO hire_year FROM employees WHERE employee_id = emp_id;
+-- 可以这样查询 hire_date
+```
+
+### 分支结构之 CASE
+
+```sql
+-- CASE 语句的语法结构1：
+#情况一：类似于switch 
+CASE 表达式 
+WHEN 值1 THEN 结果1或语句1(如果是语句，需要加分号)
+WHEN 值2 THEN 结果2或语句2(如果是语句，需要加分号)
+... 
+ELSE 结果n或语句n(如果是语句，需要加分号) 
+END [case]（如果是放在begin end中需要加上case，如果放在select后面不需要）
+
+-- CASE 语句的语法结构2：
+#情况二：类似于多重if 
+CASE 
+WHEN 条件1 THEN 结果1或语句1(如果是语句，需要加分号) 
+WHEN 条件2 THEN 结果2或语句2(如果是语句，需要加分号) 
+... 
+ELSE 结果n或语句n(如果是语句，需要加分号) 
+END [case]（如果是放在begin end中需要加上case，如果放在select后面不需要）
+```
+
+```sql
+#举例1:基本使用
+DELIMITER //
+CREATE PROCEDURE test_case()
+BEGIN
+	#演示1：case ... when ...then ...
+	/*
+	declare var int default 2;
+	
+	case var
+		when 1 then select 'var = 1';
+		when 2 then select 'var = 2';
+		when 3 then select 'var = 3';
+		else select 'other value';
+	end case;
+	*/
+	#演示2：case when ... then ....
+	DECLARE var1 INT DEFAULT 10;
+	CASE 
+	WHEN var1 >= 100 THEN SELECT '三位数';
+	WHEN var1 >= 10 THEN SELECT '两位数';
+	ELSE SELECT '个数位';
+	END CASE;
+END //
+DELIMITER ;
+#调用
+CALL test_case();
+```
+
+### 循环结构之LOOP
+
+```sql
+/*
+凡是循环结构，一定具备4个要素：
+1. 初始化条件
+2. 循环条件
+3. 循环体
+4. 迭代条件
+*/
+```
+
+- LOOP循环语句用来重复执行某些语句。LOOP内的语句一直重复执行直到循环被退出（使用LEAVE子句），跳出循环过程。
+
+```sql
+[loop_label:] LOOP 
+循环执行的语句 
+END LOOP [loop_label]
+-- loop_label表示LOOP语句的标注名称，该参数可以省略。
+```
+
+```sql
+DELIMITER //
+CREATE PROCEDURE test_loop()
+
+BEGIN
+	#声明局部变量
+	DECLARE num INT DEFAULT 1;
+	loop_label:LOOP
+		#重新赋值
+		SET num = num + 1;
+		#可以考虑某个代码程序反复执行。（略）
+		IF num >= 10 THEN LEAVE loop_label;
+		END IF;
+	END LOOP loop_label;
+	#查看num
+	SELECT num;
+END //
+
+DELIMITER ;
+#调用
+CALL test_loop();
+```
+
+```sql
+#举例2：当市场环境变好时，公司为了奖励大家，决定给大家涨工资。
+#声明存储过程“update_salary_loop()”，声明OUT参数num，输出循环次数。
+#存储过程中实现循环给大家涨薪，薪资涨为原来的1.1倍。直到全公司的平
+#均薪资达到12000结束。并统计循环次数。
+DELIMITER //
+
+CREATE PROCEDURE update_salary_loop(OUT num INT)
+BEGIN
+	#声明变量
+	DECLARE avg_sal DOUBLE ; #记录员工的平均工资
+	
+	DECLARE loop_count INT DEFAULT 0;
+	#记录循环的次数，避免传进来的OUT变量有值
+	
+	#① 初始化条件
+	#获取员工的平均工资
+	SELECT AVG(salary) INTO avg_sal FROM employees;
+	
+	loop_lab:LOOP
+		#② 循环条件
+		#结束循环的条件
+		IF avg_sal >= 12000
+			THEN LEAVE loop_lab;
+		END IF;
+		
+		#③ 循环体
+		#如果低于12000，更新员工的工资
+		UPDATE employees SET salary = salary * 1.1;
+		
+		#④ 迭代条件
+		#更新avg_sal变量的值
+		SELECT AVG(salary) INTO avg_sal FROM employees;
+		
+		#记录循环次数
+		SET loop_count = loop_count + 1;
+		
+	END LOOP loop_lab;
+			
+	#给num赋值
+	SET num = loop_count;	
+
+END //
+
+DELIMITER ;
+
+CALL update_salary_loop(@num);
+SELECT @num;
+```
+
+### WHILE
+
+- WHILE语句创建一个带条件判断的循环过程。WHILE在执行语句执行时，先对指定的表达式进行判断，如果为真，就执行循环内的语句，否则退出循环。WHILE语句的基本格式如下：
+
+```sql
+[while_label:] WHILE 循环条件 
+DO 循环体 
+END WHILE [while_label];
+-- while_label为WHILE语句的标注名称,该参数可以省略；如果循环条件结果为真，WHILE语句内的语句或语句群被执行，直至循环条件为假，退出循环。
+```
+
+```sql
+DELIMITER //
+CREATE PROCEDURE test_while()
+
+BEGIN	
+	#初始化条件
+	DECLARE num INT DEFAULT 1;
+	#循环条件
+	WHILE num <= 10 DO
+		#循环体（略）
+		#迭代条件
+		SET num = num + 1;
+	END WHILE;
+	#查询
+	SELECT num;
+END //
+
+DELIMITER ;
+
+#调用
+CALL test_while();
+```
+
+### 循环结构之REPEAT
+
+- REPEAT语句创建一个带条件判断的循环过程。与WHILE循环不同的是，REPEAT 循环首先会执行一次循环，然后在 UNTIL 中进行表达式的判断，如果满足条件就退出，即 END REPEAT；如果条件不满足，则会就继续执行循环，直到满足退出条件为止。
+
+```sql
+[repeat_label:] REPEAT 循环体的语句
+UNTIL 结束循环的条件表达式
+END REPEAT [repeat_label]
+-- repeat_label为REPEAT语句的标注名称，该参数可以省略；REPEAT语句内的语句或语句群被重复，直至expr_condition为真。
+```
+
+```sql
+DELIMITER //
+
+CREATE PROCEDURE test_repeat()
+BEGIN
+	#声明变量
+	DECLARE num INT DEFAULT 1;
+	
+	REPEAT
+		SET num = num + 1;
+		UNTIL num >= 10
+	END REPEAT;
+	
+	#查看
+	SELECT num;
+
+END //
+
+DELIMITER ;
+
+#调用
+CALL test_repeat();
+```
+
+### 对比三种循环结构
+
+1、这三种循环都可以省略名称，但如果循环中添加了循环控制语句（LEAVE或ITERATE）则必须添加名称。
+
+ 2、 LOOP：一般用于实现简单的"死"循环 
+
+​		WHILE：先判断后执行 
+
+​		REPEAT：先执行后判断，无条件至少执行一次
+
+### 跳转语句之LEAVE语句
+
+- LEAVE语句：可以用在循环语句内，或者以 BEGIN 和 END 包裹起来的程序体内，表示跳出循环或者跳出程序体的操作。如果你有面向过程的编程语言的使用经验，你可以把 LEAVE 理解为 break。
+
+```sql
+LEAVE 标记名
+```
+
+```sql
+#5.1 LEAVE的使用
+/*
+**举例1：**创建存储过程 “leave_begin()”，声明INT类型的IN参数num。给BEGIN...END加标记名，
+并在BEGIN...END中使用IF语句判断num参数的值。
+
+- 如果num<=0，则使用LEAVE语句退出BEGIN...END；
+- 如果num=1，则查询“employees”表的平均薪资；
+- 如果num=2，则查询“employees”表的最低薪资；
+- 如果num>2，则查询“employees”表的最高薪资。
+
+IF语句结束后查询“employees”表的总人数。
+*/
+DELIMITER //
+CREATE PROCEDURE leave_begin(IN num INT)
+
+begin_label:BEGIN
+	IF num <= 0
+		THEN LEAVE begin_label;
+	ELSEIF num = 1
+		THEN SELECT AVG(salary) FROM employees;
+	ELSEIF num = 2
+		THEN SELECT MIN(salary) FROM employees;
+	ELSE 
+		SELECT MAX(salary) FROM employees;
+	END IF;
+	
+	#查询总人数
+	SELECT COUNT(*) FROM employees;
+END //
+
+DELIMITER ;
+#调用
+CALL leave_begin(0);
+```
+
+### 跳转语句之ITERATE语句
+
+- ITERATE语句：只能用在循环语句（LOOP、REPEAT和WHILE语句）内，表示重新开始循环，将执行顺序转到语句段开头处。如果你有面向过程的编程语言的使用经验，你可以把 ITERATE 理解为 continue，意思为“再次循环”。
+
+```sql
+ITERATE label
+```
+
+## 游标
+
 
 
 
