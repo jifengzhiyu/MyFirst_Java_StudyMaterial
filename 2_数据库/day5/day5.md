@@ -119,6 +119,31 @@ SELECT @avg_sal;
 SELECT @用户变量
 ```
 
+```sql
+-- 会话用户变量可以当函数返回值
+#2. 创建函数ename_salary(),根据员工姓名，返回它的工资
+DELIMITER $
+
+CREATE FUNCTION ename_salary(emp_name VARCHAR(15))
+RETURNS DOUBLE
+
+BEGIN
+	#声明变量
+	SET @sal = 0; #定义了一个会话用户变量
+	
+	#赋值
+	SELECT salary INTO @sal FROM employees WHERE last_name = emp_name;	
+	
+	RETURN @sal;
+END $
+
+DELIMITER ;
+
+#调用
+SELECT ename_salary('Abel');
+SELECT @sal;
+```
+
 #### 局部变量
 
 - 定义：可以使用 DECLARE 语句定义一个局部变量
@@ -664,6 +689,49 @@ DELIMITER ;
 CALL leave_begin(0);
 ```
 
+```sql
+#举例2：当市场环境不好时，公司为了渡过难关，决定暂时降低大家的薪资。
+#声明存储过程“leave_while()”，声明OUT参数num，输出循环次数，存储过程中使用WHILE
+#循环给大家降低薪资为原来薪资的90%，直到全公司的平均薪资小于等于10000，并统计循环次数。
+DELIMITER //
+CREATE PROCEDURE leave_while(OUT num INT)
+
+BEGIN 
+	#
+	DECLARE avg_sal DOUBLE;#记录平均工资
+	DECLARE while_count INT DEFAULT 0; #记录循环次数
+	
+	SELECT AVG(salary) INTO avg_sal FROM employees; #① 初始化条件
+	
+	while_label:WHILE TRUE DO  #② 循环条件
+		
+		#③ 循环体
+		IF avg_sal <= 10000 THEN
+			LEAVE while_label;
+		END IF;
+		
+		UPDATE employees SET salary  = salary * 0.9;
+		SET while_count = while_count + 1;
+		
+		#④ 迭代条件
+		SELECT AVG(salary) INTO avg_sal FROM employees;
+	
+	END WHILE while_label;
+	
+	#赋值
+	SET num = while_count;
+
+END //
+
+DELIMITER ;
+
+#调用
+CALL leave_while(@num);
+SELECT @num;
+
+SELECT AVG(salary) FROM employees;
+```
+
 ### 跳转语句之ITERATE语句
 
 - ITERATE语句：只能用在循环语句（LOOP、REPEAT和WHILE语句）内，表示重新开始循环，将执行顺序转到语句段开头处。如果你有面向过程的编程语言的使用经验，你可以把 ITERATE 理解为 continue，意思为“再次循环”。
@@ -672,17 +740,203 @@ CALL leave_begin(0);
 ITERATE label
 ```
 
+```sql
+/*
+举例： 定义局部变量num，初始值为0。循环结构中执行num + 1操作。
+- 如果num < 10，则继续执行循环；
+- 如果num > 15，则退出循环结构；
+*/
+DROP PROCEDURE IF EXISTS test_iterate;
+
+DELIMITER //
+
+CREATE PROCEDURE test_iterate()
+
+BEGIN
+	DECLARE num INT DEFAULT 0;
+	
+	loop_label:LOOP
+		#赋值
+		SET num = num + 1;
+		
+		IF num  < 10
+			THEN ITERATE loop_label;
+		ELSEIF num > 15
+			THEN LEAVE loop_label;
+		END IF;
+		
+		SELECT '尚硅谷：让天下没有难学的技术',num;
+		-- num --> 10
+	
+	END LOOP;
+
+END //
+
+DELIMITER ;
+
+CALL test_iterate();
+```
+
 ## 游标
 
+### 什么是游标（或光标）
 
+- 在结果集中像指针一样，向前定位一条记录、向后定位一条记录，或者是 **随意定位到某一条记录** ，并对记录的数据进行处理。
+- 让我们能够对结果集中的每一条记录进行定位，并对指向的记录中的数据进行操作的数据结构。**游标让** SQL **这种面向集合的语言有了面向过程开发的能力。**
 
+### 使用游标步骤
 
+- 游标必须在**声明处理程序之前被声明**，并且**变量和条件**还必须在声明游标或处理程序之前被声明。
+- 如果我们想要使用游标，一般需要经历四个步骤。不同的 DBMS 中，使用游标的语法可能略有不同。
 
+```sql
+-- 第一步，声明游标
+-- 这个语法适用于 MySQL，SQL Server，DB2 和 MariaDB
+DECLARE cursor_name CURSOR FOR select_statement;
+-- 如果是用 Oracle 或者 PostgreSQL，需要写成：
+DECLARE cursor_name CURSOR IS select_statement;
 
+-- 要使用 SELECT 语句来获取数据结果集，而此时还没有开始遍历数据，这里 select_statement 代表的是SELECT 语句，返回一个用于创建游标的结果集。
+DECLARE cur_emp CURSOR FOR 
+SELECT employee_id,salary FROM employees;
+```
 
+```sql
+-- 第二步，打开游标
+OPEN cursor_name
+-- 打开游标的时候 SELECT 语句的查询结果集就会送到游标工作区，为后面游标的 逐条读取 结果集中的记录做准备。
+OPEN cur_emp;
+```
 
-
-
+```sql
+-- 第三步，使用游标（从游标中取得数据）
+FETCH cursor_name INTO var_name [, var_name] ...
+/*
+这句的作用是使用 cursor_name 这个游标来读取当前行，并且将数据保存到 var_name 这个变量中，游
+标指针指到下一行。如果游标读取的数据行有多个列名，则在 INTO 关键字后面赋值给多个变量名即可。
+注意：var_name必须在声明游标之前就定义好。
+*/
+```
 
 ![image-20220625180439382](Pic/image-20220625180439382.png)
+
+```sql
+-- 第四步，关闭游标
+CLOSE cursor_name
+/*
+因为游标会占用系统资源 ，如果不及时关闭，游标会一直保持到存储过程结束，影响系统运行的效率。而关闭游标的操作，会释放游标占用的系统资源。
+*/
+```
+
+```sql
+#举例：创建存储过程“get_count_by_limit_total_salary()”，声明IN参数 limit_total_salary，
+#DOUBLE类型；声明OUT参数total_count，INT类型。函数的功能可以实现累加薪资最高的几个员工的薪资值，
+#直到薪资总和达到limit_total_salary参数的值，返回累加的人数给total_count。
+DELIMITER //
+
+CREATE PROCEDURE get_count_by_limit_total_salary(IN limit_total_salary DOUBLE,OUT total_count INT)
+BEGIN
+
+	#声明局部变量
+	DECLARE sum_sal DOUBLE DEFAULT 0.0; #记录累加的工资总额
+	DECLARE emp_sal DOUBLE; #记录每一个员工的工资
+	DECLARE emp_count INT DEFAULT 0;#记录累加的人数
+	
+	#1.声明游标
+	DECLARE emp_cursor CURSOR FOR SELECT salary FROM employees ORDER BY salary DESC;
+	
+	#2.打开游标
+	OPEN emp_cursor;
+	
+	REPEAT
+		#3.使用游标
+		FETCH emp_cursor INTO emp_sal;
+		
+		SET sum_sal = sum_sal + emp_sal;
+		SET emp_count = emp_count + 1;
+		UNTIL sum_sal >= limit_total_salary
+	END REPEAT;
+	
+	SET total_count = emp_count;
+	
+	#4.关闭游标
+	CLOSE emp_cursor;
+	
+END //
+
+DELIMITER ;
+
+#调用
+CALL get_count_by_limit_total_salary(200000,@total_count);
+SELECT @total_count;
+```
+
+```sql
+#3. 游标的使用
+#创建存储过程update_salary()，参数1为 IN 的INT型变量dept_id，表示部门id；
+#参数2为 IN的INT型变量change_sal_count，表示要调整薪资的员工个数。查询指定id部门的员工信息，
+#按照salary升序排列，根据hire_date的情况，调整前change_sal_count个员工的薪资，详情如下。
+DELIMITER $
+
+CREATE PROCEDURE update_salary(IN dept_id INT,IN change_sal_count INT)
+BEGIN
+	#声明变量
+	DECLARE emp_id INT ;#记录员工id
+	DECLARE emp_hire_date DATE; #记录员工入职时间
+	
+	DECLARE init_count INT DEFAULT 1; #用于表示循环结构的初始化条件
+	DECLARE add_sal_rate DOUBLE ; #记录涨薪的比例
+	
+	#声明游标
+	DECLARE emp_cursor CURSOR FOR SELECT employee_id,hire_date FROM employees 
+	WHERE department_id = dept_id ORDER BY salary ASC;
+	
+	#打开游标
+	OPEN emp_cursor;
+	
+	WHILE init_count <= change_sal_count DO
+
+		#使用游标
+		FETCH emp_cursor INTO emp_id,emp_hire_date;
+		
+		#获取涨薪的比例
+		IF (YEAR(emp_hire_date) < 1995)
+			THEN SET add_sal_rate = 1.2;
+		ELSEIF(YEAR(emp_hire_date) <= 1998)
+			THEN SET add_sal_rate = 1.15;
+		ELSEIF(YEAR(emp_hire_date) <= 2001)
+			THEN SET add_sal_rate = 1.10;
+		ELSE
+			SET add_sal_rate = 1.05;
+		END IF;
+		
+		#涨薪操作
+		UPDATE employees SET salary = salary * add_sal_rate
+		WHERE employee_id = emp_id;
+		
+		#迭代条件的更新
+		SET init_count = init_count + 1;
+	
+	END WHILE;
+	
+	#关闭游标
+	CLOSE emp_cursor;
+
+END $
+
+DELIMITER ;
+
+#调用
+CALL update_salary(50,3);
+```
+
+### 小结
+
+- 游标是 MySQL 的一个重要的功能，为 逐条读取 结果集中的数据，提供了完美的解决方案。跟在应用层面实现相同的功能相比，游标可以在存储程序中使用，效率高，程序也更加简洁。
+- 但同时也会带来一些性能问题，比如在使用游标的过程中，会对数据行进行 加锁 ，这样在业务并发量大的时候，不仅会影响业务之间的效率，还会 消耗系统资源 ，造成内存不足，这是因为游标是在内存中进行的处理。
+- 建议：养成用完之后就关闭的习惯，这样才能提高系统的整体效率。
+
+## MySQL 8.0的新特性—全局变量的持久化
+
+![image-20220627222535724](Pic/image-20220627222535724.png)
 
