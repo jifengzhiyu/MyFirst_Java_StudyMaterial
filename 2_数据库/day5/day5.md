@@ -953,11 +953,25 @@ CALL update_salary(50,3);
 ## 触发器的创建
 
 - 表名 ：表示触发器监控的对象。
+
 - BEFORE|AFTER ：表示触发的时间。BEFORE 表示在事件之前触发；AFTER 表示在事件之后触发。
+
 - INSERT|UPDATE|DELETE ：表示触发的事件。
+
   - INSERT 表示插入记录时触发；
+
   - UPDATE 表示更新记录时触发；
-  - DELETE 表示删除记录时触发。触发器执行的语句块 ：可以是单条SQL语句，也可以是由BEGIN…END结构组成的复合语句块。
+
+  - DELETE 表示删除记录（
+
+  - ```sql
+    DELETE FROM emps
+    WHERE employee_id = 101;
+    
+    DELETE FROM emps;-- 删除所有记录
+    ```
+
+  - ）时触发。触发器执行的语句块 ：可以是单条SQL语句，也可以是由BEGIN…END结构组成的复合语句块。
 
 ```sql
 CREATE TRIGGER 触发器名称 
