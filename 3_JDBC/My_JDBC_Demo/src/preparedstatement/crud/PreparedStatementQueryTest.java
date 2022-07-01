@@ -17,11 +17,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *@ClassName PreparedStatementQueryTest
- *@Description TODO
- *@Author kaixin
- *@Date 2022/6/30 17:19
- *@Version 1.0
+ *
+ * @Description 使用PreparedStatement实现针对于不同表的通用的查询操作
+ * @author shkstart Email:shkstart@126.com
+ * @version
+ * @date 上午11:32:55
+ *
  */
 public class PreparedStatementQueryTest {
 
