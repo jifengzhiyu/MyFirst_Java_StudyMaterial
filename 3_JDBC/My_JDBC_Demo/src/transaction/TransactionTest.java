@@ -72,7 +72,6 @@ public class TransactionTest {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-
             //修改其为自动提交数据
             //主要针对于使用数据库连接池的使用
             try {
@@ -80,17 +79,13 @@ public class TransactionTest {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-
             // 5.资源的关闭
             JDBCUtils.closeResource(conn, ps);
-
         }
         return 0;
-
     }
 
     //********************考虑数据库事务后的转账操作*********************
-
     @Test
     public void testUpdateWithTx() {
         Connection conn = null;
@@ -123,10 +118,8 @@ public class TransactionTest {
                 e1.printStackTrace();
             }
         }finally{
-
             JDBCUtils.closeResource(conn, null);
         }
-
     }
 
     // 通用的增删改操作---version 2.0 （考虑上事务）
@@ -146,20 +139,17 @@ public class TransactionTest {
         } finally {
             // 4.资源的关闭
             JDBCUtils.closeResource(null, ps);
-
         }
         return 0;
-
     }
 
     //*****************************************************
     @Test
     public void testTransactionSelect() throws Exception{
-
         Connection conn = JDBCUtils.getConnection();
         //获取当前连接的隔离级别
         System.out.println(conn.getTransactionIsolation());
-        //设置数据库的隔离级别：
+        //设置当前链接数据库的隔离级别：
         conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
         //取消自动提交数据
         conn.setAutoCommit(false);
@@ -168,13 +158,11 @@ public class TransactionTest {
         User user = getInstance(conn, User.class, sql, "CC");
 
         System.out.println(user);
-
     }
 
     @Test
     public void testTransactionUpdate() throws Exception{
         Connection conn = JDBCUtils.getConnection();
-
         //取消自动提交数据
         conn.setAutoCommit(false);
         String sql = "update user_table set balance = ? where user = ?";
@@ -189,7 +177,6 @@ public class TransactionTest {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-
             ps = conn.prepareStatement(sql);
             for (int i = 0; i < args.length; i++) {
                 ps.setObject(i + 1, args[i]);
@@ -223,10 +210,7 @@ public class TransactionTest {
             e.printStackTrace();
         } finally {
             JDBCUtils.closeResource(null, ps, rs);
-
         }
-
         return null;
     }
-
 }
