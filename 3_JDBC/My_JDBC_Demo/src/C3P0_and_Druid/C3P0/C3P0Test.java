@@ -1,4 +1,4 @@
-package C3P0;
+package C3P0_and_Druid.C3P0;
 /**
  * @author jifengzhiyu
  * @create 2022-07-02 18:50
@@ -8,6 +8,7 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.junit.Test;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 
 /**
  *@ClassName C3P0Test
@@ -43,5 +44,11 @@ public class C3P0Test {
 //		DataSources.destroy( cpds );
     }
 
-
+    //方式二：使用配置文件
+    @Test
+    public void testGetConnection1() throws SQLException {
+        ComboPooledDataSource cpds = new ComboPooledDataSource("hellc3p0");
+        Connection conn = cpds.getConnection();
+        System.out.println(conn);
+    }
 }

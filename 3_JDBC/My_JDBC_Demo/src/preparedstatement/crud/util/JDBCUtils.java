@@ -3,6 +3,10 @@ package preparedstatement.crud.util;/**
  * @create 2022-06-30 10:11
  */
 
+import com.alibaba.druid.pool.DruidDataSourceFactory;
+import com.mchange.v2.c3p0.ComboPooledDataSource;
+
+import javax.sql.DataSource;
 import java.io.InputStream;
 import java.sql.*;
 import java.util.Properties;
@@ -16,6 +20,80 @@ import java.util.Properties;
  *
  */
 public class JDBCUtils {
+
+    /**
+     *
+     * @Description 使用C3P0的数据库连接池技术
+     * @author shkstart
+     * @date 下午3:01:25
+     * @return
+     * @throws SQLException
+     */
+    //数据库连接池只需提供一个即可。
+    private static ComboPooledDataSource cpds = new ComboPooledDataSource("hellc3p0");
+
+    public static Connection getConnection1() throws SQLException {
+        Connection conn = cpds.getConnection();
+
+        return conn;
+    }
+
+    /**
+     * 使用Druid数据库连接池技术
+     */
+    private static DataSource source1;
+    static{
+        try {
+            Properties pros = new Properties();
+
+            InputStream is = ClassLoader.getSystemClassLoader().getResourceAsStream("druid.properties");
+
+            pros.load(is);
+
+            source1 = DruidDataSourceFactory.createDataSource(pros);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static Connection getConnection3() throws SQLException{
+        Connection conn = source1.getConnection();
+        return conn;
+    }
+
+
+
+    /**
+     *
+     * @Description 使用dbutils.jar中提供的DbUtils工具类，实现资源的关闭
+     * @author shkstart
+     * @date 下午4:53:09
+     * @param conn
+     * @param ps
+     * @param rs
+     */
+//    public static void closeResource1(Connection conn, Statement ps, ResultSet rs){
+////		try {
+////			DbUtils.close(conn);
+////		} catch (SQLException e) {
+////			e.printStackTrace();
+////		}
+////		try {
+////			DbUtils.close(ps);
+////		} catch (SQLException e) {
+////			e.printStackTrace();
+////		}
+////		try {
+////			DbUtils.close(rs);
+////		} catch (SQLException e) {
+////			e.printStackTrace();
+////		}
+//
+//        DbUtils.closeQuietly(conn);
+//        DbUtils.closeQuietly(ps);
+//        DbUtils.closeQuietly(rs);
+//    }
+
     /**
      *
      * @Description 获取数据库的连接
@@ -94,4 +172,6 @@ public class JDBCUtils {
             e.printStackTrace();
         }
     }
+
+
 }
