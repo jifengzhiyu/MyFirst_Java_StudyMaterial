@@ -1,0 +1,87 @@
+<html>
+	<head>
+		<title>表格标签的学习</title>
+		<meta charset="UTF-8">
+		
+	</head>
+	<body>
+		<table border="1" width="600" cellspacing="0" cellpadding="4">
+			<tr align="center">
+				<th>姓名</th>
+				<th>门派</th>
+				<th>成名绝技</th>
+				<th>内功值</th>
+			</tr>
+			<tr align="center">
+				<td>乔峰</td>
+				<td>丐帮</td>
+				<td>少林长拳</td>
+				<td>5000</td>
+			</tr>
+			<tr align="center">
+				<td>虚竹</td>
+				<td>灵鹫宫</td>
+				<td>北冥神功</td>
+				<td>15000</td>
+			</tr>
+			<tr align="center">
+				<td>扫地僧</td>
+				<td>少林寺</td>
+				<td>七十二绝技</td>
+				<td>未知</td>
+			</tr>
+		</table>
+		<hr/>
+		<table border="1" cellspacing="0" cellpadding="4" width="600">
+			<tr>
+				<th>名称</th>
+				<th>单价</th>
+				<th>数量</th>
+				<th>小计</th>
+				<th>操作</th>
+			</tr>
+			<tr align="center">
+				<td>苹果</td>
+				<td rowspan="2">5</td>
+				<td>20</td>
+				<td>100</td>
+				<td><img src="imgs/del.jpg" width="24" height="24"/></td>
+			</tr>
+			<tr align="center">
+				<td>菠萝</td>
+				<td>15</td>
+				<td>45</td>
+				<td><img src="imgs/del.jpg" width="24" height="24"/></td>
+			</tr>
+			<tr align="center">
+				<td>西瓜</td>
+				<td>6</td>
+				<td>6</td>
+				<td>36</td>
+				<td><img src="imgs/del.jpg" width="24" height="24"/></td>
+			</tr>
+			<tr align="center">
+				<td>总计</td>
+				<td colspan="4">181</td>
+			</tr>
+		</table>
+	</body>
+</html>
+<!--
+17) 表格	table
+	行		tr
+	列		td
+	表头列	th
+
+	table中有如下属性（虽然已经淘汰，但是最好了解一下）
+	- border：表格边框的粗细
+	- width:表格的宽度
+	- cellspacing：单元格间距
+	- cellpadding：单元格填充
+
+	tr中有一个属性： align -> center , left , right 
+
+	rowspan : 行合并
+	colspan : 列合并
+
+-->
