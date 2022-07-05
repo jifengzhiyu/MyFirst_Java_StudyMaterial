@@ -1,0 +1,54 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<style type="text/css">
+			body{
+				margin:0;
+				padding:0;
+				background-color:#808080;
+			}
+			div{
+				position:relative;
+			}
+			#div_top{
+				background-color: orange;
+				height:20%;
+			}
+			#div_left{
+				background-color: greenyellow;
+				height:80%;
+				width:15%;
+				float:left;
+			}
+			#div_main{
+				background-color: whitesmoke;
+				height:70%;
+				float:left;
+				width:85%;
+			}
+			#div_bottom{
+				background-color: sandybrown;
+				height:10%;
+				width:85%;
+				float:left;
+			}
+			#div_container{
+				width:80%;
+				height:100%;
+				border:0px solid blue;
+				margin-left:10%;
+				float:left;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="div_container">
+			<div id="div_top">div_top</div>
+			<div id="div_left">div_left</div>
+			<div id="div_main">div_main</div>
+			<div id="div_bottom">div_bottom</div>
+		</div>
+	</body>
+</html>
+
+<!--如果不加float，长度宽度等等的数值 相对于 剩下空余空间-->

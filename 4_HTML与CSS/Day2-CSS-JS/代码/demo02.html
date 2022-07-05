@@ -1,0 +1,78 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<style type="text/css">
+			#div1{
+				width:400px;
+				height:400px;
+				background-color:greenyellow;
+
+				/* 1. border 边框样式 */
+				border-width:1px;			/*边框粗细*/
+				border-style:solid;		/*边框样式：solid(实线) , dotted(点状线) ... */
+				border-color:blue;			/*边框颜色*/
+
+				/* border:4px double blue;*/
+
+				/* border-top : 4px dotted blue;*/
+			}
+
+			#div2{
+				width:150px;
+				height:150px;
+				background-color:darkorange;
+				
+				margin-top:100px;
+				margin-left:100px;
+				
+				/*margin:100px 100px 50px 150px;*/ /* 一个值，四个方向统一；两个值：上下、左右；三个值：上、左右、下；四个值：上右下左 */
+			
+				/* padding : 填充 */
+				/*div2自身内部填充，把其子容器挤到别处*/
+				padding-top:50px;
+				padding-left:50px;
+			}
+
+			#div3{
+				width:100px;
+				height:100px;
+				background-color:aquamarine;
+				/*
+				margin-top:50px;
+				margin-left:50px;
+				*/
+			}
+			#div4{
+				width:200px;
+				height:200px;
+				margin-left:100px;
+				background-color:greenyellow;
+			}
+			body{
+				margin:0;
+				padding:0;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="div1">
+			<div id="div2">
+				<div id="div3">&nbsp;</div>
+			</div>
+		</div>
+		<div id="div4">&nbsp;</div>
+
+	</body>
+</html>
+
+<!-- 
+IE浏览器：实际尺寸 = width
+chrome浏览器：实际尺寸= width+左右borderwidth+padding
+
+
+CSS盒子模型：
+1.border 边框
+2.margin 间距
+3.padding 填充
+
+-->

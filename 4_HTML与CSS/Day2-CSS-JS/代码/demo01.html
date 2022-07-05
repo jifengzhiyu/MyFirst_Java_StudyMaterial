@@ -1,0 +1,44 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<!-- 内部样式表 -->
+		<style type="text/css">
+			/* 被style标签包围的范围是CSS环境，可以写CSS代码 */
+
+			/* 标签样式表 */
+			p{
+				color:red;
+			}
+
+			/* 类样式 */
+			.f20{
+				font-size:20px;
+			}
+		</style>
+		<!-- 引用外部的CSS样式表文件 -->
+		<link rel="stylesheet" href="css/demo01.css">
+	</head>
+	<body>
+		<!--
+		<p><font color="red">这里是段落一</font></p>
+		<p><font color="red">这里是段落二</font></p>
+		-->
+		<p>这里是段落一</p>
+		<p>这里是段落二</p>
+		<p class="f20">这里是段落三</p>
+		<p id="p4">这里是段落四</p>	<!-- id属性在整个HTML文档中，尽量保持唯一（虽然重复也不会报错） -->
+
+		<div>
+			<p><span style="font-size:60px;font-weight:bolder;color:yellow;">HELLO</span></p>
+			<span class="f32">World</span>
+			<p class="f32">!!!</p>
+		</div>
+
+	</body>
+</html>
+
+<!--
+1. 为什么需要CSS
+2. CSS的最基本的分类: 标签样式表、类样式表、ID样式表
+3. CSS从位置上的分类：嵌入式样式表、内部样式表、外部样式表
+-->

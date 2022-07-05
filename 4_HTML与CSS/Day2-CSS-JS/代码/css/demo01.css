@@ -1,0 +1,17 @@
+/* ID样式 */
+#p4{
+	background-color:pink;
+	font-size:24px;
+	font-weight:bolder;
+	font-style:italic;
+	font-family:"华文彩云";
+}
+/* 组合样式 */
+div p{
+	color:blue;
+}
+
+div .f32{
+	font-size:32px;
+	font-family:"黑体";
+}

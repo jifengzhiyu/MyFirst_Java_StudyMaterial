@@ -1,0 +1,74 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<style type="text/css">
+			body{
+				margin:0;
+				padding:0;
+			}
+			#div1{
+
+				width:200px;
+				height:50px;
+				background-color:greenyellow;
+
+				/* 绝对定位 */
+				position:absolute;
+				left:100px;
+				top:100px;
+
+
+			}
+
+			#div2{
+				width:200px;
+				height:50px;
+				background-color:pink;
+
+				position:relative;
+				float:left;
+				margin-left:20px;
+			}
+
+			#div3{
+				height:50px;
+				background-color:darkorange;
+			}
+
+			#div4{
+				width:200px;
+				height:50px;
+				background-color:aqua;
+
+				float:left;
+			}
+			#div5{
+				width:200px;
+				height:50px;
+				background-color:olivedrab;
+
+				float:left;
+			}
+			div{
+				position:relative;
+			}
+		</style>
+	</head>
+	<body>
+		<!--
+		<div id="div1">&nbsp;</div>
+		<div id="div2">&nbsp;</div>
+		-->
+		<div id="div3">
+			<div id="div4">&nbsp;</div>
+			<div id="div5">&nbsp;</div>
+		</div>
+	</body>
+</html>
+
+<!--
+position: absolute -- 绝对定位 , 需要配合使用 left , top
+		  relative -- 相对定位 , 一般会和 float , margin , padding .... 一起使用
+
+float 
+-->

@@ -1,0 +1,56 @@
+<html>
+<!--水果 添加js 鼠标移动变背景色 光标变类型-->
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="css/demo05.css">
+		<script type="text/javascript" src="js/demo07.js"></script>
+	</head>
+	<body>
+		<div id="div_container">
+			<div id="div_fruit_list">
+				<table id="tbl_fruit">
+					<tr>
+						<th class="w20">名称</th>
+						<th class="w20">单价</th>
+						<th class="w20">数量</th>
+						<th class="w20">小计</th>
+						<th>操作</th>
+					</tr>
+<!--					鼠标悬浮 鼠标离开-->
+					<tr onmouseover="showBGColor()" onmouseout="clearBGColor()">
+						<td>苹果</td>
+						<td onmouseover="showHand()">5</td>
+						<td>20</td>
+						<td>100</td>
+						<td><img src="imgs/del.jpg" class="delImg"/></td>
+					</tr>
+					<tr onmouseover="showBGColor()" onmouseout="clearBGColor()">
+						<td>西瓜</td>
+						<td onmouseover="showHand()">3</td>
+						<td>20</td>
+						<td>60</td>
+						<td><img src="imgs/del.jpg" class="delImg"/></td>
+					</tr>
+					<tr onmouseover="showBGColor()" onmouseout="clearBGColor()">
+						<td>菠萝</td>
+						<td onmouseover="showHand()">4</td>
+						<td>25</td>
+						<td>100</td>
+						<td><img src="imgs/del.jpg" class="delImg"/></td>
+					</tr>
+					<tr onmouseover="showBGColor()" onmouseout="clearBGColor()">
+						<td>榴莲</td>
+						<td onmouseover="showHand()">3</td>
+						<td>30</td>
+						<td>90</td>
+						<td><img src="imgs/del.jpg" class="delImg"/></td>
+					</tr>
+					<tr>
+						<td>总计</td>
+						<td colspan="4">999</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</body>
+</html>
