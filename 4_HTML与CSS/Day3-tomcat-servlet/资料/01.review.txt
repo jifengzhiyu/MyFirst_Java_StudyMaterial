@@ -1,0 +1,18 @@
+1.CSS
+  1) CSS的角色：页面显示的美观风格
+  2) CSS的基础语法：标签样式；类样式；ID样式；组合样式；嵌入式样式表；内部样式表；外部样式表
+  3) 盒子模型：border、margin、padding
+  4) 定位和浮动：position、float、DIV+CSS布局
+
+2.JS
+  1) JS是客户端（浏览器端）运行的脚本语言，语法风格和java比较类似
+  2) JS是弱类型的语言 var str = 99 ;
+  3) JS的函数  function hello(var num){}
+  4) DOM技术:
+	4-1) 鼠标悬浮：onmouseover,event.srcElement,事件传递,parentElement,style.backgroundColor
+	     鼠标离开：onmouseout
+	4-2) 鼠标点击：hand/pointer,onclick , td.innerText , td.innerHTML="<input type='text'/>", td.firstChild.value=oldPrice
+	     失去焦点：onblur , input.parentElement.innerText = newPrice ;
+	     更新小计：input = event.srcElement , tr = input.parentElement.parentElement ; tr.cells , parseInt
+	     更新总计：document.getElementById("fruit_tbl") , fruitTbl.rows 
+	4-3) 删除一行：img , img.parentElement.parentElement.rowIndex , table.deleteRow(rowIndex)

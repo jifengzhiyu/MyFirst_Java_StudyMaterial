@@ -1,13 +1,24 @@
+function $(id){
+	return document.getElementById(id);
+}
+
 window.onload=function(){
 	updateZJ();
 	//当页面加载完成，我们需要绑定各种事件
 	//根据id获取到表格
-	var fruitTbl =  document.getElementById("tbl_fruit");
+	var fruitTbl =  $("tbl_fruit");
 	//获取表格中的所有的行
 	var rows = fruitTbl.rows ;
 	for(var i = 1 ; i<rows.length-1 ; i++){
 		var tr = rows[i];
-		//1.绑定鼠标悬浮以及离开时设置背景颜色事件
+		trBindEvent(tr);
+	}
+
+	$("addBtn").onclick=addFruit;
+}
+
+function trBindEvent(tr){
+	//1.绑定鼠标悬浮以及离开时设置背景颜色事件
 		tr.onmouseover=showBGColor;
 		tr.onmouseout=clearBGColor;
 		//获取tr这一行的所有单元格
@@ -25,7 +36,36 @@ window.onload=function(){
 			//绑定单击事件
 			img.onclick = delFruit ;
 		}
-	}
+}
+
+//添加水果信息
+function addFruit(){
+	var fname = $("fname").value;
+	var price = parseInt($("price").value);
+	var fcount = parseInt($("fcount").value);
+	var xj = price * fcount ;
+
+	var fruitTbl =  $("tbl_fruit");
+	var tr = fruitTbl.insertRow(fruitTbl.rows.length-1);
+	var fnameTD = tr.insertCell();
+	fnameTD.innerText = fname ;
+
+	var priceTD = tr.insertCell();
+	priceTD.innerText = price ;
+
+	var fcountTD = tr.insertCell();
+	fcountTD.innerText = fcount ;
+
+	var xjTD = tr.insertCell();
+	xjTD.innerText = xj ;
+
+	var imgTD = tr.insertCell();
+	imgTD.innerHTML = "<img src='imgs/del.jpg' class='delImg'/>";
+
+	updateZJ();
+
+	trBindEvent(tr);
+
 }
 
 function delFruit(){
@@ -35,12 +75,13 @@ function delFruit(){
 		if(window.confirm("是否确认删除当前库存记录")){
 			var img = event.srcElement ;
 			var tr = img.parentElement.parentElement ;
-			var fruitTbl = document.getElementById("tbl_fruit");
+			var fruitTbl = $("tbl_fruit");
 			fruitTbl.deleteRow(tr.rowIndex);
 
 			updateZJ();
 		}
 	}
+
 }
 
 //当鼠标点击单价单元格时进行价格编辑
@@ -77,7 +118,6 @@ function ckInput(){
 	//backspace : 8
 	//enter : 13
 	//console.log(kc);
-	console.log(kc);
 
 	if(!( ( kc>=48 && kc<=57 ) || kc==8 || kc==13 )){
 		event.returnValue=false;
@@ -123,7 +163,7 @@ function updateXJ(tr){
 
 //更新总计
 function updateZJ(){
-	var fruitTbl = document.getElementById("tbl_fruit");
+	var fruitTbl = $("tbl_fruit");
 	var rows = fruitTbl.rows ;
 	var sum = 0 ;
 	for(var i = 1; i<rows.length-1 ; i++){
