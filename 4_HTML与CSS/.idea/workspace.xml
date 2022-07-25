@@ -21,7 +21,7 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.29885057" />
-    <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -32,7 +32,10 @@
       <option name="presentableId" value="Default" />
       <updated>1657033978617</updated>
       <workItem from="1657033980728" duration="3287000" />
-      <workItem from="1658570258364" duration="8261000" />
+      <workItem from="1658570258364" duration="12454000" />
+      <workItem from="1658751794551" duration="133000" />
+      <workItem from="1658751948239" duration="383000" />
+      <workItem from="1658752409646" duration="708000" />
     </task>
     <servers />
   </component>

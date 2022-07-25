@@ -1,4 +1,7 @@
 # MyFirst_Java_StudyMaterial
+
+笔记：https://heavy_code_industry.gitee.io/code_heavy_industry/
+
 ## Java基础
 
 ![image-20220326222510587](Pic/image-20220326222510587.png)

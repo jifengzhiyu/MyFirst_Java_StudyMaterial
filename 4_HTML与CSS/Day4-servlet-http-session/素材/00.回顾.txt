@@ -1,0 +1,18 @@
+1. 新建项目 - 新建模块
+2. 在模块中添加web
+3. 创建artifact - 部署包
+4. lib - artifact
+   先有artifact，后来才添加的mysql.jar。此时，这个jar包并没有添加到部署包中
+   那么在projectSettings中有一个Problems中会有提示的,我们点击fix选择add to...
+   另外，我们也可以直接把lib文件夹直接新建在WEB-INF下。
+   这样不好的地方是这个lib只能是当前这个moudle独享。如果有第二个moudle我们需要再次重复的新建lib。
+5. 在部署的时候，修改application Context。然后再回到server选项卡，检查URL的值。
+   URL的值指的是tomcat启动完成后自动打开你指定的浏览器，然后默认访问的网址。
+   启动后，报错404.404意味着找不到指定的资源。
+   如果我们的网址是：http://localhost:8080/pro01/ , 那么默认表明我们访问的是index.html.
+   我们可以通过<welcome-file-list>标签进行设置欢迎页(在tomcat的web.xml中设置，或者在自己项目的web.xml中设置)
+6. 405问题。当前请求的方法不支持。比如，我们表单method=post , 那么Servlet必须对应doPost。否则报405错误。
+7. 空指针或者是NumberFormatException 。因为有价格和库存。如果价格取不到，结果你想对null进行Integer.parseInt()就会报错。错误的原因大部分是因为 name="price"此处写错了，结果在Servlet端还是使用request.getParameter("price")去获取。
+8. <url-pattern>中以斜杠开头
+
+   
