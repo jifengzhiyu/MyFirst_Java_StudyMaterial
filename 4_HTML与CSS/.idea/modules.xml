@@ -6,6 +6,9 @@
       <module fileurl="file://$PROJECT_DIR$/Day4-servlet-http-session/代码/pro07-javaweb-begin/pro07-javaweb-begin.iml" filepath="$PROJECT_DIR$/Day4-servlet-http-session/代码/pro07-javaweb-begin/pro07-javaweb-begin.iml" />
       <module fileurl="file://$PROJECT_DIR$/Day4-servlet-http-session/代码/pro08-javaweb-servlet/pro08-javaweb-servlet.iml" filepath="$PROJECT_DIR$/Day4-servlet-http-session/代码/pro08-javaweb-servlet/pro08-javaweb-servlet.iml" />
       <module fileurl="file://$PROJECT_DIR$/Day4-servlet-http-session/代码/pro09-fruit1.4-thymeleaf/pro09-fruit1.4-thymeleaf.iml" filepath="$PROJECT_DIR$/Day4-servlet-http-session/代码/pro09-fruit1.4-thymeleaf/pro09-fruit1.4-thymeleaf.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Day5-thymeleaf-fruit/代码/pro10-fruit1.5-thymeleaf/pro10-fruit1.5-thymeleaf.iml" filepath="$PROJECT_DIR$/Day5-thymeleaf-fruit/代码/pro10-fruit1.5-thymeleaf/pro10-fruit1.5-thymeleaf.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Day5-thymeleaf-fruit/代码/pro11-fruit1.6-pagination/pro11-fruit1.6-pagination.iml" filepath="$PROJECT_DIR$/Day5-thymeleaf-fruit/代码/pro11-fruit1.6-pagination/pro11-fruit1.6-pagination.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Day5-thymeleaf-fruit/代码/pro12-fruit1.7-keyword/pro12-fruit1.7-keyword.iml" filepath="$PROJECT_DIR$/Day5-thymeleaf-fruit/代码/pro12-fruit1.7-keyword/pro12-fruit1.7-keyword.iml" />
     </modules>
   </component>
 </project>
