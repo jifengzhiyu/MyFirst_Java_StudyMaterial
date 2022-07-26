@@ -33,6 +33,7 @@ review:
 5. 服务器端转发和客户端重定向
    1) 服务器端转发 ： request.getRequestDispatcher("index.html").forward(request,response);
    2) 客户端重定向： response.sendRedirect("index.html");
+   重定向或调用servlet
 
 6. thymeleaf的部分标签
    1） 使用步骤： 添加jar ， 新建ViewBaseServlet(有两个方法） ， 配置两个<context-param> : view-prefix , view-suffix
