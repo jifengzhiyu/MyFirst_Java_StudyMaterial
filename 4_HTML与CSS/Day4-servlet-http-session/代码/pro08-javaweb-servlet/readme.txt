@@ -135,7 +135,7 @@
 
 7. Thymeleaf - 视图模板技术
     1） 添加thymeleaf的jar包
-    2） 新建一个Servlet类ViewBaseServlet 直接复制
+    2） 新建一个Servlet类ViewBaseServlet
     3） 在web.xml文件中添加配置
        - 配置前缀 view-prefix
        - 配置后缀 view-suffix

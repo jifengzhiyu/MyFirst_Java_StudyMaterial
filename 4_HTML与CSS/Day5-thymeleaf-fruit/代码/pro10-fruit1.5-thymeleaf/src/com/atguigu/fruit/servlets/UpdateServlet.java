@@ -35,6 +35,7 @@ public class UpdateServlet extends ViewBaseServlet {
         fruitDAO.updateFruit(new Fruit(fid,fname, price ,fcount ,remark ));
 
         //4.资源跳转
+        //下面两行等价
         //super.processTemplate("index",request,response);
         //request.getRequestDispatcher("index.html").forward(request,response);
         //此处需要重定向，目的是重新给IndexServlet发请求，重新获取furitList，然后覆盖到session中，这样index.html页面上显示的session中的数据才是最新的
