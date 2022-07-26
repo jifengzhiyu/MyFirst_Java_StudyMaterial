@@ -47,6 +47,7 @@ public class IndexServlet extends ViewBaseServlet {
         }else{
             //说明此处不是点击表单查询发送过来的请求（比如点击下面的上一页下一页或者直接在地址栏输入网址）
             //此时keyword应该从session作用域获取
+            //如果查询关键词有多页
             String pageNoStr = request.getParameter("pageNo");
             if(StringUtil.isNotEmpty(pageNoStr)){
                 pageNo = Integer.parseInt(pageNoStr);

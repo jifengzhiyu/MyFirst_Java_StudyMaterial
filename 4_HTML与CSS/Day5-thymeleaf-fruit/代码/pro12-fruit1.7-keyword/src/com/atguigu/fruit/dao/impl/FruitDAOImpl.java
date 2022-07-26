@@ -9,6 +9,7 @@ import java.util.List;
 public class FruitDAOImpl extends BaseDAO<Fruit> implements FruitDAO {
     @Override
     public List<Fruit> getFruitList(String keyword , Integer pageNo) {
+        //水果名 或者 水果的描述名
         return super.executeQuery("select * from t_fruit where fname like ? or remark like ? limit ? , 5" ,"%"+keyword+"%","%"+keyword+"%", (pageNo-1)*5);
     }
 
@@ -36,6 +37,7 @@ public class FruitDAOImpl extends BaseDAO<Fruit> implements FruitDAO {
 
     @Override
     public int getFruitCount(String keyword ) {
+        //单行查询
         return ((Long)super.executeComplexQuery("select count(*) from t_fruit where fname like ? or remark like ?" , "%"+keyword+"%","%"+keyword+"%")[0]).intValue();
     }
 }
