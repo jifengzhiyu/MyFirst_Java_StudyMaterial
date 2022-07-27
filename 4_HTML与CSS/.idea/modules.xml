@@ -7,6 +7,10 @@
       <module fileurl="file://$PROJECT_DIR$/Day4-servlet-http-session/代码/pro08-javaweb-servlet/pro08-javaweb-servlet.iml" filepath="$PROJECT_DIR$/Day4-servlet-http-session/代码/pro08-javaweb-servlet/pro08-javaweb-servlet.iml" />
       <module fileurl="file://$PROJECT_DIR$/Day4-servlet-http-session/代码/pro09-fruit1.4-thymeleaf/pro09-fruit1.4-thymeleaf.iml" filepath="$PROJECT_DIR$/Day4-servlet-http-session/代码/pro09-fruit1.4-thymeleaf/pro09-fruit1.4-thymeleaf.iml" />
       <module fileurl="file://$PROJECT_DIR$/Day5-thymeleaf-fruit/代码/pro12-fruit1.7-keyword/pro12-fruit1.7-keyword1.iml" filepath="$PROJECT_DIR$/Day5-thymeleaf-fruit/代码/pro12-fruit1.7-keyword/pro12-fruit1.7-keyword1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Day6-servlet-mvc/代码/pro13-fruit1.8-mvc/pro13-fruit1.8-mvc.iml" filepath="$PROJECT_DIR$/Day6-servlet-mvc/代码/pro13-fruit1.8-mvc/pro13-fruit1.8-mvc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Day6-servlet-mvc/代码/pro14-fruit1.9-mvc-reflect/pro14-fruit1.9-mvc-reflect.iml" filepath="$PROJECT_DIR$/Day6-servlet-mvc/代码/pro14-fruit1.9-mvc-reflect/pro14-fruit1.9-mvc-reflect.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Day6-servlet-mvc/代码/pro15-fruit2.0-mvc-dispatcherServlet/pro15-fruit2.0-mvc-dispatcherServlet.iml" filepath="$PROJECT_DIR$/Day6-servlet-mvc/代码/pro15-fruit2.0-mvc-dispatcherServlet/pro15-fruit2.0-mvc-dispatcherServlet.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Day6-servlet-mvc/代码/pro16-fruit2.1-mvc-controller/pro16-fruit2.1-mvc-controller.iml" filepath="$PROJECT_DIR$/Day6-servlet-mvc/代码/pro16-fruit2.1-mvc-controller/pro16-fruit2.1-mvc-controller.iml" />
     </modules>
   </component>
 </project>
