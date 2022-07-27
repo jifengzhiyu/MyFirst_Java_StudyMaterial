@@ -8,6 +8,8 @@
       <module fileurl="file://$PROJECT_DIR$/Day4-servlet-http-session/代码/pro09-fruit1.4-thymeleaf/pro09-fruit1.4-thymeleaf.iml" filepath="$PROJECT_DIR$/Day4-servlet-http-session/代码/pro09-fruit1.4-thymeleaf/pro09-fruit1.4-thymeleaf.iml" />
       <module fileurl="file://$PROJECT_DIR$/Day5-thymeleaf-fruit/代码/pro12-fruit1.7-keyword/pro12-fruit1.7-keyword1.iml" filepath="$PROJECT_DIR$/Day5-thymeleaf-fruit/代码/pro12-fruit1.7-keyword/pro12-fruit1.7-keyword1.iml" />
       <module fileurl="file://$PROJECT_DIR$/Day6-servlet-mvc/代码/pro16-fruit2.1-mvc-controller/pro16-fruit2.1-mvc-controller.iml" filepath="$PROJECT_DIR$/Day6-servlet-mvc/代码/pro16-fruit2.1-mvc-controller/pro16-fruit2.1-mvc-controller.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Day7-mvc-ioc-servlet/代码/pro17-fruit2.2-mvc-service-ioc/pro17-fruit2.2-mvc-service-ioc.iml" filepath="$PROJECT_DIR$/Day7-mvc-ioc-servlet/代码/pro17-fruit2.2-mvc-service-ioc/pro17-fruit2.2-mvc-service-ioc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Day7-mvc-ioc-servlet/代码/pro18-servlet-api/pro18-servlet-api.iml" filepath="$PROJECT_DIR$/Day7-mvc-ioc-servlet/代码/pro18-servlet-api/pro18-servlet-api.iml" />
     </modules>
   </component>
 </project>
