@@ -22,10 +22,11 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.HashMap;
 import java.util.Map;
-
+//中央控制器，所有访问servlet都会访问这里
 @WebServlet("*.do")
 public class DispatcherServlet extends ViewBaseServlet{
 
+    //对应.xml
     private Map<String,Object> beanMap = new HashMap<>();
 
     public DispatcherServlet(){
@@ -48,6 +49,7 @@ public class DispatcherServlet extends ViewBaseServlet{
                 Node beanNode = beanNodeList.item(i);
                 if(beanNode.getNodeType() == Node.ELEMENT_NODE){
                     Element beanElement = (Element)beanNode ;
+                   //    <bean id="fruit" class="com.atguigu.fruit.controllers.FruitController"/>
                     String beanId =  beanElement.getAttribute("id");
                     String className = beanElement.getAttribute("class");
                     Class controllerBeanClass = Class.forName(className);
@@ -84,16 +86,21 @@ public class DispatcherServlet extends ViewBaseServlet{
         int lastDotIndex = servletPath.lastIndexOf(".do") ;
         servletPath = servletPath.substring(0,lastDotIndex);
 
+        //获得controller实例
         Object controllerBeanObj = beanMap.get(servletPath);
 
+        //确定操作
         String operate = request.getParameter("operate");
         if(StringUtil.isEmpty(operate)){
             operate = "index" ;
         }
 
         try {
+            //收集参数
+            //获得controller实例 的所有操作方法
             Method[] methods = controllerBeanObj.getClass().getDeclaredMethods();
             for(Method method : methods){
+                //定位操作方法
                 if(operate.equals(method.getName())){
                     //1.统一获取请求参数
 
@@ -114,6 +121,7 @@ public class DispatcherServlet extends ViewBaseServlet{
                         }else{
                             //从请求中获取参数值
                             String parameterValue = request.getParameter(parameterName);
+                            //parameter 所需的参数格式
                             String typeName = parameter.getType().getName();
 
                             Object parameterObj = parameterValue ;
@@ -141,12 +149,6 @@ public class DispatcherServlet extends ViewBaseServlet{
                     }
                 }
             }
-
-            /*
-            }else{
-                throw new RuntimeException("operate值非法!");
-            }
-            */
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
