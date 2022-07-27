@@ -21,7 +21,7 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.29885057" />
-    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
+    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -36,7 +36,7 @@
       <workItem from="1658751794551" duration="133000" />
       <workItem from="1658751948239" duration="383000" />
       <workItem from="1658752409646" duration="13183000" />
-      <workItem from="1658830907997" duration="4778000" />
+      <workItem from="1658830907997" duration="4845000" />
     </task>
     <servers />
   </component>
@@ -54,5 +54,9 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
