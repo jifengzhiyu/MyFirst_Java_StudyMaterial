@@ -1,0 +1,21 @@
+#div0{
+    background-color: #E8E8FF;
+    border-radius: 8px;
+    width:50%;
+    margin-left:25%;
+    margin-top:140px;
+}
+
+#div_container{
+    border:1px solid #e1e5ea;
+    margin-left:10%;
+    width:80%;
+    padding-bottom: 80px;
+    margin-top:64px;
+    margin-bottom:64px;
+}
+#div_container form{
+    width: 80%;
+    margin-left:10%;
+    border:0px solid red;
+}

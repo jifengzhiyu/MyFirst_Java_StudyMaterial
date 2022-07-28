@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+    <div id="div0">
+        <div id="div_top"><iframe height="118px" src="frames/top.html" width="100%" frameborder="no"></iframe></div>
+        <div id="div_left"><iframe th:src="@{/page.do?operate=page&page=frames/left}" width="100%" frameborder="no"  onload="this.style.height = window.frames[1].document.body.scrollHeight+'px';"></iframe></div>
+		<div id="div_main"><iframe th:src="@{/page.do?operate=page&page=frames/main}" scrolling="no" width="100%" frameborder="no"  onload="this.style.height = Math.max(window.frames[1].document.body.scrollHeight,window.frames[2].document.body.scrollHeight)+'px';"></iframe></div>
+        <div id="div_bottom">
+            <p class="center" >版权所有&reg;，欢迎盗版</p>
+        </div>
+    </div>
+</body>
+</html>

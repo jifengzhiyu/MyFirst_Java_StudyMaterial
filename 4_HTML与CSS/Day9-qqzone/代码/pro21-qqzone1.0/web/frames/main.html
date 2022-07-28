@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<body>
+    <div id="div_topic_list">
+        <div id="div_to_add">
+            <p class="right8">发表新日志</p>
+        </div>
+        <table id="tbl_topic_list">
+            <tr>
+                <th>ID</th>
+                <th>标题</th>
+                <th>日期</th>
+                <th>操作</th>
+            </tr>
+            <tr th:if="${#lists.isEmpty(session.userBasic.topicList)}">
+                <td>暂无日志列表</td>
+            </tr>
+            <tr th:unless="${#lists.isEmpty(session.userBasic.topicList)}" th:each="topic : ${session.userBasic.topicList}">
+                <td th:text="${topic.id}">2</td>
+                <td class="left"><a href="detail.html" th:text="${topic.title}">我乔峰要走，你们谁可阻拦</a></td>
+                <td th:text="${topic.topicDate}">2021-09-01 12:30:55</td>
+                <td>删除</td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
