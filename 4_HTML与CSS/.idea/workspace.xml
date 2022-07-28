@@ -26,7 +26,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.29885057" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
@@ -44,7 +44,9 @@
       <workItem from="1658751794551" duration="133000" />
       <workItem from="1658751948239" duration="383000" />
       <workItem from="1658752409646" duration="13183000" />
-      <workItem from="1658830907997" duration="12179000" />
+      <workItem from="1658830907997" duration="13846000" />
+      <workItem from="1658971976147" duration="8936000" />
+      <workItem from="1658990568130" duration="1444000" />
     </task>
     <servers />
   </component>

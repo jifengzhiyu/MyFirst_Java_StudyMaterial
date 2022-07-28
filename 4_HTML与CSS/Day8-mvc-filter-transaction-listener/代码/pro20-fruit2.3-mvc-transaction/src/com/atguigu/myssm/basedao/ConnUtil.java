@@ -1,4 +1,4 @@
-package com.atguigu.myssm.basedao;
+bpackage com.atguigu.myssm.basedao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

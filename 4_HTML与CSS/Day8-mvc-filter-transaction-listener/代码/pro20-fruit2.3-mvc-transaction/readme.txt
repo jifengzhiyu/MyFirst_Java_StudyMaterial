@@ -18,9 +18,12 @@ review:
     控制反转：
     1) 之前在Servlet中，我们创建service对象 ， FruitService fruitService = new FruitServiceImpl();
        这句话如果出现在servlet中的某个方法内部，那么这个fruitService的作用域（生命周期）应该就是这个方法级别；
-       如果这句话出现在servlet的类中，也就是说fruitService是一个成员变量，那么这个fruitService的作用域（生命周期）应该就是这个servlet实例级别
-    2) 之后我们在applicationContext.xml中定义了这个fruitService。然后通过解析XML，产生fruitService实例，存放在beanMap中，这个beanMap在一个BeanFactory中
-       因此，我们转移（改变）了之前的service实例、dao实例等等他们的生命周期。控制权从程序员转移到BeanFactory。这个现象我们称之为控制反转
+       如果这句话出现在servlet的类中，也就是说fruitService是一个成员变量，
+       那么这个fruitService的作用域（生命周期）应该就是这个servlet实例级别
+    2) 之后我们在applicationContext.xml中定义了这个fruitService。
+    然后通过解析XML，产生fruitService实例，存放在beanMap中，这个beanMap在一个BeanFactory中
+       因此，我们转移（改变）了之前的service实例、dao实例等等他们的生命周期。
+       控制权从程序员转移到BeanFactory。这个现象我们称之为控制反转
 
     依赖注入：
     1) 之前我们在控制层出现代码：FruitService fruitService = new FruitServiceImpl()；
@@ -58,6 +61,7 @@ review:
      - get() , set(obj)
      - ThreadLocal称之为本地线程 。 我们可以通过set方法在当前线程上存储数据、通过get方法在当前线程上获取数据
      - set方法源码分析：
+     //每一个线程都维护各自的一个容器ThreadLocalMap -- 一个容器有多个传输带ThreadLocal -- 一个传输带传送一个obj
      public void set(T value) {
          Thread t = Thread.currentThread(); //获取当前的线程
          ThreadLocalMap map = getMap(t);    //每一个线程都维护各自的一个容器（ThreadLocalMap）

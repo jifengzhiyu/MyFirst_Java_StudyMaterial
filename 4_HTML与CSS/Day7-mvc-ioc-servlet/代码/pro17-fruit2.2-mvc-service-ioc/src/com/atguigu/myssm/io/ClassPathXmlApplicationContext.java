@@ -1,3 +1,4 @@
+
 package com.atguigu.myssm.io;
 
 import org.w3c.dom.Document;
@@ -52,6 +53,7 @@ public class ClassPathXmlApplicationContext implements BeanFactory {
                     Element beanElement = (Element) beanNode;
                     String beanId = beanElement.getAttribute("id");
                     NodeList beanChildNodeList = beanElement.getChildNodes();
+                    //有空白子节点
                     for (int j = 0; j < beanChildNodeList.getLength() ; j++) {
                         Node beanChildNode = beanChildNodeList.item(j);
                         if(beanChildNode.getNodeType()==Node.ELEMENT_NODE && "property".equals(beanChildNode.getNodeName())){

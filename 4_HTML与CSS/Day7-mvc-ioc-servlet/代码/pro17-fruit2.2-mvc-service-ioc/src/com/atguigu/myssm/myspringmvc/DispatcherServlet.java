@@ -28,7 +28,7 @@ import java.util.Map;
 @WebServlet("*.do")
 public class DispatcherServlet extends ViewBaseServlet{
 
-    private BeanFactory beanFactory ;
+    private BeanFactory beanFactory;
 
     public DispatcherServlet(){
     }
@@ -42,7 +42,7 @@ public class DispatcherServlet extends ViewBaseServlet{
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //设置编码
         request.setCharacterEncoding("UTF-8");
-        //假设url是：  http://localhost:8080/pro15/hello.do
+        //假设url是： invoke(controllerBean , parameterValues http://localhost:8080/pro15/hello.do
         //那么servletPath是：    /hello.do
         // 我的思路是：
         // 第1步： /hello.do ->   hello   或者  /fruit.do  -> fruit
@@ -109,12 +109,6 @@ public class DispatcherServlet extends ViewBaseServlet{
                     }
                 }
             }
-
-            /*
-            }else{
-                throw new RuntimeException("operate值非法!");
-            }
-            */
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {

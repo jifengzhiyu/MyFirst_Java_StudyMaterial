@@ -74,6 +74,7 @@ review:
        request.getServletContext(); session.getServletContext()
     2) 获取初始化值：
        servletContext.getInitParameter();
+   3) 只能通过.xml方式配置
 
 3. 什么是业务层
     1) Model1和Model2
