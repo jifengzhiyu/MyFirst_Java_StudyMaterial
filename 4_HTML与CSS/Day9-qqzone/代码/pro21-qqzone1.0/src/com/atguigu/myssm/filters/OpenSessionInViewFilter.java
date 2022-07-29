@@ -16,6 +16,7 @@ public class OpenSessionInViewFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+        //控制事物
         try{
             TransactionManager.beginTrans();
             //System.out.println("开启事务....");
@@ -35,6 +36,5 @@ public class OpenSessionInViewFilter implements Filter {
 
     @Override
     public void destroy() {
-
     }
 }

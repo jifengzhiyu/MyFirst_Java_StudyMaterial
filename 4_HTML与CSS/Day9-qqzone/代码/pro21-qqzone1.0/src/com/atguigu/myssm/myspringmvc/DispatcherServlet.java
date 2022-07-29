@@ -23,7 +23,7 @@ public class DispatcherServlet extends ViewBaseServlet{
     public void init() throws ServletException {
         super.init();
         //之前是在此处主动创建IOC容器的
-        //现在优化为从application作用域去获取
+        //现在优化为从application作用域去获取 ContextLoaderListener已经放进去了
         //beanFactory = new ClassPathXmlApplicationContext();
         ServletContext application = getServletContext();
         Object beanFactoryObj = application.getAttribute("beanFactory");

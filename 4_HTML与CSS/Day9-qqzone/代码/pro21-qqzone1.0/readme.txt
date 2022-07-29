@@ -27,7 +27,7 @@
 3.数据库的范式：
   1） 第一范式：列不可再分
   2） 第二范式：一张表只表达一层含义（只描述一件事情）
-  3） 第三范式：表中的每一列和主键都是直接依赖关系，而不是间接依赖
+  3） 第三范式：表中的每一列和主键都是直接依赖关系，而不是间接依赖(只能通过该表一种方式找到)
 4.数据库设计的范式和数据库的查询性能很多时候是相悖的，我们需要根据实际的业务情况做一个选择：
   - 查询频次不高的情况下，我们更倾向于提高数据库的设计范式，从而提高存储效率
   - 查询频次较高的情形，我们更倾向于牺牲数据库的规范度，降低数据库设计的范式，允许特定的冗余，从而提高查询的性能
@@ -35,9 +35,11 @@
 5.QQZone登录功能实现出现的四个错误：
  1) URL没修改，用的还是fruitdb
  2）
- 3）rsmd.getColumnName() 和 rsmd.getColumnLabel()
+ 3）rsmd.getColumnName() 和 rsmd.getColumnLabel() 一个找本名 一个找别名
  4）Can not set com.atguigu.qqzone.pojo.UserBasic field com.atguigu.qqzone.pojo.Topic.author to java.lang.Integer
- 5) left.html页面没有样式，同时数据也不展示，原因是：我们是直接去请求的静态页面资源，那么并没有执行super.processTemplate()，也就是thymeleaf没有起作用
+ 需要把Integer包装到自定义类的实例里面
+ 5) left.html页面没有样式，同时数据也不展示，原因是：
+ 我们是直接去请求的静态页面资源，那么并没有执行super.processTemplate()，也就是thymeleaf没有起作用
     (之前的表单也是这个原因)
     解决方法：
     - 新增PageController，添加page方法:

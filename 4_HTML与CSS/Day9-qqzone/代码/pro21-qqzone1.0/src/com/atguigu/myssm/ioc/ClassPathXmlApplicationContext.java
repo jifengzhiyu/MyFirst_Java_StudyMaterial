@@ -20,6 +20,7 @@ public class ClassPathXmlApplicationContext implements BeanFactory {
 
     private Map<String,Object> beanMap = new HashMap<>();
     private String path = "applicationContext.xml" ;
+    //调用下面构造器
     public ClassPathXmlApplicationContext(){
         this("applicationContext.xml");
     }

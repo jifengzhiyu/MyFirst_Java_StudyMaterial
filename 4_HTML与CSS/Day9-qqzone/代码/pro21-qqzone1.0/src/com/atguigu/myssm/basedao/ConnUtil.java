@@ -6,6 +6,7 @@ import java.sql.SQLException;
 
 public class ConnUtil {
 
+    //使用ThreadLocal 让多个操作的链接是同一个
     private static ThreadLocal<Connection> threadLocal = new ThreadLocal<>();
     //private static ThreadLocal<Object> threadLocal2 = new ThreadLocal<>();
     //private static ThreadLocal<Object> threadLocal3 = new ThreadLocal<>();
@@ -31,6 +32,7 @@ public class ConnUtil {
         Connection conn = threadLocal.get();
         if(conn==null){
             conn =createConn();
+            //放到传送带
             threadLocal.set(conn);
         }
         return threadLocal.get() ;

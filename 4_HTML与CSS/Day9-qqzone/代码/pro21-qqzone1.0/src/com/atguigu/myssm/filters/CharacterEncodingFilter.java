@@ -15,6 +15,7 @@ public class CharacterEncodingFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
+        //获取需求编码
         String encodingStr = filterConfig.getInitParameter("encoding");
         if(StringUtil.isNotEmpty(encodingStr)){
             encoding = encodingStr ;
@@ -23,9 +24,10 @@ public class CharacterEncodingFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+        //设置编码
         ((HttpServletRequest)servletRequest).setCharacterEncoding(encoding);
+        //放行，进入到下一个过滤器
         filterChain.doFilter(servletRequest,servletResponse);
-
     }
 
     @Override
