@@ -29,7 +29,7 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.29885057" />
-    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -47,7 +47,7 @@
       <workItem from="1658830907997" duration="13846000" />
       <workItem from="1658971976147" duration="8936000" />
       <workItem from="1658990568130" duration="9833000" />
-      <workItem from="1659057223402" duration="7420000" />
+      <workItem from="1659057223402" duration="12213000" />
     </task>
     <servers />
   </component>
