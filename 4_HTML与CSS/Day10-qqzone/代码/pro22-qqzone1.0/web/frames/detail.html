@@ -11,7 +11,6 @@
             if(obj){
                 obj.style.display='inline';
             }
-
         }
         function hiddenDelImg(imgId){
             var obj = document.getElementById(imgId) ;
@@ -67,8 +66,11 @@
                             出现删除这个小图标的条件：
                             1. 在我自己的空间（那当然我对自己的空间拥有所有的操作权限）
                             2. 当前回复的作者就是我（那我可以删除自己的回复）
+                            保证每一条回复删除图片的唯一性
                          -->
-                        <img th:if="${session.userBasic.id==session.friend.id || session.userBasic.id==reply.author.id}" th:id="|img${reply.id}|" class="delReplyImg" th:src="@{/imgs/del.jpg}" th:onclick="|delReply(${reply.id} , ${session.topic.id})|"/>
+                        <img th:if="${session.userBasic.id==session.friend.id || session.userBasic.id==reply.author.id}"
+                             th:id="|img${reply.id}|" class="delReplyImg"
+                             th:src="@{/imgs/del.jpg}" th:onclick="|delReply(${reply.id},${session.topic.id})|"/>
                         <span class="title_date_right" th:text="${reply.replyDate}">2021-09-01 14:35:15</span>
                     </td>
                 </tr>

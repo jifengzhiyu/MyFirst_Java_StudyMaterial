@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/detail.css}">
+    <script language="JavaScript">
+        function showDelImg(imgId){
+            var obj = document.getElementById(imgId) ;
+            if(obj){
+                obj.style.display='inline';
+            }
+
+        }
+        function hiddenDelImg(imgId){
+            var obj = document.getElementById(imgId) ;
+            if(obj){
+                obj.style.display='none';
+            }
+        }
+        function delReply(replyId , topicId){
+            if(window.confirm("是否确认删除？")){
+                window.location.href='reply.do?operate=delReply&replyId='+replyId+'&topicId='+topicId;
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="div_back_to_topic_list">
+        <a href="main.html">返回日志列表</a>
+    </div>
+    <div id="div_topic_detail">
+        <div id="div_topic_info">
+            <!-- topic自身信息 -->
+            <table id="tbl_topic_info">
+                <tr>
+                    <td rowspan="2" class="w14 h96">
+                        <div class="h64 center " style="width:100%;">
+                            <img class="img56 " th:src="@{|/imgs/${session.topic.author.headImg}|}"/>
+                        </div>
+                        <div class="h32 center" style="width:100%;" th:text="${session.topic.author.nickName}">乔峰</div>
+                    </td>
+                    <td class="topic_title" onmousemove="showDelImg('img01')" onmouseout="hiddenDelImg('img01')">
+                        <img id="img01" style="float: right;margin-top:2px;margin-right:2px;display: none;width:24px;height: 24px;" th:src="@{/imgs/del.jpg}"/>
+                        <span th:text="${session.topic.title}">《萧某今天就和天下群雄决一死战，你们一起上吧！》</span>
+                        <span class="title_date_right" th:text="${session.topic.topicDate}">2021-09-01 12:30:55</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td th:text="${session.topic.content}">杀母大仇, 岂可当作买卖交易？此仇能报便报, 如不能报, 则我父子毕命于此便了。这等肮脏之事, 岂是我萧氏父子所屑为？</td>
+                </tr>
+            </table>
+        </div>
+        <div id="div_reply_list">
+            <table class="tbl_reply_info" th:each="reply : ${session.topic.replyList}">
+                <tr>
+                    <td rowspan="2" class="w14 h88">
+                        <div class="h56 center" style="width:100%;">
+                            <img class="img48" th:src="@{|/imgs/${reply.author.headImg}|}"/>
+                        </div>
+                        <div class="h32 center" style="width:100%;" th:text="${reply.author.nickName}">段誉</div>
+                    </td>
+                    <td class="reply_title" th:onmouseover="|showDelImg('img${reply.id}')|" th:onmouseout="|hiddenDelImg('img${reply.id}')|">
+                        <span th:text="|回复：${session.topic.title}|">萧某今天就和天下群雄决一死战，你们一起上吧！</span>
+                        <!--
+                            出现删除这个小图标的条件：
+                            1. 在我自己的空间（那当然我对自己的空间拥有所有的操作权限）
+                            2. 当前回复的作者就是我（那我可以删除自己的回复）
+                         -->
+                        <img th:if="${session.userBasic.id==session.friend.id || session.userBasic.id==reply.author.id}" th:id="|img${reply.id}|" class="delReplyImg" th:src="@{/imgs/del.jpg}" th:onclick="|delReply(${reply.id} , ${session.topic.id})|"/>
+                        <span class="title_date_right" th:text="${reply.replyDate}">2021-09-01 14:35:15</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td th:onmouseover="|showDelImg('a${reply.id}')|" th:onmouseout="|hiddenDelImg('a${reply.id}')|">
+                        <span th:text="${reply.content}">你可曾见过边关之上、宋辽相互仇杀的惨状？可曾见过宋人辽人妻离子散、家破人亡的情景？宋辽之间好容易罢兵数十年, 倘若刀兵再起, 契丹铁骑侵入南朝, 你可知将有多少宋人惨遭横死？多少辽人死于非命？!</span><br/>
+                        <ul style="width: 96%;border:1px dotted lightgray;list-style-type: none;padding-left:8px;padding-right:8px;" th:if="${reply.hostReply!=null}">
+                            <li style="color:#6e0000;font-size:12px;width: 100%;border:0px solid red;" th:text="${reply.hostReply.content}">你以为我是慕容复的人，所以和我比试？段兄弟年纪轻轻，就有如此武学修为，实属罕见！武林早已盛传大理段氏有一门绝学，叫六脉神剑，能以无形剑气杀人，果然真有此门神功！</li>
+                            <li style="color:#6e0000;font-size:12px;width:100%;border:0px solid blue;text-align: right;margin-right: 8px;" th:text="|主人回复于${reply.hostReply.hostReplyDate}|">主人回复于2021/10/01 11:50:30</li>
+                        </ul>
+                        <a th:id="|a${reply.id}|" th:unless="${reply.hostReply!=null}"  href="#" style="float: right;display: none;">主人回复</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div id="div_add_reply">
+        <p class="add_reply_title">添加回复</p>
+        <form action="reply.do" method="post">
+            <input type="hidden" name="operate" value="addReply"/>
+            <input type="hidden" name="topicId" th:value="${session.topic.id}"/>
+            <table>
+                <tr>
+                    <th style="width: 25%">回复日志：</th>
+                    <td><input type="text" th:value="|《${session.topic.title}》|" value="《萧某今天就和天下群雄决一死战，你们一起上吧！》" readonly /></td>
+                </tr>
+                <tr>
+                    <th>回复内容1：</th>
+                    <td><textarea name="content" rows="3">这里是另一个回复！</textarea></td>
+                </tr>
+                <tr>
+                    <th colspan="2">
+                        <input type="submit" value=" 回 复 "/>
+                        <input type="reset" value=" 重 置 "/>
+                    </th>
+                </tr>
+            </table>
+        </form>
+    </div>
+</body>
+</html>

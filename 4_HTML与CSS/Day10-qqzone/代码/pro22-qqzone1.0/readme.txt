@@ -76,16 +76,20 @@
    最后设置关联
 
 4. 添加回复
+        return "redirect:topic.do?operate=topicDetail&id="+topicId;
 
 5. 删除回复
+window.location.href='reply.do?operate=delReply&replyId='+replyId+'&topicId='+topicId;
    1) 如果回复有关联的主人回复，需要先删除主人回复
    2) 删除回复
    Cannot delete or update a parent row: a foreign key constraint fails
    (`qqzonedb`.`t_host_reply`, CONSTRAINT `FK_host_reply` FOREIGN KEY (`reply`) REFERENCES `t_reply` (`id`))
     我们在删除回复表记录时，发现删除失败，原因是：在主人回复表中仍然有记录引用待删除的回复这条记录
     如果需要删除主表数据，需要首先删除子表数据
+return "redirect:topic.do?operate=topicDetail&id="+topicId;
 
 6. 删除日志
+"topic.do?operate=delTopic&topicId="+topicId;
    1) 删除日志，首先需要考虑是否有关联的回复
    2) 删除回复，首先需要考虑是否有关联的主人回复
    3) 另外，如果不是自己的空间，则不能删除日志

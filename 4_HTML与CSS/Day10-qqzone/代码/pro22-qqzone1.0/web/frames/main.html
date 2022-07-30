@@ -32,6 +32,7 @@
                 <td th:text="${topic.id}">2</td>
                 <td class="left"><a th:href="@{|/topic.do?operate=topicDetail&id=${topic.id}|}" th:text="${topic.title}">我乔峰要走，你们谁可阻拦</a></td>
                 <td th:text="${topic.topicDate}">2021-09-01 12:30:55</td>
+<!--                删除日志-->
                 <td><input type="button" value="删除" th:if="${session.userBasic.id==session.friend.id}" th:onclick="|delTopic(${topic.id})|"/></td>
             </tr>
         </table>

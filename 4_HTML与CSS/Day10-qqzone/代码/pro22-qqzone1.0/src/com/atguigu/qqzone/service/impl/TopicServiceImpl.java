@@ -43,6 +43,7 @@ public class TopicServiceImpl implements TopicService {
     @Override
     public Topic getTopicById(Integer id) {
         Topic topic = getTopic(id);
+        //里面包含回复 和 主人回复
         List<Reply> replyList = replyService.getReplyListByTopicId(topic.getId());
         topic.setReplyList(replyList);
 

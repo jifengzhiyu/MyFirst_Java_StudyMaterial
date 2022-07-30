@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+    <div id="div0">
+        <div id="div_container">
+            <p class="center">用户登录1</p>
+            <form th:action="@{/user.do}" method="get">
+                <input type="hidden" name="operate" value="login"/>
+                <table>
+                    <tr>
+                        <th>用户名：</th>
+                        <td><input type="text" name="loginId" value="u001"/></td>
+                    </tr>
+                    <tr>
+                        <th>密码：</th>
+                        <td><input type="password" name="pwd" value="ok"/></td>
+                    </tr>
+                    <tr>
+                        <th colspan="2">
+                            <input type="submit" value="登录"/>
+                            <input type="button" value="还没有账号？"/>
+                        </th>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

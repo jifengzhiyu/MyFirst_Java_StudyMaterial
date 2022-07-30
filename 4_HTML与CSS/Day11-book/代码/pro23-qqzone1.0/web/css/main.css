@@ -1,0 +1,12 @@
+body{
+    background-color: #E8E8FF;
+}
+#div_topic_list{
+    width:80%;
+    margin-left:10%;
+    margin-top:16px;
+}
+#div_to_add{
+    width:80%;
+    margin-left:10%;
+}
