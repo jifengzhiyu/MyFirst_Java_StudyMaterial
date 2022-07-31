@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script language="JavaScript">
+        var reg = /\s/gim ;        // \s表示匹配空白符，例如匹配 换行符、制表符...
+        var str = "a>b_c|d\nf?g";
+        str = str.replace(reg,"A");
+        console.log(str);
+        /*
+        var flag = reg.test(str);
+        console.log(flag);
+        */
+    </script>
+</head>
+<body>
+
+</body>
+</html>

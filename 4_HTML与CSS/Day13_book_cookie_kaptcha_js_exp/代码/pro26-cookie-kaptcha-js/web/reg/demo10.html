@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script language="JavaScript">
+        //var reg = /[abc]/gim ;    // []表示集合，表示只要有a或者有b或者有c都匹配 , 如果没有[]，表示必须精确匹配abc
+        //var reg = /[^abc]/gim ;     // [^]中括号中的^表示取反
+        var reg = /[a-g]/gim ;      // [ - ] 中括号中的 - 表示范围
+        var str = "abhelloworldc";
+        str = str.replace(reg,"A");
+        document.write(str);
+    </script>
+</head>
+<body>
+
+</body>
+</html>

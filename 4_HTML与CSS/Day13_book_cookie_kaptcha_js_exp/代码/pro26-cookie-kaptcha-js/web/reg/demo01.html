@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script language="JavaScript">
+        var reg = /abc/; //new RegExp("abc");
+        var str = "abcdefg";
+        var flag = reg.test(str);
+        console.log(flag);
+    </script>
+</head>
+<body>
+
+</body>
+</html>
+<!--
+正则表达式的使用三步骤：
+1. 定义正则表达式对象
+   正则表达式定义有两个方式：
+   1) 对象形式
+      var reg = new RegExp("abc")
+   2) 直接量形式
+      var reg = /abc/;
+2. 定义待校验的字符串
+3. 校验
+
+
+-->
