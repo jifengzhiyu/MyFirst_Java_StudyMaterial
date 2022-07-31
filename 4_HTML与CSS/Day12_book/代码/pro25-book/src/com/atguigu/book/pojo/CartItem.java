@@ -8,6 +8,7 @@ public class CartItem {
     private Book book ;
     private Integer buyCount ;
     private User userBean ;
+    //一本书买的数量 价格
     private Double xj ;
 
     public CartItem(){}

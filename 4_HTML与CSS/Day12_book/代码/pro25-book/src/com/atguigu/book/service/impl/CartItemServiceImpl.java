@@ -63,6 +63,7 @@ public class CartItemServiceImpl implements CartItemService {
 
     @Override
     public Cart getCart(User user) {
+        //获得有 book 的cartItemList
         List<CartItem> cartItemList = getCartItemList(user);
         Map<Integer,CartItem> cartItemMap = new HashMap<>();
         for (CartItem cartItem : cartItemList){

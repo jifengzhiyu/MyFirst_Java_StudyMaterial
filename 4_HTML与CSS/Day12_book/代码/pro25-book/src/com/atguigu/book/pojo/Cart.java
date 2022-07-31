@@ -41,6 +41,7 @@ public class Cart {
     public Integer getTotalBookCount() {
         totalBookCount = 0 ;
         if(cartItemMap!=null && cartItemMap.size()>0){
+            //.values 和上面的 .entrySet 一个道理
             for (CartItem cartItem : cartItemMap.values()){
                 totalBookCount = totalBookCount + cartItem.getBuyCount() ;
             }

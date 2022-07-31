@@ -41,6 +41,7 @@ public class OrderController {
     public String getOrderList(HttpSession session){
         User user =(User)session.getAttribute("currUser");
 
+        //获得每个OrderBean 的数量
         List<OrderBean> orderList = orderService.getOrderList(user);
         user.setOrderList(orderList);
 

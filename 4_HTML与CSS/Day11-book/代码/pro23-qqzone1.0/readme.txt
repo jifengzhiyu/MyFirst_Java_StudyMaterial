@@ -104,13 +104,15 @@
     Date date2 = new Date();
     String dateStr2 = sdf.format(date2);
     */
-2. thymeleaf中使用#dates这个公共的内置对象
+
+2. 或者也可以直接用下面的
+    thymeleaf中使用#dates这个公共的内置对象
    ${#dates.format(topic.topicDate ,'yyyy-MM-dd HH:mm:ss')}
 
 3. 系统启动时，我们访问的页面是： http://localhost:8080/pro23/page.do?operate=page&page=login
    为什么不是： http://localhost:8080/pro23/login.html  ?
    答： 如果是后者，那么属于直接访问静态页面。那么页面上的thymeleaf表达式（标签）浏览器是不能识别的
-       我们访问前者的目的其实就是要执行 ViewBaseServlet中的processTemplete()
+       我们访问前者的目的其实就是要执行 ViewBaseServlet中的processTemplete() 来通过thymeleaf渲染
 
 4. http://localhost:8080/pro23/page.do?operate=page&page=login 访问这个URL，执行的过程是什么样的？
    答：
@@ -172,7 +174,7 @@
           public class UserDAOImpl extends BaseDAO<User> implements UserDAO{}
       5） Service是业务控制类，这一层我们只需要记住一点：
           - 业务逻辑我们都封装在service这一层，不要分散在Controller层。也不要出现在DAO层（我们需要保证DAO方法的单精度特性）
-          - 当某一个业务功能需要使用其他模块的业务功能时，尽量的调用别人的service，而不是深入到其他模块的DAO细节
+          - 当某一个业务功能需要使用其他模块的业务功能时，尽量的调用别人的service，而不是深入到其他模块的DAO细节（就算平级调用又如何?）
       6） Controller类的编写规则
           ① 在applicationContext.xml中配置Controller
           <bean id="user" class="com.atguigu.qqzone.controllers.UserController>
@@ -202,7 +204,7 @@
           3. 调用operate指定的方法
           4. 接收到执行operate指定的方法的返回值，对返回值进行处理 - 视图处理
       8) 为什么DispatcherServlet能够从application作用域获取到IOC容器？
-         ContextLoaderListener在容器启动时会执行初始化任务，而它的操作就是：
+         ContextLoaderListener在容器启动时(listener)会执行初始化任务，而它的操作就是：
          1. 解析IOC的配置文件，创建一个一个的组件，并完成组件之间依赖关系的注入
          2. 将IOC容器保存到application作用域
 

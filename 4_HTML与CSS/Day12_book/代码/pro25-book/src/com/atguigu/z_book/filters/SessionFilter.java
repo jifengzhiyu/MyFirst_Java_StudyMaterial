@@ -32,7 +32,9 @@ public class SessionFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse)servletResponse;
 
         //http://localhost:8080/pro25/page.do?operate=page&page=user/login
+        //pro25/page.do
         System.out.println("request.getRequestURI() = " + request.getRequestURI());
+        //operate=page&page=user/login
         System.out.println("request.getQueryString() = " + request.getQueryString());
 
         String uri = request.getRequestURI() ;
