@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="web" name="Web">
+      <configuration>
+        <descriptors>
+          <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/web/WEB-INF/web.xml" />
+        </descriptors>
+        <webroots>
+          <root url="file://$MODULE_DIR$/web" relative="/" />
+        </webroots>
+      </configuration>
+    </facet>
+  </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
@@ -7,21 +19,5 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="素材" level="project" />
-    <orderEntry type="module" module-name="pro10-fruit1.5-thymeleaf" />
-    <orderEntry type="module" module-name="Day9-qqzone" />
-    <orderEntry type="module" module-name="pro15-fruit2.0-mvc-dispatcherServlet" />
-    <orderEntry type="module" module-name="Day14_js_json_ajax" />
-    <orderEntry type="module" module-name="pro22-qqzone1.0" />
-    <orderEntry type="module" module-name="Day16-vue_axios" />
-    <orderEntry type="module" module-name="pro13-fruit1.8-mvc" />
-    <orderEntry type="module" module-name="pro12-fruit1.7-keyword" />
-    <orderEntry type="module" module-name="pro16-fruit2.1-mvc-controller" />
-    <orderEntry type="module" module-name="pro17-fruit2.2-mvc-service-ioc" />
-    <orderEntry type="module" module-name="pro14-fruit1.9-mvc-reflect" />
-    <orderEntry type="module" module-name="Day10-qqzone" />
-    <orderEntry type="module" module-name="pro20-fruit2.3-mvc-transaction" />
-    <orderEntry type="module" module-name="pro11-fruit1.6-pagination" />
-    <orderEntry type="module" module-name="pro09-fruit1.4-thymeleaf" />
   </component>
 </module>
