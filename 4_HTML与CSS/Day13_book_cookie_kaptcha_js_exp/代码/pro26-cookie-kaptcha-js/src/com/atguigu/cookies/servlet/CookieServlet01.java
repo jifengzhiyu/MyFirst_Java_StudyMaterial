@@ -17,9 +17,6 @@ public class CookieServlet01 extends HttpServlet {
         //2.将这个Cookie对象保存到浏览器端
         response.addCookie(cookie);
 
-
-
         request.getRequestDispatcher("hello01.html").forward(request,response);
-
     }
 }
