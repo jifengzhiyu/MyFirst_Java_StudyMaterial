@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script language="JavaScript" src="script/vue.js"></script>
+    <script language="JavaScript">
+        window.onload=function(){
+            var vue = new Vue({
+                "el":"#div0",
+                data:{
+                    msg:1
+                },
+                methods:{
+                    changeMsg:function(){
+                        this.msg = this.msg + 1 ;
+                    }
+
+                },
+                /*vue对象创建之前*/
+                beforeCreate:function(){
+                    console.log("beforeCreate:vue对象创建之前---------------");
+                    console.log("msg:"+this.msg);
+                },
+                /*vue对象创建之后*/
+                created:function(){
+                    console.log("created:vue对象创建之后---------------");
+                    console.log("msg:"+this.msg);
+                },
+                /*数据装载之前*/
+                beforeMount:function(){
+                    console.log("beforeMount:数据装载之前---------------");
+                    console.log("span:"+document.getElementById("span").innerText);
+                },
+                /*数据装载之后*/
+                mounted:function(){
+                    console.log("mounted:数据装载之后---------------");
+                    console.log("span:"+document.getElementById("span").innerText);
+                },
+                beforeUpdate:function(){
+                    console.log("beforeUpdate:数据更新之前---------------");
+                    console.log("msg:"+this.msg);
+                    console.log("span:"+document.getElementById("span").innerText);
+                },
+                updated:function(){
+                    console.log("Updated:数据更新之后---------------");
+                    console.log("msg:"+this.msg);
+                    console.log("span:"+document.getElementById("span").innerText);
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <div id="div0">
+        <span id="span">{{msg}}</span><br/>
+        <input type="button" value="改变msg的值" @click="changeMsg"/>
+    </div>
+</body>
+</html>

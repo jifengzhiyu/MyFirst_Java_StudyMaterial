@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>02.演示Axios发送JSON格式的参数值给服务器端</title>
+    <script language="JavaScript" src="script/vue.js"></script>
+    <script language="JavaScript" src="script/axios.min.js"></script>
+    <script language="JavaScript">
+        window.onload=function(){
+            var vue = new Vue({
+                "el":"#div0",
+                data:{
+                    uname:"lina",
+                    pwd:"ok"
+                },
+                methods:{
+                    axios02:function(){
+                        axios({
+                            method:"POST",
+                            url:"axios02.do",
+                            data:{
+                                uname:vue.uname,
+                                pwd:vue.pwd
+                            }
+                        })
+                            .then(function (value) {
+                                console.log(value);
+                            })
+                            .catch(function (reason) {
+                                console.log(reason);
+                            });
+                    }
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <div id="div0">
+        uname:<input type="text" v-model="uname"/><br/>
+        pwd:<input type="text" v-model="pwd"/><br/>
+        <input type="button" @click="axios02" value="发送JSON格式的参数值的异步请求"/>
+    </div>
+</body>
+</html>

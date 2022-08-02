@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script language="JavaScript" src="script/vue.js"></script>
+    <script language="JavaScript">
+        window.onload=function(){
+            var vue = new Vue({
+                "el":"#div0",
+                data:{
+                    num:2
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <div id="div0">
+        <input type="text" v-model="num"/>
+
+        <!-- v-if和v-else之间不可以插入其他节点 -->
+        <!--<div v-if="num%2==0" style="width:200px;height:200px;background-color: chartreuse;">&nbsp;</div>-->
+        <!--<br/>-->
+        <!--<div v-else="num%2==0" style="width:200px;height:200px;background-color: coral">&nbsp;</div>-->
+
+
+        <!-- v-show -->
+        <!-- v-show是通过display属性来控制这个div是否显示 -->
+        <div v-show="num%2==0" style="width:200px;height:200px;background-color:blueviolet;">&nbsp;</div>
+    </div>
+</body>
+</html>

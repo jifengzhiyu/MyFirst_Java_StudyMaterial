@@ -19,6 +19,8 @@
       <module fileurl="file://$PROJECT_DIR$/Day12_book/代码/pro25-book/pro25-book.iml" filepath="$PROJECT_DIR$/Day12_book/代码/pro25-book/pro25-book.iml" />
       <module fileurl="file://$PROJECT_DIR$/Day13_book_cookie_kaptcha_js_exp/代码/pro26-cookie-kaptcha-js/pro26-cookie-kaptcha-js.iml" filepath="$PROJECT_DIR$/Day13_book_cookie_kaptcha_js_exp/代码/pro26-cookie-kaptcha-js/pro26-cookie-kaptcha-js.iml" />
       <module fileurl="file://$PROJECT_DIR$/Day14_js_json_ajax/代码/pro27-book-regist-cart/pro27-book-regist-cart1.iml" filepath="$PROJECT_DIR$/Day14_js_json_ajax/代码/pro27-book-regist-cart/pro27-book-regist-cart1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Day15_vue_axios/代码/pro28-vue-axios-json/pro28-vue-axios-json.iml" filepath="$PROJECT_DIR$/Day15_vue_axios/代码/pro28-vue-axios-json/pro28-vue-axios-json.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Day16-vue_axios/代码/pro29-book-cart-vue-axios/pro29-book-cart-vue-axios.iml" filepath="$PROJECT_DIR$/Day16-vue_axios/代码/pro29-book-cart-vue-axios/pro29-book-cart-vue-axios.iml" />
     </modules>
   </component>
 </project>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>01.演示Axios发送普通的参数值给服务器端</title>
+    <script language="JavaScript" src="script/vue.js"></script>
+    <script language="JavaScript" src="script/axios.min.js"></script>
+    <script language="JavaScript">
+        window.onload=function(){
+            var vue = new Vue({
+                "el":"#div0",
+                data:{
+                    uname:"lina",
+                    pwd:"ok"
+                },
+                methods:{
+                    axios01:function(){
+                        axios({
+                            method:"POST",
+                            url:"axios01.do",
+                            params:{
+                                uname:vue.uname,
+                                pwd:vue.pwd
+                            }
+                        })
+                            .then(function (value) {
+                                console.log(value);
+                            })
+                            .catch(function (reason) {
+                                console.log(reason);
+                            });
+                    }
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <div id="div0">
+        uname:<input type="text" v-model="uname"/><br/>
+        pwd:<input type="text" v-model="pwd"/><br/>
+        <input type="button" @click="axios01" value="发送一个带普通请求参数值的异步请求"/>
+    </div>
+</body>
+</html>
