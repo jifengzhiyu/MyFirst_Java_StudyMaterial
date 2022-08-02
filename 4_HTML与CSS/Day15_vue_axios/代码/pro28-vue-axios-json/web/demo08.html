@@ -21,31 +21,39 @@
                 beforeCreate:function(){
                     console.log("beforeCreate:vue对象创建之前---------------");
                     console.log("msg:"+this.msg);
+                    //msg:undefined
                 },
                 /*vue对象创建之后*/
                 created:function(){
                     console.log("created:vue对象创建之后---------------");
                     console.log("msg:"+this.msg);
+                    //msg:1
                 },
                 /*数据装载之前*/
                 beforeMount:function(){
                     console.log("beforeMount:数据装载之前---------------");
                     console.log("span:"+document.getElementById("span").innerText);
+                    //span:{{msg}}
                 },
                 /*数据装载之后*/
                 mounted:function(){
                     console.log("mounted:数据装载之后---------------");
                     console.log("span:"+document.getElementById("span").innerText);
+                    //span:1
                 },
                 beforeUpdate:function(){
                     console.log("beforeUpdate:数据更新之前---------------");
                     console.log("msg:"+this.msg);
                     console.log("span:"+document.getElementById("span").innerText);
+                    //msg:2
+                    //span:1
                 },
                 updated:function(){
                     console.log("Updated:数据更新之后---------------");
                     console.log("msg:"+this.msg);
                     console.log("span:"+document.getElementById("span").innerText);
+                    //msg:2
+                    //span:2
                 }
             });
         }
