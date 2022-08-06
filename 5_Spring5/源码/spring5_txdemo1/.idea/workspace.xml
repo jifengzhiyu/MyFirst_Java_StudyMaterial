@@ -1,0 +1,761 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="5bd729ac-1498-4e27-8526-c6f8234b6bbb" name="Default Changelist" comment="" />
+    <ignored path="$PROJECT_DIR$/out/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/atguigu/spring5/test/TestBook.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="243">
+              <caret line="35" column="36" selection-start-line="35" selection-start-column="36" selection-end-line="35" selection-end-column="36" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/atguigu/spring5/test/JTest4.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="27">
+              <caret line="3" selection-start-line="3" selection-end-line="3" selection-end-column="22" />
+              <folding>
+                <element signature="e#558#559#0" expanded="true" />
+                <element signature="e#584#585#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/atguigu/spring5/test/JTest5.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="245">
+              <caret line="18" column="14" lean-forward="true" selection-start-line="18" selection-start-column="14" selection-end-line="18" selection-end-column="14" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#550#551#0" expanded="true" />
+                <element signature="e#592#593#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/log4j2.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="81">
+              <caret line="3" column="27" selection-start-line="3" selection-start-column="27" selection-end-line="3" selection-end-column="27" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="spring-beans.schema" />
+        <option value="Interface" />
+        <option value="Tag Library Descriptor" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/src/com/atguigu/spring5/factorybean/MyBean.java" />
+        <option value="$PROJECT_DIR$/src/com/atguigu/spring5/bean/Orders.java" />
+        <option value="$PROJECT_DIR$/src/com/atguigu/spring5/bean/MyBeanPost.java" />
+        <option value="$PROJECT_DIR$/src/bean4.xml" />
+        <option value="$PROJECT_DIR$/src/com/atguigu/spring5/at/Emp.java" />
+        <option value="$PROJECT_DIR$/src/com/atguigu/spring5/at/Dept.java" />
+        <option value="$PROJECT_DIR$/src/com/atguigu/spring5/autowire/Dept.java" />
+        <option value="$PROJECT_DIR$/src/com/atguigu/spring5/autowire/Emp.java" />
+        <option value="$PROJECT_DIR$/src/bean5.xml" />
+        <option value="$PROJECT_DIR$/src/jdbc.properties" />
+        <option value="$PROJECT_DIR$/src/bean6.xml" />
+        <option value="$PROJECT_DIR$/src/com/atguigu/spring5/config/SpringConfig.java" />
+        <option value="$PROJECT_DIR$/src/com/atguigu/spring5/testdemo/TestSpring5Demo1.java" />
+        <option value="$PROJECT_DIR$/src/com/atguigu/spring5/UserDao.java" />
+        <option value="$PROJECT_DIR$/src/com/atguigu/spring5/UserDaoImpl.java" />
+        <option value="$PROJECT_DIR$/src/com/atguigu/spring5/JDKProxy.java" />
+        <option value="$PROJECT_DIR$/src/com/atguigu/spring5/asp/Config1.java" />
+        <option value="$PROJECT_DIR$/src/com/atguigu/spring5/asp/Test1.java" />
+        <option value="$PROJECT_DIR$/src/com/atguigu/spring5/asp/User.java" />
+        <option value="$PROJECT_DIR$/src/com/atguigu/spring5/asp/UserProxy1.java" />
+        <option value="$PROJECT_DIR$/src/com/atguigu/spring5/asp/UserProxy.java" />
+        <option value="$PROJECT_DIR$/src/com/atguigu/spring5/aopanno/User.java" />
+        <option value="$PROJECT_DIR$/src/com/atguigu/spring5/aopanno/PersonProxy.java" />
+        <option value="$PROJECT_DIR$/src/com/atguigu/spring5/aopanno/UserProxy.java" />
+        <option value="$PROJECT_DIR$/src/com/atguigu/spring5/aopxml/Book.java" />
+        <option value="$PROJECT_DIR$/src/com/atguigu/spring5/aopxml/BookProxy.java" />
+        <option value="$PROJECT_DIR$/src/com/atguigu/spring5/test/TestAop.java" />
+        <option value="$PROJECT_DIR$/src/com/atguigu/spring5/config/ConfigAop.java" />
+        <option value="$PROJECT_DIR$/src/com/atguigu/spring5/entity/User.java" />
+        <option value="$PROJECT_DIR$/src/com/atguigu/spring5/entity/Book.java" />
+        <option value="$PROJECT_DIR$/src/com/atguigu/spring5/service/BookService.java" />
+        <option value="$PROJECT_DIR$/src/com/atguigu/spring5/dao/BookDao.java" />
+        <option value="$PROJECT_DIR$/src/com/atguigu/spring5/dao/BookDaoImpl.java" />
+        <option value="$PROJECT_DIR$/src/com/atguigu/spring5/service/UserDao.java" />
+        <option value="$PROJECT_DIR$/src/com/atguigu/spring5/dao/UserDao.java" />
+        <option value="$PROJECT_DIR$/src/com/atguigu/spring5/dao/UserDaoImpl.java" />
+        <option value="$PROJECT_DIR$/src/bean2.xml" />
+        <option value="$PROJECT_DIR$/src/com/atguigu/spring5/config/Config1.java" />
+        <option value="$PROJECT_DIR$/src/bean1.xml" />
+        <option value="$PROJECT_DIR$/src/com/atguigu/spring5/config/TxConfig.java" />
+        <option value="$PROJECT_DIR$/src/com/atguigu/spring5/test/Jtest.java" />
+        <option value="$PROJECT_DIR$/src/log4j2.xml.tld" />
+        <option value="$PROJECT_DIR$/src/com/atguigu/spring5/service/User.java" />
+        <option value="$PROJECT_DIR$/src/logback-spring.xml" />
+        <option value="$PROJECT_DIR$/src/com/atguigu/spring5/service/UserService.java" />
+        <option value="$PROJECT_DIR$/src/com/atguigu/spring5/test/UserLog.java" />
+        <option value="$PROJECT_DIR$/src/com/atguigu/spring5/test/User.java" />
+        <option value="$PROJECT_DIR$/src/com/atguigu/spring5/test/TestBook.java" />
+        <option value="$PROJECT_DIR$/src/log4j2.xml" />
+        <option value="$PROJECT_DIR$/src/com/atguigu/spring5/test/JTest4.java" />
+        <option value="$PROJECT_DIR$/src/com/atguigu/spring5/test/JTest5.java" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="-15" />
+    <option name="y" value="21" />
+    <option name="width" value="1346" />
+    <option name="height" value="688" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="spring5_txdemo1" type="b2602c69:ProjectViewProjectNode" />
+              <item name="spring5_txdemo1" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="spring5_txdemo1" type="b2602c69:ProjectViewProjectNode" />
+              <item name="spring5_txdemo1" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="spring5_txdemo1" type="b2602c69:ProjectViewProjectNode" />
+              <item name="spring5_txdemo1" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="spring5" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="spring5_txdemo1" type="b2602c69:ProjectViewProjectNode" />
+              <item name="spring5_txdemo1" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="spring5" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="spring5_txdemo1" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="Downloaded.Files.Path.Enabled" value="false" />
+    <property name="Repository.Attach.Annotations" value="false" />
+    <property name="Repository.Attach.JavaDocs" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1589857412203" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/slf4j-api-1.7.30.jar!/" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.atguigu.spring5.test" />
+      <recent name="com.atguigu.spring5.asp" />
+      <recent name="com.atguigu.spring5.testdemo" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\work\spring5_txdemo1\lib" />
+      <recent name="E:\work\spring5_txdemo1\src" />
+      <recent name="E:\work\spring5_demo5\lib" />
+      <recent name="E:\work" />
+      <recent name="E:\work\spring5_demo4\src" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="JUnit.JTest5.test1">
+    <configuration name="UserLog" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.atguigu.spring5.test.UserLog" />
+      <module name="spring5_txdemo1" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.atguigu.spring5.test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="JTest4.test1" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="spring5_txdemo1" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.atguigu.spring5.test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.atguigu.spring5.test" />
+      <option name="MAIN_CLASS_NAME" value="com.atguigu.spring5.test.JTest4" />
+      <option name="METHOD_NAME" value="test1" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="JTest5.test1" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="spring5_txdemo1" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.atguigu.spring5.test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.atguigu.spring5.test" />
+      <option name="MAIN_CLASS_NAME" value="com.atguigu.spring5.test.JTest5" />
+      <option name="METHOD_NAME" value="test1" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestBook.testAccount" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="spring5_txdemo1" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.atguigu.spring5.test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.atguigu.spring5.test" />
+      <option name="MAIN_CLASS_NAME" value="com.atguigu.spring5.test.TestBook" />
+      <option name="METHOD_NAME" value="testAccount" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestBook.testGenericApplicationContext" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="spring5_txdemo1" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.atguigu.spring5.test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.atguigu.spring5.test" />
+      <option name="MAIN_CLASS_NAME" value="com.atguigu.spring5.test.TestBook" />
+      <option name="METHOD_NAME" value="testGenericApplicationContext" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="JUnit.TestBook.testAccount" />
+      <item itemvalue="Application.UserLog" />
+      <item itemvalue="JUnit.TestBook.testGenericApplicationContext" />
+      <item itemvalue="JUnit.JTest4.test1" />
+      <item itemvalue="JUnit.JTest5.test1" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.JTest5.test1" />
+        <item itemvalue="JUnit.JTest4.test1" />
+        <item itemvalue="JUnit.TestBook.testGenericApplicationContext" />
+        <item itemvalue="Application.UserLog" />
+        <item itemvalue="JUnit.TestBook.testAccount" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="5bd729ac-1498-4e27-8526-c6f8234b6bbb" name="Default Changelist" comment="" />
+      <created>1589354804993</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1589354804993</updated>
+      <workItem from="1589354808409" duration="2954000" />
+      <workItem from="1589421039800" duration="13025000" />
+      <workItem from="1589446941321" duration="654000" />
+      <workItem from="1589508534855" duration="1256000" />
+      <workItem from="1589510492402" duration="12582000" />
+      <workItem from="1589593886171" duration="864000" />
+      <workItem from="1589595354032" duration="7045000" />
+      <workItem from="1589610054233" duration="11284000" />
+      <workItem from="1589637443369" duration="782000" />
+      <workItem from="1589680631940" duration="1413000" />
+      <workItem from="1589699217159" duration="8841000" />
+      <workItem from="1589768401916" duration="297000" />
+      <workItem from="1589769568466" duration="18886000" />
+      <workItem from="1589812841591" duration="1020000" />
+      <workItem from="1589853110117" duration="4400000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TestHistory">
+    <history-entry file="TestBook_testAccount - 2020.05.18 at 23h 20m 08s.xml">
+      <configuration name="TestBook.testAccount" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="TestBook_testAccount - 2020.05.19 at 09h 54m 43s.xml">
+      <configuration name="TestBook.testAccount" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="TestBook_testAccount - 2020.05.19 at 10h 18m 10s.xml">
+      <configuration name="TestBook.testAccount" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="TestBook_testAccount - 2020.05.19 at 10h 18m 50s.xml">
+      <configuration name="TestBook.testAccount" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="TestBook_testGenericApplicationContext - 2020.05.19 at 10h 45m 47s.xml">
+      <configuration name="TestBook.testGenericApplicationContext" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="TestBook_testGenericApplicationContext - 2020.05.19 at 10h 46m 20s.xml">
+      <configuration name="TestBook.testGenericApplicationContext" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="TestBook_testGenericApplicationContext - 2020.05.19 at 10h 47m 25s.xml">
+      <configuration name="TestBook.testGenericApplicationContext" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="JTest4_test1 - 2020.05.19 at 10h 57m 28s.xml">
+      <configuration name="JTest4.test1" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="JTest5_test1 - 2020.05.19 at 11h 02m 12s.xml">
+      <configuration name="JTest5.test1" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="JTest5_test1 - 2020.05.19 at 11h 03m 25s.xml">
+      <configuration name="JTest5.test1" configurationId="JUnit" />
+    </history-entry>
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="85303000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1382" height="754" extended-state="6" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24357034" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Designer" order="2" />
+      <window_info id="Image Layers" order="3" />
+      <window_info id="Capture Tool" order="4" />
+      <window_info id="UI Designer" order="5" />
+      <window_info id="Favorites" order="6" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.1221865" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Spring" order="7" />
+      <window_info anchor="bottom" id="Terminal" order="8" />
+      <window_info anchor="bottom" id="Docker" order="9" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
+      <window_info anchor="bottom" id="Messages" order="11" weight="0.329582" />
+      <window_info anchor="bottom" id="Database Changes" order="12" />
+      <window_info anchor="bottom" id="Version Control" order="13" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.628593" />
+      <window_info anchor="right" id="Maven" order="3" />
+      <window_info anchor="right" id="Palette" order="4" />
+      <window_info anchor="right" id="Capture Analysis" order="5" />
+      <window_info anchor="right" id="Database" order="6" />
+      <window_info anchor="right" id="Palette&#9;" order="7" />
+      <window_info anchor="right" id="Theme Preview" order="8" />
+    </layout>
+    <layout-to-restore>
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24357034" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Designer" order="2" />
+      <window_info id="Image Layers" order="3" />
+      <window_info id="Capture Tool" order="4" />
+      <window_info id="UI Designer" order="5" />
+      <window_info id="Favorites" order="6" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.2363344" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Spring" order="7" />
+      <window_info anchor="bottom" id="Terminal" order="8" />
+      <window_info anchor="bottom" id="Docker" order="9" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
+      <window_info anchor="bottom" id="Messages" order="11" weight="0.329582" />
+      <window_info anchor="bottom" id="Database Changes" order="12" />
+      <window_info anchor="bottom" id="Version Control" order="13" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.628593" />
+      <window_info anchor="right" id="Maven" order="3" />
+      <window_info anchor="right" id="Palette" order="4" />
+      <window_info anchor="right" id="Capture Analysis" order="5" />
+      <window_info anchor="right" id="Database" order="6" />
+      <window_info anchor="right" id="Palette&#9;" order="7" />
+      <window_info anchor="right" id="Theme Preview" order="8" />
+    </layout-to-restore>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/com/atguigu/spring5/config/SpringConfig.java" />
+    <entry file="file://$PROJECT_DIR$/src/com/atguigu/spring5/UserDaoImpl.java" />
+    <entry file="file://$PROJECT_DIR$/src/com/atguigu/spring5/JDKProxy.java" />
+    <entry file="file://$PROJECT_DIR$/src/com/atguigu/spring5/asp/User.java" />
+    <entry file="file://$PROJECT_DIR$/src/com/atguigu/spring5/asp/UserProxy.java" />
+    <entry file="file://$PROJECT_DIR$/src/com/atguigu/spring5/asp/UserProxy1.java" />
+    <entry file="file://$PROJECT_DIR$/src/com/atguigu/spring5/asp/Test1.java" />
+    <entry file="file://$PROJECT_DIR$/src/com/atguigu/spring5/asp/Config1.java" />
+    <entry file="file://$PROJECT_DIR$/src/com/atguigu/spring5/UserDao.java" />
+    <entry file="file://$PROJECT_DIR$/src/com/atguigu/spring5/aopanno/User.java" />
+    <entry file="file://$PROJECT_DIR$/src/com/atguigu/spring5/aopanno/UserProxy.java" />
+    <entry file="file://$PROJECT_DIR$/src/com/atguigu/spring5/aopanno/PersonProxy.java" />
+    <entry file="file://$PROJECT_DIR$/src/com/atguigu/spring5/aopxml/BookProxy.java" />
+    <entry file="file://$PROJECT_DIR$/src/com/atguigu/spring5/test/TestAop.java" />
+    <entry file="file://$PROJECT_DIR$/src/com/atguigu/spring5/config/ConfigAop.java" />
+    <entry file="file://$PROJECT_DIR$/src/com/atguigu/spring5/aopxml/Book.java" />
+    <entry file="jar://$PROJECT_DIR$/lib/spring-jdbc-5.2.6.RELEASE.jar!/org/springframework/jdbc/core/JdbcTemplate.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="27">
+          <caret line="43" column="38" selection-start-line="43" selection-start-column="38" selection-end-line="43" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/spring-jdbc-5.2.6.RELEASE.jar!/org/springframework/jdbc/support/JdbcAccessor.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="80">
+          <caret line="17" column="33" selection-start-line="17" selection-start-column="23" selection-end-line="17" selection-end-column="33" />
+          <folding>
+            <element signature="e#803#804#0" expanded="true" />
+            <element signature="e#847#848#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/spring-jdbc-5.2.6.RELEASE.jar!/org/springframework/jdbc/core/BeanPropertyRowMapper.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="33" column="61" lean-forward="true" selection-start-line="33" selection-start-column="58" selection-end-line="33" selection-end-column="61" />
+          <folding>
+            <element signature="e#1863#1864#0" expanded="true" />
+            <element signature="e#1907#1908#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/atguigu/spring5/service/BookService.java" />
+    <entry file="file://$PROJECT_DIR$/src/com/atguigu/spring5/dao/BookDao.java" />
+    <entry file="file://$PROJECT_DIR$/src/com/atguigu/spring5/dao/BookDaoImpl.java" />
+    <entry file="file://$PROJECT_DIR$/src/com/atguigu/spring5/entity/Book.java" />
+    <entry file="file://$PROJECT_DIR$/src/com/atguigu/spring5/dao/UserDao.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="81">
+          <caret line="3" column="4" selection-start-line="3" selection-start-column="4" selection-end-line="3" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/atguigu/spring5/dao/UserDaoImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="15" column="26" selection-start-line="15" selection-start-column="16" selection-end-line="15" selection-end-column="26" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/spring-jdbc-5.2.6.RELEASE.jar!/org/springframework/jdbc/datasource/DataSourceTransactionManager.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="39" column="61" selection-start-line="39" selection-start-column="51" selection-end-line="39" selection-end-column="61" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/spring-context-5.2.6.RELEASE.jar!/org/springframework/context/annotation/Bean.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-101">
+          <caret line="18" column="18" selection-start-line="18" selection-start-column="18" selection-end-line="18" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/spring-tx-5.2.6.RELEASE.jar!/org/springframework/transaction/annotation/EnableTransactionManagement.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="117">
+          <caret line="19" column="18" selection-start-line="19" selection-start-column="18" selection-end-line="19" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/atguigu/spring5/config/Config1.java" />
+    <entry file="file://$PROJECT_DIR$/src/bean2.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="245">
+          <caret line="34" lean-forward="true" selection-start-line="34" selection-end-line="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://D:/Program Files/Java/jdk1.8.0_181/src.zip!/javax/annotation/Resource.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1699">
+          <caret line="54" column="18" selection-start-line="54" selection-start-column="18" selection-end-line="54" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/spring-beans-5.2.6.RELEASE.jar!/org/springframework/beans/factory/config/BeanDefinitionCustomizer.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="9" column="14" selection-start-line="9" selection-start-column="14" selection-end-line="9" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/log4j2.xml.tld" />
+    <entry file="jar://$PROJECT_DIR$/lib/log4j-api-2.11.2.jar!/Log4j-charsets.properties" />
+    <entry file="file://$PROJECT_DIR$/src/com/atguigu/spring5/service/User.java" />
+    <entry file="file://$PROJECT_DIR$/src/com/atguigu/spring5/test/Jtest.java" />
+    <entry file="file://$PROJECT_DIR$/src/com/atguigu/spring5/config/TxConfig.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/logback-spring.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3911">
+          <caret line="11" column="17" lean-forward="true" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/atguigu/spring5/service/UserService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="297">
+          <caret line="29" column="12" selection-start-line="29" selection-start-column="12" selection-end-line="29" selection-end-column="12" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/spring-context-5.2.6.RELEASE.jar!/org/springframework/cache/interceptor/CacheProxyFactoryBean.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-116">
+          <caret line="18" lean-forward="true" selection-start-line="18" selection-end-line="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/spring-core-5.2.6.RELEASE.jar!/org/springframework/core/env/EnvironmentCapable.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/atguigu/spring5/test/UserLog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/spring-context-5.2.6.RELEASE.jar!/org/springframework/context/ApplicationContext.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="146">
+          <caret line="20" column="28" lean-forward="true" selection-start-line="20" selection-start-column="28" selection-end-line="20" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/spring-context-5.2.6.RELEASE.jar!/org/springframework/context/annotation/AnnotationConfigApplicationContext.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="69" lean-forward="true" selection-start-line="69" selection-end-line="69" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/bean1.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="27">
+          <caret line="22" selection-start-line="22" selection-end-line="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/atguigu/spring5/test/User.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="32" lean-forward="true" selection-start-column="8" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/spring-context-5.2.6.RELEASE.jar!/org/springframework/context/support/GenericApplicationContext.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="149">
+          <caret line="181" column="58" selection-start-line="181" selection-start-column="50" selection-end-line="181" selection-end-column="58" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/atguigu/spring5/test/TestBook.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="243">
+          <caret line="35" column="36" selection-start-line="35" selection-start-column="36" selection-end-line="35" selection-end-column="36" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/log4j2.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="81">
+          <caret line="3" column="27" selection-start-line="3" selection-start-column="27" selection-end-line="3" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/atguigu/spring5/test/JTest4.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="27">
+          <caret line="3" selection-start-line="3" selection-end-line="3" selection-end-column="22" />
+          <folding>
+            <element signature="e#558#559#0" expanded="true" />
+            <element signature="e#584#585#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/atguigu/spring5/test/JTest5.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="245">
+          <caret line="18" column="14" lean-forward="true" selection-start-line="18" selection-start-column="14" selection-end-line="18" selection-end-column="14" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#550#551#0" expanded="true" />
+            <element signature="e#592#593#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>No facets are configured</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>spring5_txdemo1</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+</project>

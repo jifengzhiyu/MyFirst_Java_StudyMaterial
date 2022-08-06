@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--内部bean-->
+    <bean id="emp" class="com.atguigu.spring5.bean.Emp">
+        <!--设置两个普通属性-->
+        <property name="ename" value="lucy"></property>
+        <property name="gender" value="女"></property>
+        <!--设置对象类型属性-->
+        <property name="dept">
+            <bean id="dept" class="com.atguigu.spring5.bean.Dept">
+                <property name="dname" value="安保部"></property>
+            </bean>
+        </property>
+    </bean>
+</beans>

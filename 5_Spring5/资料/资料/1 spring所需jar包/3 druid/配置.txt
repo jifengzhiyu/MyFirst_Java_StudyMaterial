@@ -1,0 +1,12 @@
+<!-- 配置连接池 -->
+	<!-- DruidDataSource dataSource = new DruidDataSource(); -->
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+		<!-- dataSource.setDriverClassName("com.mysql.jdbc.Driver"); 
+			set方法注入
+		-->
+		<!-- 获取properties文件内容，根据key获取，使用spring表达式获取 -->
+		<property name="driverClassName" value="${jdbc.driverclass}"></property>
+		<property name="url" value="${jdbc.url}"></property>
+		<property name="username" value="${jdbc.username}"></property>
+		<property name="password" value="${jdbc.password}"></property>
+	</bean>

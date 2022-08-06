@@ -1,0 +1,28 @@
+<component name="libraryTable">
+  <library name="lib4">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/spring5_txdemo1/lib/spring-expression-5.2.6.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/spring5_txdemo1/lib/com.springsource.org.aopalliance-1.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/spring5_txdemo1/lib/spring-context-5.2.6.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/spring5_txdemo1/lib/mysql-connector-java-5.1.7-bin.jar!/" />
+      <root url="jar://$PROJECT_DIR$/spring5_txdemo1/lib/log4j-slf4j-impl-2.11.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/spring5_txdemo1/lib/druid-1.1.9.jar!/" />
+      <root url="jar://$PROJECT_DIR$/spring5_txdemo1/lib/spring-aspects-5.2.6.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/spring5_txdemo1/lib/spring-core-5.2.6.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/spring5_txdemo1/lib/slf4j-api-1.7.30.jar!/" />
+      <root url="jar://$PROJECT_DIR$/spring5_txdemo1/lib/spring-tx-5.2.6.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/spring5_txdemo1/lib/spring-test-5.2.6.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/spring5_txdemo1/lib/com.springsource.net.sf.cglib-2.2.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/spring5_txdemo1/lib/log4j-core-2.11.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/spring5_txdemo1/lib/spring-orm-5.2.6.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/spring5_txdemo1/lib/com.springsource.org.aspectj.weaver-1.6.8.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/spring5_txdemo1/lib/spring-aop-5.2.6.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/spring5_txdemo1/lib/spring-jdbc-5.2.6.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/spring5_txdemo1/lib/log4j-api-2.11.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/spring5_txdemo1/lib/commons-logging-1.1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/spring5_txdemo1/lib/spring-beans-5.2.6.RELEASE.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
