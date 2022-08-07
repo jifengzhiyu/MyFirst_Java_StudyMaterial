@@ -2,7 +2,7 @@
 
 笔记：https://heavy_code_industry.gitee.io/code_heavy_industry/
 
-## Java基础
+## 1_java基础
 
 ![image-20220326222510587](Pic/image-20220326222510587.png)
 
@@ -258,7 +258,7 @@
       - 收集
 - Optional类
 
-## 数据库
+## 2_MySQL
 
 ### day1
 
@@ -497,6 +497,64 @@
     - 缺点
     - 注意点
 
-## JDBC
+## 3_JDBC
 
 - 在一个.md文件
+
+## 4_JavaWeb
+
+- 看文件夹名称
+
+## 5_Spring5
+
+### 1_Spring 框架概述
+
+（1）轻量级开源 JavaEE 框架，为了解决企业复杂性，两个核心组成：IOC 和 AOP
+
+（2）Spring5.2.6 版本
+
+### 2_IOC 容器
+
+（1）IOC 底层原理（工厂、反射等）
+
+（2）IOC 接口（BeanFactory） 
+
+（3）IOC 操作 Bean 管理（基于 xml） 
+
+（4）IOC 操作 Bean 管理（基于注解）
+
+### 3_Aop
+
+（1）AOP 底层原理：动态代理，有接口（JDK 动态代理），没有接口（CGLIB 动态代理）
+
+（2）术语：切入点、增强（通知）、切面
+
+（3）基于 AspectJ 实现 AOP 操作
+
+### 4_JdbcTemplate
+
+（1）使用 JdbcTemplate 实现数据库 curd 操作
+
+（2）使用 JdbcTemplate 实现数据库批量操作
+
+### 5_事务管理
+
+（1）事务概念
+
+（2）重要概念（传播行为和隔离级别）
+
+（3）基于注解实现声明式事务管理
+
+（4）完全注解方式实现声明式事务管理
+
+### 6_Spring5 新功能
+
+（1）整合日志框架
+
+（2）@Nullable 注解
+
+（3）函数式注册对象
+
+（4）整合 JUnit5 单元测试框架
+
+（5）SpringWebflux 使用
