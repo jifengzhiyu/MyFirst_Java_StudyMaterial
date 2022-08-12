@@ -1269,7 +1269,7 @@ a>导入jackson的依赖
 
 b>在SpringMVC的核心配置文件中开启mvc的注解驱动，此时在HandlerAdaptor中会自动装配一个消息转换器：MappingJackson2HttpMessageConverter，可以将响应到浏览器的Java对象转换为Json格式的字符串
 
-```
+```xml
 <mvc:annotation-driven />
 ```
 
@@ -2105,11 +2105,9 @@ iii. 如果有配置，则访问目标资源（一般为静态资源，如：JS,
 b) 存在则执行下面的流程
 
 3) 根据该URI，调用HandlerMapping获得该Handler配置的所有相关的对象（包括Handler对象以及Handler对象对应的拦截器），最后以HandlerExecutionChain执行链对象的形式返回。
-
-4) DispatcherServlet 根据获得的Handler，选择一个合适的HandlerAdapter。
-
-5) 如果成功获得HandlerAdapter，此时将开始执行拦截器的preHandler(…)方法【正向】
-
+4) 
+5) DispatcherServlet 根据获得的Handler，选择一个合适的HandlerAdapter。
+6) 如果成功获得HandlerAdapter，此时将开始执行拦截器的preHandler(…)方法【正向】
 6) 提取Request中的模型数据，填充Handler入参，开始执行Handler（Controller)方法，处理请求。在填充Handler的入参过程中，根据你的配置，Spring将帮你做一些额外的工作：
 
 a) HttpMessageConveter： 将请求消息（如Json、xml等数据）转换成一个对象，将对象转换为指定的响应信息
