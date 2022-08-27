@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c4cfcf32-dcc7-4409-bc91-f7d1d278d5d1" name="Changes" comment="" />
+    <list default="true" id="c4cfcf32-dcc7-4409-bc91-f7d1d278d5d1" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../Demo2/.idea/runConfigurations.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Demo2/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Demo2/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Java码农的自救企划 2022.5.25.numbers" beforeDir="false" afterPath="$PROJECT_DIR$/../Java码农的自救企划 2022.5.25.numbers" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../README.md" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,6 +19,9 @@
         <option value="Class" />
       </list>
     </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="ProjectId" id="2BD3znbVmjJHHTZxxAkmTqvMZjS" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -41,6 +50,7 @@
       <updated>1656419894814</updated>
       <workItem from="1656419896323" duration="17000" />
       <workItem from="1656427094103" duration="118000" />
+      <workItem from="1661593906125" duration="32000" />
     </task>
     <servers />
   </component>

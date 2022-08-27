@@ -31,7 +31,7 @@ public class C3P0Test {
         cpds.setDriverClass("com.mysql.cj.jdbc.Driver"); //loads the jdbc driver
         cpds.setJdbcUrl("jdbc:mysql://localhost:3306/test");
         cpds.setUser("root");
-        cpds.setPassword("kaixin61118");
+        cpds.setPassword("123456789");
         //通过设置相关的参数，对数据库连接池进行管理：
         //设置初始时数据库连接池中的连接数
         cpds.setInitialPoolSize(10);

@@ -39,7 +39,7 @@ public class ConnectionTest {
         // 将用户名和密码封装在Properties中
         Properties info = new Properties();
         info.setProperty("user", "root");
-        info.setProperty("password", "kaixin61118");
+        info.setProperty("password", "123456789");
 
         Connection conn = driver.connect(url, info);
 
@@ -59,7 +59,7 @@ public class ConnectionTest {
         // 3.提供连接需要的用户名和密码
         Properties info = new Properties();
         info.setProperty("user", "root");
-        info.setProperty("password", "kaixin61118");
+        info.setProperty("password", "123456789");
 
         // 4.获取连接
         Connection conn = driver.connect(url, info);
@@ -76,7 +76,7 @@ public class ConnectionTest {
         // 2.提供另外三个连接的基本信息：
         String url = "jdbc:mysql://localhost:3306/test";
         String user = "root";
-        String password = "kaixin61118";
+        String password = "123456789";
 
         // 注册驱动
         DriverManager.registerDriver(driver);
@@ -92,7 +92,7 @@ public class ConnectionTest {
         // 1.提供三个连接的基本信息：
         String url = "jdbc:mysql://localhost:3306/test";
         String user = "root";
-        String password = "kaixin61118";
+        String password = "123456789";
 
         // 2.加载Driver
         Class.forName("com.mysql.cj.jdbc.Driver");
