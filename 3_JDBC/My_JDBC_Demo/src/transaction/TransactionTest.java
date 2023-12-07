@@ -40,7 +40,7 @@ public class TransactionTest {
      * update user_table set balance = balance + 100 where user = 'BB';
      */
     @Test
-    public void testUpdate(){
+    public void testUpdate() {
 
         String sql1 = "update user_table set balance = balance - 100 where user = ?";
         update(sql1, "AA");
@@ -96,13 +96,13 @@ public class TransactionTest {
             conn.setAutoCommit(false);
 
             String sql1 = "update user_table set balance = balance - 100 where user = ?";
-            update(conn,sql1, "AA");
+            update(conn, sql1, "AA");
 
             //模拟网络异常
             System.out.println(10 / 0);
 
             String sql2 = "update user_table set balance = balance + 100 where user = ?";
-            update(conn,sql2, "BB");
+            update(conn, sql2, "BB");
 
             System.out.println("转账成功");
 
@@ -117,13 +117,13 @@ public class TransactionTest {
             } catch (SQLException e1) {
                 e1.printStackTrace();
             }
-        }finally{
+        } finally {
             JDBCUtils.closeResource(conn, null);
         }
     }
 
     // 通用的增删改操作---version 2.0 （考虑上事务）
-    public int update(Connection conn,String sql, Object... args) {// sql中占位符的个数与可变形参的长度相同！
+    public int update(Connection conn, String sql, Object... args) {// sql中占位符的个数与可变形参的长度相同！
         PreparedStatement ps = null;
         try {
             // 1.预编译sql语句，返回PreparedStatement的实例
@@ -145,7 +145,7 @@ public class TransactionTest {
 
     //*****************************************************
     @Test
-    public void testTransactionSelect() throws Exception{
+    public void testTransactionSelect() throws Exception {
         Connection conn = JDBCUtils.getConnection();
         //获取当前连接的隔离级别
         System.out.println(conn.getTransactionIsolation());
@@ -161,19 +161,19 @@ public class TransactionTest {
     }
 
     @Test
-    public void testTransactionUpdate() throws Exception{
+    public void testTransactionUpdate() throws Exception {
         Connection conn = JDBCUtils.getConnection();
         //取消自动提交数据
         conn.setAutoCommit(false);
         String sql = "update user_table set balance = ? where user = ?";
-        update(conn, sql, 5000,"CC");
+        update(conn, sql, 5000, "CC");
 
         Thread.sleep(15000);
         System.out.println("修改结束");
     }
 
     //通用的查询操作，用于返回数据表中的一条记录（version 2.0：考虑上事务）
-    public <T> T getInstance(Connection conn,Class<T> clazz,String sql, Object... args) {
+    public <T> T getInstance(Connection conn, Class<T> clazz, String sql, Object... args) {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {

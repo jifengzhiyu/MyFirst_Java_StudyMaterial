@@ -12,17 +12,13 @@ import java.sql.*;
 import java.util.Properties;
 
 /**
- *
- * @Description 操作数据库的工具类
  * @author shkstart Email:shkstart@126.com
- * @version
+ * @Description 操作数据库的工具类
  * @date 上午9:10:02
- *
  */
 public class JDBCUtils {
 
     /**
-     *
      * @Description 使用C3P0的数据库连接池技术
      * @author shkstart
      * @date 下午3:01:25
@@ -42,7 +38,8 @@ public class JDBCUtils {
      * 使用Druid数据库连接池技术
      */
     private static DataSource source1;
-    static{
+
+    static {
         try {
             Properties pros = new Properties();
 
@@ -56,11 +53,10 @@ public class JDBCUtils {
         }
     }
 
-    public static Connection getConnection3() throws SQLException{
+    public static Connection getConnection3() throws SQLException {
         Connection conn = source1.getConnection();
         return conn;
     }
-
 
 
     /**
@@ -95,12 +91,11 @@ public class JDBCUtils {
 //    }
 
     /**
-     *
+     * @return
+     * @throws Exception
      * @Description 获取数据库的连接
      * @author shkstart
      * @date 上午9:11:23
-     * @return
-     * @throws Exception
      */
     public static Connection getConnection() throws Exception {
         // 1.读取配置文件中的4个基本信息
@@ -121,52 +116,52 @@ public class JDBCUtils {
         Connection conn = DriverManager.getConnection(url, user, password);
         return conn;
     }
+
     /**
-     *
+     * @param conn
+     * @param ps
      * @Description 关闭连接和Statement的操作
      * @author shkstart
      * @date 上午9:12:40
-     * @param conn
-     * @param ps
      */
-    public static void closeResource(Connection conn, Statement ps){
+    public static void closeResource(Connection conn, Statement ps) {
         try {
-            if(ps != null)
+            if (ps != null)
                 ps.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         try {
-            if(conn != null)
+            if (conn != null)
                 conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
     /**
-     *
-     * @Description 关闭资源操作
-     * @author shkstart
-     * @date 上午10:21:15
      * @param conn
      * @param ps
      * @param rs
+     * @Description 关闭资源操作
+     * @author shkstart
+     * @date 上午10:21:15
      */
-    public static void closeResource(Connection conn, Statement ps, ResultSet rs){
+    public static void closeResource(Connection conn, Statement ps, ResultSet rs) {
         try {
-            if(ps != null)
+            if (ps != null)
                 ps.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         try {
-            if(conn != null)
+            if (conn != null)
                 conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         try {
-            if(rs != null)
+            if (rs != null)
                 rs.close();
         } catch (SQLException e) {
             e.printStackTrace();

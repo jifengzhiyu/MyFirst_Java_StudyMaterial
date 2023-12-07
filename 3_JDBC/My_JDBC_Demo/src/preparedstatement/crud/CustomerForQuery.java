@@ -11,33 +11,32 @@ import java.lang.reflect.Field;
 import java.sql.*;
 
 /**
- *@ClassName CustomerForQuery
- *@Description TODO
- *@Author kaixin
- *@Date 2022/6/30 15:18
- *@Version 1.0
+ * @ClassName CustomerForQuery
+ * @Description TODO
+ * @Author kaixin
+ * @Date 2022/6/30 15:18
+ * @Version 1.0
  */
 public class CustomerForQuery {
 
     @Test
-    public void testQueryForCustomers(){
+    public void testQueryForCustomers() {
         String sql = "select id,name,birth,email from customers where id = 2";
         Customer customer = queryForCustomers(sql, 13);
         System.out.println(customer);
 
         sql = "select name,email from customers where name = ?";
-        Customer customer1 = queryForCustomers(sql,"周杰伦");
+        Customer customer1 = queryForCustomers(sql, "周杰伦");
         System.out.println(customer1);
     }
 
     /**
-     *
+     * @throws Exception
      * @Description 针对于customers表的通用的查询操作
      * @author shkstart
-     * @throws Exception
      * @date 上午10:23:40
      */
-    public Customer queryForCustomers(String sql,Object...args){
+    public Customer queryForCustomers(String sql, Object... args) {
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -45,7 +44,7 @@ public class CustomerForQuery {
             conn = JDBCUtils.getConnection();
 
             ps = conn.prepareStatement(sql);
-            for(int i = 0;i < args.length;i++){
+            for (int i = 0; i < args.length; i++) {
                 ps.setObject(i + 1, args[i]);
             }
 
@@ -56,10 +55,10 @@ public class CustomerForQuery {
             int columnCount = rsmd.getColumnCount();
 
             //这里默认只能查询出一条记录
-            if(rs.next()){
+            if (rs.next()) {
                 Customer cust = new Customer();
                 //处理结果集一行数据中的每一个列
-                for(int i = 0;i <columnCount;i++){
+                for (int i = 0; i < columnCount; i++) {
                     //获取列值
                     Object columValue = rs.getObject(i + 1);
 
@@ -76,7 +75,7 @@ public class CustomerForQuery {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }finally{
+        } finally {
             JDBCUtils.closeResource(conn, ps, rs);
         }
         return null;
@@ -96,7 +95,7 @@ public class CustomerForQuery {
             //执行,并返回结果集
             resultSet = ps.executeQuery();
             //处理结果集
-            if(resultSet.next()){//next():判断结果集的下一条是否有数据，如果有数据返回true,并指针下移；如果返回false,指针不会下移。
+            if (resultSet.next()) {//next():判断结果集的下一条是否有数据，如果有数据返回true,并指针下移；如果返回false,指针不会下移。
 
                 //获取当前这条数据的各个字段值
                 int id = resultSet.getInt(1);
@@ -114,7 +113,7 @@ public class CustomerForQuery {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }finally{
+        } finally {
             //关闭资源
             JDBCUtils.closeResource(conn, ps, resultSet);
         }

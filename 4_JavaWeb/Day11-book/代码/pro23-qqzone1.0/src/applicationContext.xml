@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!DOCTYPE beans [
-    <!ELEMENT beans (bean*)>
-    <!ELEMENT bean (property*)>
-    <!ELEMENT property (#PCDATA)>
+        <!ELEMENT beans (bean*)>
+        <!ELEMENT bean (property*)>
+        <!ELEMENT property (#PCDATA)>
 
-    <!ATTLIST bean id ID #REQUIRED>
-    <!ATTLIST bean class CDATA #IMPLIED>
-    <!ATTLIST property name CDATA #IMPLIED>
-    <!ATTLIST property ref IDREF #IMPLIED>
-]>
+        <!ATTLIST bean id ID #REQUIRED>
+        <!ATTLIST bean class CDATA #IMPLIED>
+        <!ATTLIST property name CDATA #IMPLIED>
+        <!ATTLIST property ref IDREF #IMPLIED>
+        ]>
 
 <beans>
     <bean id="userBasicDAO" class="com.atguigu.qqzone.dao.impl.UserBasicDAOImpl"/>
@@ -45,7 +45,6 @@
     <bean id="reply" class="com.atguigu.qqzone.controller.ReplyController">
         <property name="replyService" ref="replyService"/>
     </bean>
-
 
 
     <bean id="page" class="com.atguigu.myssm.myspringmvc.PageController"/>

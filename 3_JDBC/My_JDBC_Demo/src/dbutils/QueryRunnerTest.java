@@ -34,11 +34,11 @@ public class QueryRunnerTest {
             QueryRunner runner = new QueryRunner();
             conn = JDBCUtils.getConnection3();
             String sql = "insert into customers(name,email,birth)values(?,?,?)";
-            int insertCount = runner.update(conn, sql, "蔡徐坤","caixukun@126.com","1997-09-08");
+            int insertCount = runner.update(conn, sql, "蔡徐坤", "caixukun@126.com", "1997-09-08");
             System.out.println("添加了" + insertCount + "条记录");
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally{
+        } finally {
             JDBCUtils.closeResource(conn, null);
         }
     }
@@ -48,7 +48,7 @@ public class QueryRunnerTest {
      * BeanHander:是ResultSetHandler接口的实现类，用于封装表中的一条记录。
      */
     @Test
-    public void testQuery1(){
+    public void testQuery1() {
         Connection conn = null;
         try {
             QueryRunner runner = new QueryRunner();
@@ -60,7 +60,7 @@ public class QueryRunnerTest {
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        }finally{
+        } finally {
             JDBCUtils.closeResource(conn, null);
         }
     }
@@ -76,13 +76,13 @@ public class QueryRunnerTest {
             conn = JDBCUtils.getConnection3();
             String sql = "select id,name,email,birth from customers where id < ?";
 
-            BeanListHandler<Customer>  handler = new BeanListHandler<>(Customer.class);
+            BeanListHandler<Customer> handler = new BeanListHandler<>(Customer.class);
 
             List<Customer> list = runner.query(conn, sql, handler, 23);
             list.forEach(System.out::println);
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally{
+        } finally {
             JDBCUtils.closeResource(conn, null);
         }
     }
@@ -92,7 +92,7 @@ public class QueryRunnerTest {
      * 将字段及相应字段的值作为map中的key和value
      */
     @Test
-    public void testQuery3(){
+    public void testQuery3() {
         Connection conn = null;
         try {
             QueryRunner runner = new QueryRunner();
@@ -103,7 +103,7 @@ public class QueryRunnerTest {
             System.out.println(map);
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally{
+        } finally {
             JDBCUtils.closeResource(conn, null);
         }
     }
@@ -113,7 +113,7 @@ public class QueryRunnerTest {
      * 将字段及相应字段的值作为map中的key和value。将这些map添加到List中
      */
     @Test
-    public void testQuery4(){
+    public void testQuery4() {
         Connection conn = null;
         try {
             QueryRunner runner = new QueryRunner();
@@ -125,7 +125,7 @@ public class QueryRunnerTest {
             list.forEach(System.out::println);
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally{
+        } finally {
             JDBCUtils.closeResource(conn, null);
         }
     }
@@ -134,7 +134,7 @@ public class QueryRunnerTest {
      * ScalarHandler:用于查询特殊值
      */
     @Test
-    public void testQuery5(){
+    public void testQuery5() {
         Connection conn = null;
         try {
             QueryRunner runner = new QueryRunner();
@@ -148,12 +148,13 @@ public class QueryRunnerTest {
             System.out.println(count);
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally{
+        } finally {
             JDBCUtils.closeResource(conn, null);
         }
     }
+
     @Test
-    public void testQuery6(){
+    public void testQuery6() {
         Connection conn = null;
         try {
             QueryRunner runner = new QueryRunner();
@@ -166,7 +167,7 @@ public class QueryRunnerTest {
             System.out.println(maxBirth);
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally{
+        } finally {
             JDBCUtils.closeResource(conn, null);
         }
     }
@@ -175,14 +176,14 @@ public class QueryRunnerTest {
      * 自定义ResultSetHandler的实现类
      */
     @Test
-    public void testQuery7(){
+    public void testQuery7() {
         Connection conn = null;
         try {
             QueryRunner runner = new QueryRunner();
             conn = JDBCUtils.getConnection3();
 
             String sql = "select id,name,email,birth from customers where id = ?";
-            ResultSetHandler<Customer> handler = new ResultSetHandler<Customer>(){
+            ResultSetHandler<Customer> handler = new ResultSetHandler<Customer>() {
 
                 @Override
                 public Customer handle(ResultSet rs) throws SQLException {
@@ -191,7 +192,7 @@ public class QueryRunnerTest {
 
 //					return new Customer(12, "成龙", "Jacky@126.com", new Date(234324234324L));
 
-                    if(rs.next()){
+                    if (rs.next()) {
                         int id = rs.getInt("id");
                         String name = rs.getString("name");
                         String email = rs.getString("email");
@@ -204,11 +205,11 @@ public class QueryRunnerTest {
                 }
 
             };
-            Customer customer = runner.query(conn, sql, handler,23);
+            Customer customer = runner.query(conn, sql, handler, 23);
             System.out.println(customer);
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally{
+        } finally {
             JDBCUtils.closeResource(conn, null);
         }
     }

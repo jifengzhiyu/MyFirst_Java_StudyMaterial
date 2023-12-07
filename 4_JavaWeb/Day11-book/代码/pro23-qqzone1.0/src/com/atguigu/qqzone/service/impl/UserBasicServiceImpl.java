@@ -9,11 +9,11 @@ import java.util.List;
 
 public class UserBasicServiceImpl implements UserBasicService {
 
-    private UserBasicDAO userBasicDAO = null ;
+    private UserBasicDAO userBasicDAO = null;
 
     @Override
     public UserBasic login(String loginId, String pwd) {
-        UserBasic userBasic = userBasicDAO.getUserBasic(loginId,pwd);
+        UserBasic userBasic = userBasicDAO.getUserBasic(loginId, pwd);
         return userBasic;
     }
 

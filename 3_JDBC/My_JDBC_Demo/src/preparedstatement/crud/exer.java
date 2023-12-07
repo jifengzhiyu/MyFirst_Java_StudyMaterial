@@ -11,16 +11,16 @@ import java.sql.PreparedStatement;
 import java.util.Scanner;
 
 /**
- *@ClassName exer
- *@Description TODO
- *@Author kaixin
- *@Date 2022/6/30 22:29
- *@Version 1.0
+ * @ClassName exer
+ * @Description TODO
+ * @Author kaixin
+ * @Date 2022/6/30 22:29
+ * @Version 1.0
  */
 public class exer {
 
     @Test
-    public void testInsert(){
+    public void testInsert() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("请输入用户名：");
         String name = scanner.next();
@@ -30,29 +30,29 @@ public class exer {
         String birthday = scanner.next();//'1992-09-08'
 
         String sql = "insert into customers(name,email,birth)values(?,?,?)";
-        int insertCount = update(sql,name,email,birthday);
-        if(insertCount > 0){
+        int insertCount = update(sql, name, email, birthday);
+        if (insertCount > 0) {
             System.out.println("添加成功");
-        }else{
+        } else {
             System.out.println("添加失败");
         }
     }
 
     //问题3：删除指定的学生信息
     @Test
-    public void testDeleteByExamCard1(){
+    public void testDeleteByExamCard1() {
         System.out.println("请输入学生的考号：");
         Scanner scanner = new Scanner(System.in);
         String examCard = scanner.next();
         String sql = "delete from examstudent where examCard = ?";
         int deleteCount = update(sql, examCard);
-        if(deleteCount > 0){
+        if (deleteCount > 0) {
             System.out.println("删除成功");
-        }else{
+        } else {
             System.out.println("查无此人，请重新输入");
         }
     }
-    
+
     // 通用的增删改操作
     public int update(String sql, Object... args) {// sql中占位符的个数与可变形参的长度相同！
         Connection conn = null;

@@ -18,7 +18,7 @@ public class DruidTest {
     //下载网址
     //https://mvnrepository.com/artifact/com.alibaba/druid/1.2.8
     @Test
-    public void getConnection() throws Exception{
+    public void getConnection() throws Exception {
         Properties pros = new Properties();
 
         InputStream is = ClassLoader.getSystemClassLoader().getResourceAsStream("druid.properties");

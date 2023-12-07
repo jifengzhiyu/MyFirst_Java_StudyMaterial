@@ -6,11 +6,11 @@ package preparedstatement.crud.bean;/**
 import java.sql.Date;
 
 /**
- *@ClassName Order
- *@Description TODO
- *@Author kaixin
- *@Date 2022/6/30 16:31
- *@Version 1.0
+ * @ClassName Order
+ * @Description TODO
+ * @Author kaixin
+ * @Date 2022/6/30 16:31
+ * @Version 1.0
  */
 public class Order {
     private int orderId;

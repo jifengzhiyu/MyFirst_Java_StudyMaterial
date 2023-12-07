@@ -14,12 +14,9 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 
 /**
- *
- * @Description 针对于Order表的通用的查询操作
  * @author shkstart  Email:shkstart@126.com
- * @version
+ * @Description 针对于Order表的通用的查询操作
  * @date 上午10:43:58
- *
  */
 public class OrderForQuery {
     /*

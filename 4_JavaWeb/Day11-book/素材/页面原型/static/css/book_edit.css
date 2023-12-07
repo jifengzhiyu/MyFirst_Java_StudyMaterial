@@ -1,24 +1,30 @@
 .header {
-  margin: 0;
+    margin: 0;
 }
+
 .header-left {
-  margin: 0;
+    margin: 0;
 }
+
 .header-right {
-  margin: 0;
+    margin: 0;
 }
+
 .login_banner {
-  margin: 0;
+    margin: 0;
 }
+
 .login_banner .register_form {
-  padding: 30px 0;
+    padding: 30px 0;
 }
+
 .login_banner .register_form .form-item {
-  margin-top: 10px !important;
+    margin-top: 10px !important;
 }
+
 .bottom {
-  margin: 0;
-  background-color: #fff;
-  color: #333;
-  margin-top: 10px;
+    margin: 0;
+    background-color: #fff;
+    color: #333;
+    margin-top: 10px;
 }

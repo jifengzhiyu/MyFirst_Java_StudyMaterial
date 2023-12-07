@@ -1,75 +1,91 @@
-*{
+* {
     font-size: 14px;
     color: #1d1d1d;
     font-weight: lighter;
 }
-body{
-    margin:0;
-    padding:0;
+
+body {
+    margin: 0;
+    padding: 0;
     background-color: #1d1d1d;
 }
-div{
+
+div {
     position: relative;
     float: left;
-    border:0px solid red;
+    border: 0px solid red;
 }
 
-table{
-    width:80%;
-    margin-left:10%;
-    border:1px solid lightgray;
+table {
+    width: 80%;
+    margin-left: 10%;
+    border: 1px solid lightgray;
     border-collapse: collapse;
     line-height: 28px;
 }
-table tr , table td ,table th{
-    border:1px solid lightgray;
+
+table tr, table td, table th {
+    border: 1px solid lightgray;
     text-align: center;
 }
-.btn{
-    border:1px solid lightgray;
+
+.btn {
+    border: 1px solid lightgray;
     font-size: 12px;
 }
-.left{
+
+.left {
     text-align: left;
-    padding-left:4px;
+    padding-left: 4px;
 }
-.center{
+
+.center {
     text-align: center;
 }
-.right8{
+
+.right8 {
     text-align: right;
-    margin-right:8px;
+    margin-right: 8px;
 }
-.border_test{
-    border:1px solid red;
+
+.border_test {
+    border: 1px solid red;
 }
-.w14{
-    width:14%;
+
+.w14 {
+    width: 14%;
 }
-.w20{
-    width:20%;
+
+.w20 {
+    width: 20%;
 }
-.h96{
-    height:96px;
+
+.h96 {
+    height: 96px;
     line-height: 96px;
 }
-.h88{
-    height:88px;
+
+.h88 {
+    height: 88px;
     line-height: 88px;
 }
-.h64{
-    height:64px;
+
+.h64 {
+    height: 64px;
     line-height: 64px;
 }
-.h56{
-    height:56px;
+
+.h56 {
+    height: 56px;
     line-height: 56px;
 }
-.h32{
-    height:32px;
+
+.h32 {
+    height: 32px;
     line-height: 32px;
 }
-.h24{
-    height:24px;
+
+.h24 {
+    height: 24px;
     line-height: 24px;
 }

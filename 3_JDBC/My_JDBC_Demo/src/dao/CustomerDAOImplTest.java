@@ -22,12 +22,12 @@ public class CustomerDAOImplTest {
         Connection conn = null;
         try {
             conn = JDBCUtils.getConnection();
-            Customer cust = new Customer(1, "于小飞", "xiaofei@126.com",new Date(43534646435L));
+            Customer cust = new Customer(1, "于小飞", "xiaofei@126.com", new Date(43534646435L));
             dao.insert(conn, cust);
             System.out.println("添加成功");
         } catch (Exception e) {
             e.printStackTrace();
-        }finally{
+        } finally {
             JDBCUtils.closeResource(conn, null);
 
         }
@@ -46,7 +46,7 @@ public class CustomerDAOImplTest {
             System.out.println("删除成功");
         } catch (Exception e) {
             e.printStackTrace();
-        }finally{
+        } finally {
             JDBCUtils.closeResource(conn, null);
 
         }
@@ -57,14 +57,14 @@ public class CustomerDAOImplTest {
         Connection conn = null;
         try {
             conn = JDBCUtils.getConnection();
-            Customer cust = new Customer(18,"贝多芬","beiduofen@126.com",new Date(453465656L));
+            Customer cust = new Customer(18, "贝多芬", "beiduofen@126.com", new Date(453465656L));
             dao.update(conn, cust);
 
 
             System.out.println("修改成功");
         } catch (Exception e) {
             e.printStackTrace();
-        }finally{
+        } finally {
             JDBCUtils.closeResource(conn, null);
 
         }
@@ -82,7 +82,7 @@ public class CustomerDAOImplTest {
 
         } catch (Exception e) {
             e.printStackTrace();
-        }finally{
+        } finally {
             JDBCUtils.closeResource(conn, null);
 
         }
@@ -101,7 +101,7 @@ public class CustomerDAOImplTest {
             System.out.println("");
         } catch (Exception e) {
             e.printStackTrace();
-        }finally{
+        } finally {
             JDBCUtils.closeResource(conn, null);
 
         }
@@ -118,7 +118,7 @@ public class CustomerDAOImplTest {
             System.out.println("表中的记录数为：" + count);
         } catch (Exception e) {
             e.printStackTrace();
-        }finally{
+        } finally {
             JDBCUtils.closeResource(conn, null);
 
         }
@@ -135,7 +135,7 @@ public class CustomerDAOImplTest {
             System.out.println("最大的生日为：" + maxBirth);
         } catch (Exception e) {
             e.printStackTrace();
-        }finally{
+        } finally {
             JDBCUtils.closeResource(conn, null);
 
         }

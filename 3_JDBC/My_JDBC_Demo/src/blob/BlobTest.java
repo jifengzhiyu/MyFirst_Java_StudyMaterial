@@ -11,26 +11,23 @@ import java.io.*;
 import java.sql.*;
 
 /**
- *
- * @Description 测试使用PreparedStatement操作Blob类型的数据
  * @author shkstart  Email:shkstart@126.com
- * @version
+ * @Description 测试使用PreparedStatement操作Blob类型的数据
  * @date 下午4:08:58
- *
  */
 public class BlobTest {
 
     //向数据表customers中插入Blob类型的字段
     @Test
-    public void testInsert() throws Exception{
+    public void testInsert() throws Exception {
         Connection conn = JDBCUtils.getConnection();
         String sql = "insert into customers(name,email,birth,photo)values(?,?,?,?)";
 
         PreparedStatement ps = conn.prepareStatement(sql);
 
-        ps.setObject(1,"袁浩");
+        ps.setObject(1, "袁浩");
         ps.setObject(2, "yuan@qq.com");
-        ps.setObject(3,"1992-09-08");
+        ps.setObject(3, "1992-09-08");
         FileInputStream is = new FileInputStream(new File("girl.jpg"));
         ps.setBlob(4, is);
 
@@ -41,7 +38,7 @@ public class BlobTest {
 
     //查询数据表customers中Blob类型的字段
     @Test
-    public void testQuery(){
+    public void testQuery() {
         Connection conn = null;
         PreparedStatement ps = null;
         InputStream is = null;
@@ -53,7 +50,7 @@ public class BlobTest {
             ps = conn.prepareStatement(sql);
             ps.setInt(1, 16);
             rs = ps.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 //			方式一：
                 //			int id = rs.getInt(1);
                 //			String name = rs.getString(2);
@@ -74,23 +71,23 @@ public class BlobTest {
                 fos = new FileOutputStream("zhangyuhao.jpg");
                 byte[] buffer = new byte[1024];
                 int len;
-                while((len = is.read(buffer)) != -1){
+                while ((len = is.read(buffer)) != -1) {
                     fos.write(buffer, 0, len);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }finally{
+        } finally {
 
             try {
-                if(is != null)
+                if (is != null)
                     is.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
             try {
-                if(fos != null)
+                if (fos != null)
                     fos.close();
             } catch (IOException e) {
                 e.printStackTrace();

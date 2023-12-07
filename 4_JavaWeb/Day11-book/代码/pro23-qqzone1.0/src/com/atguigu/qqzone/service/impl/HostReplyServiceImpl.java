@@ -6,7 +6,7 @@ import com.atguigu.qqzone.service.HostReplyService;
 
 public class HostReplyServiceImpl implements HostReplyService {
 
-    private HostReplyDAO hostReplyDAO ;
+    private HostReplyDAO hostReplyDAO;
 
     @Override
     public HostReply getHostReplyByReplyId(Integer replyId) {

@@ -124,21 +124,21 @@ public abstract class BaseDAO {
     }
 
     //用于查询特殊值的通用的方法
-    public <E> E getValue(Connection conn,String sql,Object...args){
+    public <E> E getValue(Connection conn, String sql, Object... args) {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
             ps = conn.prepareStatement(sql);
-            for(int i = 0;i < args.length;i++){
+            for (int i = 0; i < args.length; i++) {
                 ps.setObject(i + 1, args[i]);
             }
             rs = ps.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 return (E) rs.getObject(1);
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally{
+        } finally {
             JDBCUtils.closeResource(null, ps, rs);
         }
         return null;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <c3p0-config>
 
-        <named-config name="hellc3p0">
+    <named-config name="hellc3p0">
         <!-- 提供获取连接的4个基本信息 -->
         <property name="driverClass">com.mysql.cj.jdbc.Driver</property>
         <property name="jdbcUrl">jdbc:mysql:///test</property>

@@ -1,12 +1,12 @@
 .w {
-  width: 1226px;
-  margin: 0 auto;
+    width: 1226px;
+    margin: 0 auto;
 }
 
 .clearfix::after {
-  content: '.';
-  display: block;
-  height: 0;
-  clear: both;
-  visibility: hidden;
+    content: '.';
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
 }

@@ -12,10 +12,10 @@ import java.util.List;
 
 public class TopicServiceImpl implements TopicService {
 
-    private TopicDAO topicDAO = null ;
+    private TopicDAO topicDAO = null;
     //此处引用的是replyService，而不是replyDAO
-    private ReplyService replyService ;
-    private UserBasicService userBasicService ;
+    private ReplyService replyService;
+    private UserBasicService userBasicService;
 
     @Override
     public List<Topic> getTopicList(UserBasic userBasic) {
@@ -23,7 +23,7 @@ public class TopicServiceImpl implements TopicService {
     }
 
     @Override
-    public Topic getTopic(Integer id){
+    public Topic getTopic(Integer id) {
         Topic topic = topicDAO.getTopic(id);
         UserBasic author = topic.getAuthor();
         author = userBasicService.getUserBasicById(author.getId());
@@ -34,7 +34,7 @@ public class TopicServiceImpl implements TopicService {
     @Override
     public void delTopic(Integer id) {
         Topic topic = topicDAO.getTopic(id);
-        if(topic!=null){
+        if (topic != null) {
             replyService.delReplyList(topic);
             topicDAO.delTopic(topic);
         }
@@ -46,6 +46,6 @@ public class TopicServiceImpl implements TopicService {
         List<Reply> replyList = replyService.getReplyListByTopicId(topic.getId());
         topic.setReplyList(replyList);
 
-        return topic ;
+        return topic;
     }
 }

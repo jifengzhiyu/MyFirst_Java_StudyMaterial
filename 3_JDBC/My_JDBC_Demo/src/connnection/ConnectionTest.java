@@ -13,11 +13,11 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 /**
- *@ClassName ConnectionTest
- *@Description TODO
- *@Author kaixin
- *@Date 2022/6/28 22:41
- *@Version 1.0
+ * @ClassName ConnectionTest
+ * @Description TODO
+ * @Author kaixin
+ * @Date 2022/6/28 22:41
+ * @Version 1.0
  */
 public class ConnectionTest {
     // 方式一：
@@ -124,7 +124,7 @@ public class ConnectionTest {
      * 2.如果需要修改配置文件信息，可以避免程序重新打包。
      */
     @Test
-    public void getConnection5() throws Exception{
+    public void getConnection5() throws Exception {
         //1.读取配置文件中的4个基本信息
         InputStream is = ConnectionTest.class.getClassLoader().getResourceAsStream("jdbc.properties");
         //下面的更通用

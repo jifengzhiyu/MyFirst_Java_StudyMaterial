@@ -71,28 +71,28 @@ public class RedisTestController {
     }
 
     @GetMapping("testLock")
-    public void testLock(){
+    public void testLock() {
         String uuid = UUID.randomUUID().toString();
         //1获取锁，setne
-        Boolean lock = redisTemplate.opsForValue().setIfAbsent("lock", uuid,3, TimeUnit.SECONDS);
+        Boolean lock = redisTemplate.opsForValue().setIfAbsent("lock", uuid, 3, TimeUnit.SECONDS);
         //2获取锁成功、查询num的值
-        if(lock){
+        if (lock) {
             Object value = redisTemplate.opsForValue().get("num");
             //2.1判断num为空return
-            if(StringUtils.isEmpty(value)){
+            if (StringUtils.isEmpty(value)) {
                 return;
             }
             //2.2有值就转成成int
-            int num = Integer.parseInt(value+"");
+            int num = Integer.parseInt(value + "");
             //2.3把redis的num加1
             redisTemplate.opsForValue().set("num", ++num);
             //2.4释放锁，del
             //判断比较uuid值是否一样
-            String lockUuid = (String)redisTemplate.opsForValue().get("lock");
-            if(lockUuid.equals(uuid)) {
+            String lockUuid = (String) redisTemplate.opsForValue().get("lock");
+            if (lockUuid.equals(uuid)) {
                 redisTemplate.delete("lock");
             }
-        }else{
+        } else {
             //3获取锁失败、每隔0.1秒再获取
             try {
                 Thread.sleep(100);
@@ -107,9 +107,9 @@ public class RedisTestController {
     @GetMapping
     public String testRedis() {
         //设置值到redis
-        redisTemplate.opsForValue().set("name","lucy");
+        redisTemplate.opsForValue().set("name", "lucy");
         //从redis获取值
-        String name = (String)redisTemplate.opsForValue().get("name");
+        String name = (String) redisTemplate.opsForValue().get("name");
         return name;
     }
 }

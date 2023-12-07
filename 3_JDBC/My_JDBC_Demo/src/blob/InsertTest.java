@@ -43,7 +43,7 @@ public class InsertTest {
             conn = JDBCUtils.getConnection();
             String sql = "insert into goods(name)values(?)";
             ps = conn.prepareStatement(sql);
-            for(int i = 1;i <= 20000;i++){
+            for (int i = 1; i <= 20000; i++) {
                 ps.setObject(1, "name_" + i);
 
                 ps.execute();
@@ -54,7 +54,7 @@ public class InsertTest {
             System.out.println("花费的时间为：" + (end - start));//20000:83065
         } catch (Exception e) {
             e.printStackTrace();
-        }finally{
+        } finally {
             JDBCUtils.closeResource(conn, ps);
         }
     }
@@ -76,13 +76,13 @@ public class InsertTest {
             conn = JDBCUtils.getConnection();
             String sql = "insert into goods(name)values(?)";
             ps = conn.prepareStatement(sql);
-            for(int i = 1;i <= 1000000;i++){
+            for (int i = 1; i <= 1000000; i++) {
                 ps.setObject(1, "name_" + i);
 
                 //1."攒"sql
                 ps.addBatch();
 
-                if(i % 500 == 0){
+                if (i % 500 == 0) {
                     //2.执行batch
                     ps.executeBatch();
 
@@ -94,9 +94,9 @@ public class InsertTest {
             long end = System.currentTimeMillis();
 
             System.out.println("花费的时间为：" + (end - start));//20000:83065 -- 565
-        } catch (Exception e) {								//1000000:16086
+        } catch (Exception e) {                                //1000000:16086
             e.printStackTrace();
-        }finally{
+        } finally {
             JDBCUtils.closeResource(conn, ps);
         }
     }
@@ -116,13 +116,13 @@ public class InsertTest {
 
             String sql = "insert into goods(name)values(?)";
             ps = conn.prepareStatement(sql);
-            for(int i = 1;i <= 1000000;i++){
+            for (int i = 1; i <= 1000000; i++) {
                 ps.setObject(1, "name_" + i);
 
                 //1."攒"sql
                 ps.addBatch();
 
-                if(i % 500 == 0){
+                if (i % 500 == 0) {
                     //2.执行batch
                     ps.executeBatch();
 
@@ -137,9 +137,9 @@ public class InsertTest {
             long end = System.currentTimeMillis();
 
             System.out.println("花费的时间为：" + (end - start));//20000:83065 -- 565
-        } catch (Exception e) {								//1000000:16086 -- 5114
+        } catch (Exception e) {                                //1000000:16086 -- 5114
             e.printStackTrace();
-        }finally{
+        } finally {
             JDBCUtils.closeResource(conn, ps);
         }
     }

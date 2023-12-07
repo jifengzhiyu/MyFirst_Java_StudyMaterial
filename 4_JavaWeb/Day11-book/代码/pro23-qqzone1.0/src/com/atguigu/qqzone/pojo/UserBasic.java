@@ -3,18 +3,19 @@ package com.atguigu.qqzone.pojo;
 import java.util.List;
 
 public class UserBasic {
-    private Integer id ;
-    private String loginId ;
-    private String nickName ;
-    private String pwd ;
-    private String headImg ;
+    private Integer id;
+    private String loginId;
+    private String nickName;
+    private String pwd;
+    private String headImg;
 
-    private UserDetail userDetail ;     //1:1
-    private List<Topic> topicList ;     //1:N
-    private List<UserBasic> friendList ;//M:N
+    private UserDetail userDetail;     //1:1
+    private List<Topic> topicList;     //1:N
+    private List<UserBasic> friendList;//M:N
 
 
-    public UserBasic(){}
+    public UserBasic() {
+    }
 
     public UserBasic(Integer id) {
         this.id = id;

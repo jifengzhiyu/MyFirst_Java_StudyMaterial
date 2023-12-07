@@ -14,10 +14,10 @@ public class RedisClusterDemo {
         JedisCluster jedisCluster = new JedisCluster(hostAndPort);
 
         //进行操作
-        jedisCluster.set("b1","value1");
+        jedisCluster.set("b1", "value1");
 
         String value = jedisCluster.get("b1");
-        System.out.println("value: "+value);
+        System.out.println("value: " + value);
 
         jedisCluster.close();
     }

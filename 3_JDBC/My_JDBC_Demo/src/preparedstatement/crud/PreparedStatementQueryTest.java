@@ -17,19 +17,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @Description 使用PreparedStatement实现针对于不同表的通用的查询操作
  * @author shkstart Email:shkstart@126.com
- * @version
+ * @Description 使用PreparedStatement实现针对于不同表的通用的查询操作
  * @date 上午11:32:55
- *
  */
 public class PreparedStatementQueryTest {
 
     @Test
-    public void testGetForList(){
+    public void testGetForList() {
         String sql = "select id,name,email from customers where id < ?";
-        List<Customer> list = getForList(Customer.class,sql,12);
+        List<Customer> list = getForList(Customer.class, sql, 12);
         list.forEach(System.out::println);
 
         String sql1 = "select order_id orderId,order_name orderName from `order`";
@@ -37,7 +34,7 @@ public class PreparedStatementQueryTest {
         orderList.forEach(System.out::println);
     }
 
-    public <T> List<T> getForList(Class<T> clazz,String sql, Object... args){
+    public <T> List<T> getForList(Class<T> clazz, String sql, Object... args) {
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -85,10 +82,10 @@ public class PreparedStatementQueryTest {
     }
 
     @Test
-    public void testGetInstance(){
+    public void testGetInstance() {
         //一般过滤条件写占位符
         String sql = "select id,name,email from customers where id = ?";
-        Customer customer = getInstance(Customer.class,sql,12);
+        Customer customer = getInstance(Customer.class, sql, 12);
         System.out.println(customer);
 
         String sql1 = "select order_id orderId,order_name orderName from `order` where order_id = ?";
@@ -97,16 +94,15 @@ public class PreparedStatementQueryTest {
     }
 
     /**
-     *
-     * @Description 针对于不同的表的通用的查询操作，返回表中的一条记录
-     * @author shkstart
-     * @date 上午11:42:23
      * @param clazz
      * @param sql
      * @param args
      * @return
+     * @Description 针对于不同的表的通用的查询操作，返回表中的一条记录
+     * @author shkstart
+     * @date 上午11:42:23
      */
-    public <T> T getInstance(Class<T> clazz,String sql, Object... args) {
+    public <T> T getInstance(Class<T> clazz, String sql, Object... args) {
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;

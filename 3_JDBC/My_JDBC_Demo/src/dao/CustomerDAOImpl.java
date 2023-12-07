@@ -10,12 +10,12 @@ import java.util.List;
  * @author jifengzhiyu
  * @create 2022-07-02 17:26
  */
-public class CustomerDAOImpl extends BaseDAO implements CustomerDAO{
+public class CustomerDAOImpl extends BaseDAO implements CustomerDAO {
 
     @Override
     public void insert(Connection conn, Customer cust) {
         String sql = "insert into customers(name,email,birth)values(?,?,?)";
-        update(conn, sql,cust.getName(),cust.getEmail(),cust.getBirth());
+        update(conn, sql, cust.getName(), cust.getEmail(), cust.getBirth());
     }
 
     @Override
@@ -27,13 +27,13 @@ public class CustomerDAOImpl extends BaseDAO implements CustomerDAO{
     @Override
     public void update(Connection conn, Customer cust) {
         String sql = "update customers set name = ?,email = ?,birth = ? where id = ?";
-        update(conn, sql,cust.getName(),cust.getEmail(),cust.getBirth(),cust.getId());
+        update(conn, sql, cust.getName(), cust.getEmail(), cust.getBirth(), cust.getId());
     }
 
     @Override
     public Customer getCustomerById(Connection conn, int id) {
         String sql = "select id,name,email,birth from customers where id = ?";
-        Customer customer = getInstance(conn,Customer.class, sql,id);
+        Customer customer = getInstance(conn, Customer.class, sql, id);
         return customer;
     }
 

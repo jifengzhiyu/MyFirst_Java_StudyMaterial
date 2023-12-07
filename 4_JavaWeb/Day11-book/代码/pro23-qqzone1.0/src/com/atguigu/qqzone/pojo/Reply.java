@@ -3,15 +3,16 @@ package com.atguigu.qqzone.pojo;
 import java.util.Date;
 
 public class Reply {
-    private Integer id ;
-    private String content ;
-    private Date replyDate ;
-    private UserBasic author ;  //M:1
-    private Topic topic ;       //M:1
+    private Integer id;
+    private String content;
+    private Date replyDate;
+    private UserBasic author;  //M:1
+    private Topic topic;       //M:1
 
-    private HostReply hostReply ;   //1:1
+    private HostReply hostReply;   //1:1
 
-    public Reply(){}
+    public Reply() {
+    }
 
     public Reply(Integer id) {
         this.id = id;

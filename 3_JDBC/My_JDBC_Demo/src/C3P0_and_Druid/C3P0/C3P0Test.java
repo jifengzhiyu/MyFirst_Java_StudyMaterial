@@ -11,11 +11,11 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
- *@ClassName C3P0Test
- *@Description TODO
- *@Author kaixin
- *@Date 2022/7/2 18:50
- *@Version 1.0
+ * @ClassName C3P0Test
+ * @Description TODO
+ * @Author kaixin
+ * @Date 2022/7/2 18:50
+ * @Version 1.0
  */
 
 public class C3P0Test {
